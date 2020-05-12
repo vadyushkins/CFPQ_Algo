@@ -1,0 +1,3 @@
+[submodule "deps/CFPQ_Data"]
+	path = deps/CFPQ_Data
+	url = git@github.com:JetBrains-Research/CFPQ_Data.git
