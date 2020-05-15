@@ -152,7 +152,7 @@ def test_fullgraph():
     queries_dir = graph_dir + QUERIES_DIR
     results_dir = graph_dir + RESULTS_DIR
     
-    if (os.path.exists(graph_dir) is False):
+    if (os.path.exists(matrices_dir) is False):
         subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
         subprocess.run(f"python3 {CFPQ_DATA_DIR}" + "init.py", shell=True)
 
@@ -207,7 +207,7 @@ def test_worstcase():
     queries_dir = graph_dir + QUERIES_DIR
     results_dir = graph_dir + RESULTS_DIR
     
-    if (os.path.exists(graph_dir) is False):
+    if (os.path.exists(matrices_dir) is False):
         subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
         subprocess.run(f"python3 {CFPQ_DATA_DIR}" + "init.py", shell=True)
 
@@ -262,7 +262,7 @@ def test_sparsegraph():
     queries_dir = graph_dir + QUERIES_DIR
     results_dir = graph_dir + RESULTS_DIR
     
-    if (os.path.exists(graph_dir) is False):
+    if (os.path.exists(matrices_dir) is False):
         subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
         subprocess.run(f"python3 {CFPQ_DATA_DIR}" + "init.py", shell=True)
 
