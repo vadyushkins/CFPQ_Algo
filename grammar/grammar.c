@@ -11,24 +11,42 @@ void Grammar_Init(Grammar* grammar) {
 int Grammar_Load(Grammar* grammar, FILE* f) {
     Grammar_Init(grammar);
 
-    char* grammar_buf;
+    char* buf;
     size_t buf_size = 0;
+    size_t ptr = 0;
 
-    while (getline(&grammar_buf, &buf_size, f) != -1) {
-        grammar_buf[strcspn(grammar_buf, "\n")] = 0;
+    char nonterm[MAX_ITEM_NAME_LEN];
+    char term[MAX_ITEM_NAME_LEN];
+
+    getline(&buf, &buf_size, f);
+    while (sscanf(buf + ptr, "%s", nonterm) == 1) {
+        ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, nonterm);
+        ptr += strlen(nonterm) + 1;
+    }
+    ptr = 0;
+
+    getline(&buf, &buf_size, f);
+    while (sscanf(buf + ptr, "%s", term) == 1) {
+        ItemMapper_Insert((ItemMapper*) &grammar->terminals, term);
+        ptr += strlen(term) + 1;
+    }
+    ptr = 0;
+
+    while (getline(&buf, &buf_size, f) != -1) {
+        buf[strcspn(buf, "\n")] = 0;
 
         char l[MAX_ITEM_NAME_LEN], r1[MAX_ITEM_NAME_LEN], r2[MAX_ITEM_NAME_LEN];
-        int nitems = sscanf(grammar_buf, "%s %s %s", l, r1, r2);
+        int nitems = sscanf(buf, "%s %s %s", l, r1, r2);
 
         if (nitems == 2) {
-            int gr_l = ItemMapper_Insert((ItemMapper* ) &grammar->nonterminals, l);
-            int gr_r = ItemMapper_Insert((ItemMapper* ) &grammar->terminals, r1);
+            int gr_l = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, l);
+            int gr_r = ItemMapper_Insert((ItemMapper*) &grammar->terminals, r1);
 
             Grammar_AddSimpleRule(grammar, gr_l, gr_r);
         } else if (nitems == 3) {
-            int gr_l = ItemMapper_Insert((ItemMapper* ) &grammar->nonterminals, l);
-            int gr_r1 = ItemMapper_Insert((ItemMapper* ) &grammar->nonterminals, r1);
-            int gr_r2 = ItemMapper_Insert((ItemMapper* ) &grammar->nonterminals, r2);
+            int gr_l = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, l);
+            int gr_r1 = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, r1);
+            int gr_r2 = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, r2);
 
             Grammar_AddComplexRule(grammar, gr_l, gr_r1, gr_r2);
         } else {

@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 #include "../config/config.h"
 #include "../mapper/mapper.h"

@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+from pathlib import Path
 import numpy as np
 import pandas as pd
 
@@ -6,176 +7,190 @@ import subprocess
 import os
 import re
 
-dirs = {}
-dirs["input"] = "./input/"
-dirs["graph"] = "./input/graph/"
-dirs["grammar"] = "./input/grammar/"
-dirs["queries"] = "./input/queries/"
-dirs["results"] = "./results/"
-dirs["Deconstruct-queries"] = "./input/queries/Deconstruct/"
-dirs["Deconstruct-results"] = "./results/Deconstruct/"
-dirs["Construct-queries"] = "./input/queries/Construct/"
-dirs["Construct-results"] = "./results/Construct/"
-dirs["Delete-cutpoints-queries"] = "./input/queries/Cutpoint/"
-dirs["Delete-cutpoints-results"] = "./results/Cutpoint/"
-dirs["Benchmark-queries"] = "./input/queries/Benchmark/"
-dirs["Benchmark-results"] = "./results/Benchmark/"
+CFPQ_DATA_DIR = "./deps/CFPQ_Data/"
+DATA_DIR = "data/"
+
+MATRICES_DIR = "Matrices/"
+GRAMMARS_DIR = "Grammars/"
+QUERIES_DIR  = "Queries/"
+RESULTS_DIR = "Results/" 
+
+TOOLS_DIR = "tools/"
+CONVERTER = CFPQ_DATA_DIR + TOOLS_DIR + "RDF_to_triple/converter.py"
+GRAMMAR_TO_CNF = CFPQ_DATA_DIR + TOOLS_DIR + "grammar_to_cnf/grammar_to_cnf.py"
+
+def construct_graph(graph, grammar, queries_dir, results_dir, title):
+    brute_queries_dir = queries_dir + "Brute/Construct/"
+    if (os.path.exists(brute_queries_dir) is False):
+        Path(brute_queries_dir).mkdir(parents=True, exist_ok=True)
+    
+    brute_results_dir = results_dir + "Brute/Construct/"
+    if (os.path.exists(brute_results_dir) is False):
+        Path(brute_results_dir).mkdir(parents=True, exist_ok=True)
+
+    smart_queries_dir = queries_dir + "Smart/Construct/"
+    if (os.path.exists(smart_queries_dir) is False):
+        Path(smart_queries_dir).mkdir(parents=True, exist_ok=True)
+
+    smart_results_dir = results_dir + "Smart/Construct/"
+    if (os.path.exists(smart_results_dir) is False):
+        Path(smart_results_dir).mkdir(parents=True, exist_ok=True)
+
+    bq = open(f"{brute_queries_dir}{title}", "w")
+    sq = open(f"{smart_queries_dir}{title}", "w")
+
+    with open(graph, "r") as f:
+        for line in f:
+            v, edge, to = line.split()
+            bq.write(f"brute-edge-add {v} {to} {edge}\n")
+            sq.write(f"smart-edge-add {v} {to} {edge}\n")
+
+    bq.close()
+    sq.close()
+
+    bq_run = f"./main {graph} {grammar} {brute_queries_dir}{title} --with-time > {brute_results_dir}{title}"
+    sq_run = f"./main {graph} {grammar} {smart_queries_dir}{title} --with-time > {smart_results_dir}{title}"
+
+    subprocess.run(bq_run, shell=True)
+    subprocess.run(sq_run, shell=True)
 
 
-default_graph = dirs["graph"] + "Empty.txt"
-default_grammar = dirs["grammar"] + "Brackets.txt"
-default_queries = dirs["queries"] + "Empty.txt"
+def deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, title):
+    brute_queries_dir = queries_dir + "Brute/Edges_Deconstruct/"
+    if (os.path.exists(brute_queries_dir) is False):
+        Path(brute_queries_dir).mkdir(parents=True, exist_ok=True)
+    
+    brute_results_dir = results_dir + "Brute/Edges_Deconstruct/"
+    if (os.path.exists(brute_results_dir) is False):
+        Path(brute_results_dir).mkdir(parents=True, exist_ok=True)
 
-MAX_N = 8
+    smart_queries_dir = queries_dir + "Smart/Edges_Deconstruct/"
+    if (os.path.exists(smart_queries_dir) is False):
+        Path(smart_queries_dir).mkdir(parents=True, exist_ok=True)
 
-def init():
-    print(dirs.values())
-    for dir in dirs.values():
-        os.mkdir(dir) if not os.path.exists(dir) else None
-    open(default_graph, "w").close() if not os.path.exists(default_graph) else None
-    open(default_queries, "w").close() if not os.path.exists(default_queries) else None
-    if (os.path.exists("./main") is False):
-        subprocess.run("make", shell=True)
-    if (os.path.exists(default_grammar) is False):
-        with open(default_grammar, "w") as file:
-            file.write("s a b\n")
-            file.write("s a s1\n")
-            file.write("s1 s b\n")
-            file.write("a A\n")
-            file.write("b B\n")
+    smart_results_dir = results_dir + "Smart/Edges_Deconstruct/"
+    if (os.path.exists(smart_results_dir) is False):
+        Path(smart_results_dir).mkdir(parents=True, exist_ok=True)
 
-def test_deconstruct_graph():
-    for n in [2 ** p for p in range(1, MAX_N)]:
-        input_graph = dirs["graph"] + f"Worstcase_{n}.txt"
-        #print(input_graph, os.path.exists(input_graph))
-        if (os.path.exists(input_graph) is False):
-            with open(input_graph, "w") as file:
-                [file.write(f"{i} A {(i + 1) % n}\n") for i in range(n)]
-                [file.write(f"{i} B {(i + 1) % (2 * n)}\n") for i in range(n, 2 * n)]
-                [file.write(f"{0} B {n}\n")]
+    bq = open(f"{brute_queries_dir}{title}", "w")
+    sq = open(f"{smart_queries_dir}{title}", "w")
 
-        input_grammar = default_grammar
-        #print(input_grammar)
+    with open(graph, "r") as f:
+        for line in f:
+            v, edge, to = line.split()
+            bq.write(f"brute-edge-delete {v} {to} {edge}\n")
+            sq.write(f"smart-edge-delete {v} {to} {edge}\n")
 
-        input_queries_brute = dirs["Deconstruct-queries"] + f"Worstcase_{n}_brute.txt"
-        #print(input_queries_brute, os.path.exists(input_queries_brute))
-        if (os.path.exists(input_queries_brute) is False):
-            with open(input_queries_brute, "w") as file:
-                [file.write(f"brute-edge-delete {i} {(i + 1) % n} A\n") for i in range(n)]
-                [file.write(f"brute-edge-delete {i} {(i + 1) % (2 * n)} B\n") for i in range(n, 2 * n)]
-                [file.write(f"brute-edge-delete {0} {n} B\n")]
+    bq.close()
+    sq.close()
 
-        input_queries_smart = dirs["Deconstruct-queries"] + f"Worstcase_{n}_smart.txt"
-        if (os.path.exists(input_queries_smart) is False):
-            with open(input_queries_smart, "w") as file:
-                [file.write(f"smart-edge-delete {i} {(i + 1) % n} A\n") for i in range(n)]
-                [file.write(f"smart-edge-delete {i} {(i + 1) % (2 * n)} B\n") for i in range(n, 2 * n)]
-                [file.write(f"smart-edge-delete {0} {n} B\n")]
+    bq_run = f"./main {graph} {grammar} {brute_queries_dir}{title} --with-time > {brute_results_dir}{title}"
+    sq_run = f"./main {graph} {grammar} {smart_queries_dir}{title} --with-time > {smart_results_dir}{title}"
 
-        results_brute = dirs["Deconstruct-results"] + f"Worstcase_{n}_brute_results.txt"
-        subprocess.run(f"./main {input_graph} {input_grammar} {input_queries_brute} --with-time > {results_brute}", shell=True)
-
-        results_smart = dirs["Deconstruct-results"] + f"Worstcase_{n}_smart_results.txt"
-        subprocess.run(f"./main {input_graph} {input_grammar} {input_queries_smart} --with-time > {results_smart}", shell=True)    
-
-def test_construct_graph():
-    for n in [2 ** p for p in range(1, MAX_N)]:
-        input_graph = default_graph
-
-        input_grammar = default_grammar
-        #print(input_grammar)
-
-        input_queries_brute = dirs["Construct-queries"] + f"Worstcase_{n}_brute.txt"
-        #print(input_queries_brute, os.path.exists(input_queries_brute))
-        if (os.path.exists(input_queries_brute) is False):
-            with open(input_queries_brute, "w") as file:
-                [file.write(f"brute-edge-add {i} {(i + 1) % n} A\n") for i in range(n)]
-                [file.write(f"brute-edge-add {i} {(i + 1) % (2 * n)} B\n") for i in range(n, 2 * n)]
-                [file.write(f"brute-edge-add {0} {n} B\n")]
-
-        input_queries_smart = dirs["Construct-queries"] + f"Worstcase_{n}_smart.txt"
-        if (os.path.exists(input_queries_smart) is False):
-            with open(input_queries_smart, "w") as file:
-                [file.write(f"smart-edge-add {i} {(i + 1) % n} A\n") for i in range(n)]
-                [file.write(f"smart-edge-add {i} {(i + 1) % (2 * n)} B\n") for i in range(n, 2 * n)]
-                [file.write(f"smart-edge-add {0} {n} B\n")]
-
-        results_brute = dirs["Construct-results"] + f"Worstcase_{n}_brute_results.txt"
-        subprocess.run(f"./main {input_graph} {input_grammar} {input_queries_brute} --with-time > {results_brute}", shell=True)
-
-        results_smart = dirs["Construct-results"] + f"Worstcase_{n}_smart_results.txt"
-        subprocess.run(f"./main {input_graph} {input_grammar} {input_queries_smart} --with-time > {results_smart}", shell=True)
-
-def delete_cutpoints():
-    for n in [2 ** p for p in range(1, MAX_N)]:
-        input_graph = dirs["graph"] + f"Worstcase_{n}.txt"
-        #print(input_graph, os.path.exists(input_graph))
-        if (os.path.exists(input_graph) is False):
-            with open(input_graph, "w") as file:
-                [file.write(f"{i} A {(i + 1) % n}\n") for i in range(n)]
-                [file.write(f"{i} B {(i + 1) % (2 * n)}\n") for i in range(n, 2 * n)]
-                [file.write(f"{0} B {n}\n")]
-
-        input_grammar = default_grammar
-        #print(input_grammar)
-
-        input_queries_brute = dirs["Delete-cutpoints-queries"] + f"Worstcase_{n}_brute.txt"
-        #print(input_queries_brute, os.path.exists(input_queries_brute))
-        if (os.path.exists(input_queries_brute) is False):
-            with open(input_queries_brute, "w") as file:
-                file.write("brute-vertex-delete 0")
-
-        input_queries_smart = dirs["Delete-cutpoints-queries"] + f"Worstcase_{n}_smart.txt"
-        if (os.path.exists(input_queries_smart) is False):
-            with open(input_queries_smart, "w") as file:
-                file.write("smart-vertex-delete 0")
-
-        results_brute = dirs["Delete-cutpoints-results"] + f"Worstcase_{n}_brute_results.txt"
-        subprocess.run(f"./main {input_graph} {input_grammar} {input_queries_brute} --with-time > {results_brute}", shell=True)
-
-        results_smart = dirs["Delete-cutpoints-results"] + f"Worstcase_{n}_smart_results.txt"
-        subprocess.run(f"./main {input_graph} {input_grammar} {input_queries_smart} --with-time > {results_smart}", shell=True)
+    subprocess.run(bq_run, shell=True)
+    subprocess.run(sq_run, shell=True)
 
 
-def benchmark_worstcases():
-    for n in [2 ** p for p in range(1, MAX_N)]:
-        input_graph = default_graph
+def deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, title):
+    brute_queries_dir = queries_dir + "Brute/Vertecies_Deconstruct/"
+    if (os.path.exists(brute_queries_dir) is False):
+        Path(brute_queries_dir).mkdir(parents=True, exist_ok=True)
+    
+    brute_results_dir = results_dir + "Brute/Vertecies_Deconstruct/"
+    if (os.path.exists(brute_results_dir) is False):
+        Path(brute_results_dir).mkdir(parents=True, exist_ok=True)
 
-        input_grammar = default_grammar
-        #print(input_grammar)
+    smart_queries_dir = queries_dir + "Smart/Vertecies_Deconstruct/"
+    if (os.path.exists(smart_queries_dir) is False):
+        Path(smart_queries_dir).mkdir(parents=True, exist_ok=True)
 
-        input_queries_brute = dirs["Benchmark-queries"] + f"Worstcase_{n}_brute.txt"
-        #print(input_queries_brute, os.path.exists(input_queries_brute))
-        if (os.path.exists(input_queries_brute) is False):
-            with open(input_queries_brute, "w") as file:
-                [file.write(f"brute-edge-add {i} {(i + 1) % n} A\n") for i in range(n)]
-                [file.write(f"brute-edge-add {i} {(i + 1) % (2 * n)} B\n") for i in range(n, 2 * n)]
-                [file.write(f"brute-edge-add {0} {n} B\n")]
-                for i in range(2 * n - 1):
-                    for j in range(2 * n - 1):
-                        file.write(f"find-path {i} {j}\n")
+    smart_results_dir = results_dir + "Smart/Vertecies_Deconstruct/"
+    if (os.path.exists(smart_results_dir) is False):
+        Path(smart_results_dir).mkdir(parents=True, exist_ok=True)
 
-        input_queries_smart = dirs["Benchmark-queries"] + f"Worstcase_{n}_smart.txt"
-        if (os.path.exists(input_queries_smart) is False):
-            with open(input_queries_smart, "w") as file:
-                [file.write(f"smart-edge-add {i} {(i + 1) % n} A\n") for i in range(n)]
-                [file.write(f"smart-edge-add {i} {(i + 1) % (2 * n)} B\n") for i in range(n, 2 * n)]
-                [file.write(f"smart-edge-add {0} {n} B\n")]
-                for i in range(2 * n - 1):
-                    for j in range(2 * n - 1):
-                        file.write(f"find-path {i} {j}\n")
+    bq = open(f"{brute_queries_dir}{title}", "w")
+    sq = open(f"{smart_queries_dir}{title}", "w")
 
-        results_brute = dirs["Benchmark-results"] + f"Worstcase_{n}_brute_results.txt"
-        subprocess.run(f"./main {input_graph} {input_grammar} {input_queries_brute} --no-time > {results_brute}", shell=True)
+    vertecies = []
 
-        results_smart = dirs["Benchmark-results"] + f"Worstcase_{n}_smart_results.txt"
-        subprocess.run(f"./main {input_graph} {input_grammar} {input_queries_smart} --no-time > {results_smart}", shell=True)
+    with open(graph, "r") as f:
+        for line in f:
+            v, edge, to = line.split()
+            if v not in vertecies:
+                vertecies.append(v)
+                bq.write(f"brute-vertex-delete {v}\n")
+                sq.write(f"smart-vertex-delete {v}\n")
+            if to not in vertecies:
+                vertecies.append(to)
+                bq.write(f"brute-vertex-delete {to}\n")
+                sq.write(f"smart-vertex-delete {to}\n")
 
-        results_diff = dirs["Benchmark-results"] + f"Worstcase_{n}_diff.txt"
-        subprocess.run(f"diff {results_brute} {results_smart} > {results_diff}", shell=True)
+    bq.close()
+    sq.close()
+
+    bq_run = f"./main {graph} {grammar} {brute_queries_dir}{title} --with-time > {brute_results_dir}{title}"
+    sq_run = f"./main {graph} {grammar} {smart_queries_dir}{title} --with-time > {smart_results_dir}{title}"
+
+    subprocess.run(bq_run, shell=True)
+    subprocess.run(sq_run, shell=True)
+
+
+def test_fullgraph():
+    graph_dir = CFPQ_DATA_DIR + DATA_DIR + "FullGraph/"
+
+    matrices_dir = graph_dir + MATRICES_DIR
+    grammars_dir = graph_dir + GRAMMARS_DIR
+    queries_dir = graph_dir + QUERIES_DIR
+    results_dir = graph_dir + RESULTS_DIR
+    
+    if (os.path.exists(graph_dir) is False):
+        subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
+        subprocess.run(f"python {CFPQ_DATA_DIR}" + "init.py", shell=True)
+
+    if (os.path.exists(queries_dir) is False):
+        subprocess.run(f"mkdir {queries_dir}", shell=True)
+
+    if (os.path.exists(results_dir) is False):
+        subprocess.run(f"mkdir {results_dir}", shell=True)
+    
+    graph_xmls = list(filter(
+        lambda x: re.fullmatch(".*\.xml", x) is not None, 
+        os.listdir(matrices_dir)))
+
+    grammars = list(filter(
+        lambda x: re.fullmatch(".*_cnf\.txt", x) is None, 
+        os.listdir(grammars_dir)))
+
+    graph_txts = []
+    for g in graph_xmls:
+        g_txt = re.sub("(.*)(\.xml)", "\g<1>.txt", g)
+        graph_txts.append(g_txt)
+        if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
+            continue
+        subprocess.run(f"python {CONVERTER} {matrices_dir}{g} {matrices_dir}convconfig", shell=True)
+    
+    grammar_cnfs = []
+    for gr in grammars:
+        gr_cnf = re.sub("(.*)(\.txt)", "\g<1>_cnf.txt", gr)
+        grammar_cnfs.append(gr_cnf)
+        if (os.path.exists(f"{grammars_dir}{gr_cnf}") is True):
+            continue
+        subprocess.run(f"python {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
+
+    for g in graph_txts:
+        g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
+        for gr in grammar_cnfs:
+            gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
+
+            graph = matrices_dir + g
+            grammar = grammars_dir + gr
+
+            construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
 
 
 if __name__ == "__main__":
-    init()
-    benchmark_worstcases()
+    subprocess.run("make", shell=True)
+    test_fullgraph()
     subprocess.run("make clean", shell=True)

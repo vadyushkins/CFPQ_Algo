@@ -52,19 +52,21 @@ int main(int argc, char* argv[]) {
     // Start algorithm
     Response response;
 
-    cfpq_static(&graph, &grammar, &response);
-
-    // DEBUG GxB_print(response.nonterminal_matrices[0], GxB_COMPLETE);
-
     f = fopen(QUERIES_INPUT_FILE, "r");
 
     if (PRINT_TIME == 0) {
+        cfpq_static(&graph, &grammar, &response);
         interprete_queries(&graph, &grammar, &response, f, PRINT_TIME);
     } else if (PRINT_TIME == 1){
         double timer[2];
         simple_tic(timer);
-        interprete_queries(&graph, &grammar, &response, f, PRINT_TIME);
+        cfpq_static(&graph, &grammar, &response);
         double time_query = simple_toc(timer);
+        printf("Initialize time: %lf s\n", time_query);
+        
+        simple_tic(timer);
+        interprete_queries(&graph, &grammar, &response, f, PRINT_TIME);
+        time_query = simple_toc(timer);
         printf("Total time: %lf s\n", time_query);
     }
 
