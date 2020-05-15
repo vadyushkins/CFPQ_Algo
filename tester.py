@@ -425,6 +425,63 @@ def test_rdf():
             deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
 
 
+def test_memoryaliases():
+    graph_dir = CFPQ_DATA_DIR + DATA_DIR + "MemoryAliases/"
+
+    matrices_dir = graph_dir + MATRICES_DIR
+    grammars_dir = graph_dir + GRAMMARS_DIR
+    queries_dir = graph_dir + QUERIES_DIR
+    results_dir = graph_dir + RESULTS_DIR
+    
+    if (os.path.exists(matrices_dir) is False):
+        subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
+        subprocess.run(f"python3 {CFPQ_DATA_DIR}" + "init.py", shell=True)
+
+    if (os.path.exists(queries_dir) is False):
+        subprocess.run(f"mkdir {queries_dir}", shell=True)
+
+    if (os.path.exists(results_dir) is False):
+        subprocess.run(f"mkdir {results_dir}", shell=True)
+    
+    graph_xmls = list(filter(
+        lambda x: re.fullmatch(".*\.xml", x) is not None, 
+        os.listdir(matrices_dir)))
+
+    print(graph_xmls)
+
+    grammars = list(filter(
+        lambda x: re.fullmatch(".*_cnf\.txt", x) is None, 
+        os.listdir(grammars_dir)))
+
+    graph_txts = []
+    for g in graph_xmls:
+        g_txt = re.sub("(.*)(\.xml)", "\g<1>.txt", g)
+        graph_txts.append(g_txt)
+        if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
+            continue
+        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {matrices_dir}convconfig", shell=True)
+    
+    grammar_cnfs = []
+    for gr in grammars:
+        gr_cnf = re.sub("(.*)(\.txt)", "\g<1>_cnf.txt", gr)
+        grammar_cnfs.append(gr_cnf)
+        if (os.path.exists(f"{grammars_dir}{gr_cnf}") is True):
+            continue
+        subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
+
+    for g in [graph_txts[0]]:
+        g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
+        for gr in grammar_cnfs:
+            gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
+
+            graph = matrices_dir + g
+            grammar = grammars_dir + gr
+
+            construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+
+
 if __name__ == "__main__":
     subprocess.run("make", shell=True)
     test_fullgraph()
@@ -432,4 +489,5 @@ if __name__ == "__main__":
     test_sparsegraph()
     test_scalefree()
     test_rdf()
+    test_memoryaliases()
     subprocess.run("make clean", shell=True)
