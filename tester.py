@@ -191,6 +191,10 @@ def test_fullgraph():
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
+
             graph = matrices_dir + g
             grammar = grammars_dir + gr
 
@@ -248,6 +252,10 @@ def test_worstcase():
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
+
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
 
             graph = matrices_dir + g
             grammar = grammars_dir + gr
@@ -309,6 +317,10 @@ def test_sparsegraph():
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
+
             graph = matrices_dir + g
             grammar = grammars_dir + gr
 
@@ -368,6 +380,10 @@ def test_scalefree():
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
+
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
 
             graph = matrices_dir + g
             grammar = grammars_dir + gr
@@ -429,6 +445,10 @@ def test_rdf():
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
+
             graph = matrices_dir + g
             grammar = grammars_dir + gr
 
@@ -489,6 +509,10 @@ def test_memoryaliases():
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
+
             graph = matrices_dir + g
             grammar = grammars_dir + gr
 
@@ -503,7 +527,7 @@ def test_memoryaliases():
 if __name__ == "__main__":
     subprocess.run("make", shell=True)
     while True:
-        s = input('Enter test name:\n')
+        s = input("Enter test name:\n")
         if s == "FullGraph":
             print("FullGraph testing started\n")
             test_fullgraph()
