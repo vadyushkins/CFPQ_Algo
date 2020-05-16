@@ -485,7 +485,7 @@ def test_memoryaliases():
 if __name__ == "__main__":
     subprocess.run("make", shell=True)
     while True:
-        s = input()
+        s = input('Enter test name:\n')
         if s == "Test FullGraph":
             test_fullgraph()
         elif s == "Test WorstCase":
