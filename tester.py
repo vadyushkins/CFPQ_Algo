@@ -484,10 +484,16 @@ def test_memoryaliases():
 
 if __name__ == "__main__":
     subprocess.run("make", shell=True)
-    test_fullgraph()
-    test_worstcase()
-    test_sparsegraph()
-    test_scalefree()
-    test_rdf()
-    test_memoryaliases()
+    while True:
+        s = input()
+        if s == "Test FullGraph":
+            test_fullgraph()
+        elif s == "Test WorstCase":
+            test_worstcase()
+        elif s == "Test RDF":
+            test_rdf()
+        elif s == "Test ScaleFree":
+            test_scalefree()
+        elif s == "Test SparseGraph":
+            test_sparsegraph()
     subprocess.run("make clean", shell=True)
