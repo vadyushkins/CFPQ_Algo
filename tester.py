@@ -186,13 +186,16 @@ def test_fullgraph():
             continue
         subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
-    for g in graph_txts:
+    for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
-        for gr in grammar_cnfs:
+        for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
             graph = matrices_dir + g
             grammar = grammars_dir + gr
+
+            print(f"Started testing the Graph: {graph}")
+            print(f"With Grammar: {grammar}")
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -241,13 +244,16 @@ def test_worstcase():
             continue
         subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
-    for g in graph_txts:
+    for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
-        for gr in grammar_cnfs:
+        for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
             graph = matrices_dir + g
             grammar = grammars_dir + gr
+
+            print(f"Started testing the Graph: {graph}")
+            print(f"With Grammar: {grammar}")
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -298,13 +304,16 @@ def test_sparsegraph():
             continue
         subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
-    for g in graph_txts:
+    for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
-        for gr in grammar_cnfs:
+        for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
             graph = matrices_dir + g
             grammar = grammars_dir + gr
+
+            print(f"Started testing the Graph: {graph}")
+            print(f"With Grammar: {grammar}")
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -355,13 +364,16 @@ def test_scalefree():
             continue
         subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
-    for g in [graph_txts[0]]:
+    for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
-        for gr in grammar_cnfs:
+        for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
             graph = matrices_dir + g
             grammar = grammars_dir + gr
+
+            print(f"Started testing the Graph: {graph}")
+            print(f"With Grammar: {grammar}")
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -412,13 +424,16 @@ def test_rdf():
             continue
         subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
-    for g in [graph_txts[0]]:
+    for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
-        for gr in grammar_cnfs:
+        for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
             graph = matrices_dir + g
             grammar = grammars_dir + gr
+
+            print(f"Started testing the Graph: {graph}")
+            print(f"With Grammar: {grammar}")
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -469,13 +484,16 @@ def test_memoryaliases():
             continue
         subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
-    for g in [graph_txts[0]]:
+    for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
-        for gr in grammar_cnfs:
+        for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
             graph = matrices_dir + g
             grammar = grammars_dir + gr
+
+            print(f"Started testing the Graph: {graph}")
+            print(f"With Grammar: {grammar}")
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -486,14 +504,19 @@ if __name__ == "__main__":
     subprocess.run("make", shell=True)
     while True:
         s = input('Enter test name:\n')
-        if s == "Test FullGraph":
+        if s == "FullGraph":
+            print("FullGraph testing started\n")
             test_fullgraph()
-        elif s == "Test WorstCase":
+        elif s == "WorstCase":
+            print("WorstCase testing started\n")
             test_worstcase()
-        elif s == "Test RDF":
+        elif s == "RDF":
+            print("RDF testing started\n")
             test_rdf()
-        elif s == "Test ScaleFree":
+        elif s == "ScaleFree":
+            print("ScaleFree testing started\n")
             test_scalefree()
-        elif s == "Test SparseGraph":
+        elif s == "SparseGraph":
+            print("SparseGraph testing started\n")
             test_sparsegraph()
     subprocess.run("make clean", shell=True)
