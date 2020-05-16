@@ -9,6 +9,8 @@ void interprete_queries_with_time(
     char* line_buf;
     size_t buf_size = 0;
 
+    double summary = 0;
+
     while (getline(&line_buf, &buf_size, f) != -1) {
         line_buf[strcspn(line_buf, "\n")] = 0;
 
@@ -23,24 +25,28 @@ void interprete_queries_with_time(
                 simple_tic(timer);
                 cfpq_brute_vertex_add(graph, grammar, response, v);
                 double time_query = simple_toc(timer);
+                summary += time_query;
                 printf("%s: %s, time= %lf s\n", type, v, time_query);
             } else if (strcmp(type, "smart-vertex-add") == 0) {
                 double timer[2];
                 simple_tic(timer);
                 cfpq_vertex_add(graph, grammar, response, v);
                 double time_query = simple_toc(timer);
+                summary += time_query;
                 printf("%s: %s, time= %lf s\n", type, v, time_query);
             } else if (strcmp(type, "brute-vertex-delete") == 0) {
                 double timer[2];
                 simple_tic(timer);
                 cfpq_brute_vertex_delete(graph, grammar, response, v);
                 double time_query = simple_toc(timer);
+                summary += time_query;
                 printf("%s: %s, time= %lf s\n", type, v, time_query);
             } else if (strcmp(type, "smart-vertex-delete") == 0) {
                 double timer[2];
                 simple_tic(timer);
                 cfpq_vertex_delete(graph, grammar, response, v);
                 double time_query = simple_toc(timer);
+                summary += time_query;
                 printf("%s: %s, time= %lf s\n", type, v, time_query);
             }
         } else if (nitems == 3) {
@@ -61,6 +67,7 @@ void interprete_queries_with_time(
                 simple_tic(timer);
                 GrB_Matrix_extractElement_BOOL(&result, response->nonterminal_matrices[0], v_id, to_id);
                 double time_query = simple_toc(timer);
+                summary += time_query;
                 printf("%s: %ld %ld %s, time= %lf s\n", type, v_id, to_id, result?"exist":"not exist", time_query);
             }
         } else if (nitems == 4) {
@@ -69,26 +76,31 @@ void interprete_queries_with_time(
                 simple_tic(timer);
                 cfpq_brute_edge_add(graph, grammar, response, v, edge, to);
                 double time_query = simple_toc(timer);
+                summary += time_query;
                 printf("%s: %s %s %s, time= %lf s\n", type, v, edge, to, time_query);
             } else if (strcmp(type, "smart-edge-add") == 0) {
                 double timer[2];
                 simple_tic(timer);
                 cfpq_edge_add(graph, grammar, response, v, edge, to);
                 double time_query = simple_toc(timer);
+                summary += time_query;
                 printf("%s: %s %s %s, time= %lf s\n", type, v, edge, to, time_query);
             } else if (strcmp(type, "brute-edge-delete") == 0) {
                 double timer[2];
                 simple_tic(timer);
                 cfpq_brute_edge_delete(graph, grammar, response, v, edge, to);
                 double time_query = simple_toc(timer);
+                summary += time_query;
                 printf("%s: %s %s %s, time= %lf s\n", type, v, edge, to, time_query);
             } else if (strcmp(type, "smart-edge-delete") == 0) {
                 double timer[2];
                 simple_tic(timer);
                 cfpq_edge_delete(graph, grammar, response, v, edge, to);
                 double time_query = simple_toc(timer);
+                summary += time_query;
                 printf("%s: %s %s %s, time= %lf s\n", type, v, edge, to, time_query);
             }
         }
     }
+    printf("Summary time= %lf\n", summary);
 }

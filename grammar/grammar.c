@@ -39,14 +39,14 @@ int Grammar_Load(Grammar* grammar, FILE* f) {
         int nitems = sscanf(buf, "%s %s %s", l, r1, r2);
 
         if (nitems == 2) {
-            int gr_l = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, l);
-            int gr_r = ItemMapper_Insert((ItemMapper*) &grammar->terminals, r1);
+            GrB_Index gr_l = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, l);
+            GrB_Index gr_r = ItemMapper_Insert((ItemMapper*) &grammar->terminals, r1);
 
             Grammar_AddSimpleRule(grammar, gr_l, gr_r);
         } else if (nitems == 3) {
-            int gr_l = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, l);
-            int gr_r1 = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, r1);
-            int gr_r2 = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, r2);
+            GrB_Index gr_l = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, l);
+            GrB_Index gr_r1 = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, r1);
+            GrB_Index gr_r2 = ItemMapper_Insert((ItemMapper*) &grammar->nonterminals, r2);
 
             Grammar_AddComplexRule(grammar, gr_l, gr_r1, gr_r2);
         } else {
