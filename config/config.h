@@ -4,7 +4,7 @@
 
 #include "../deps/GraphBLAS/Include/GraphBLAS.h"
 
-#define MAX_GRAPH_SIZE 10000
+#define MAX_GRAPH_SIZE 100000
 #define MAX_GRAMMAR_SIZE 2000
 
 #define MAX_ITEM_NAME_LEN 100
