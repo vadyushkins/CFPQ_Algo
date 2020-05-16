@@ -176,7 +176,7 @@ def test_fullgraph():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {matrices_dir}convconfig", shell=True)
+        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
     
     grammar_cnfs = []
     for gr in grammars:
@@ -231,7 +231,7 @@ def test_worstcase():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {matrices_dir}convconfig", shell=True)
+        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
     
     grammar_cnfs = []
     for gr in grammars:
@@ -288,7 +288,7 @@ def test_sparsegraph():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {matrices_dir}convconfig", shell=True)
+        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
     
     grammar_cnfs = []
     for gr in grammars:
@@ -345,7 +345,7 @@ def test_scalefree():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {matrices_dir}convconfig", shell=True)
+        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
     
     grammar_cnfs = []
     for gr in grammars:
@@ -402,7 +402,7 @@ def test_rdf():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {matrices_dir}convconfig", shell=True)
+        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
     
     grammar_cnfs = []
     for gr in grammars:
@@ -459,7 +459,7 @@ def test_memoryaliases():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {matrices_dir}convconfig", shell=True)
+        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
     
     grammar_cnfs = []
     for gr in grammars:
