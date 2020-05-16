@@ -1,6 +1,6 @@
 #include "interpreter.h"
 
-void interprete_queries_with_time(
+void interprete_queries_without_time(
     const GraphRepr* graph, 
     const Grammar* grammar, 
     Response* response, 
