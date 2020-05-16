@@ -191,15 +191,15 @@ def test_fullgraph():
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
-            test_it = input("Want to run a test? y\\n \n")
-            if (test_it == "n"):
-                continue
-
             graph = matrices_dir + g
             grammar = grammars_dir + gr
 
             print(f"Started testing the Graph: {graph}")
             print(f"With Grammar: {grammar}")
+
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -253,15 +253,15 @@ def test_worstcase():
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
-            test_it = input("Want to run a test? y\\n \n")
-            if (test_it == "n"):
-                continue
-
             graph = matrices_dir + g
             grammar = grammars_dir + gr
 
             print(f"Started testing the Graph: {graph}")
             print(f"With Grammar: {grammar}")
+
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -317,15 +317,15 @@ def test_sparsegraph():
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
-            test_it = input("Want to run a test? y\\n \n")
-            if (test_it == "n"):
-                continue
-
             graph = matrices_dir + g
             grammar = grammars_dir + gr
 
             print(f"Started testing the Graph: {graph}")
             print(f"With Grammar: {grammar}")
+
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -381,15 +381,15 @@ def test_scalefree():
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
-            test_it = input("Want to run a test? y\\n \n")
-            if (test_it == "n"):
-                continue
-
             graph = matrices_dir + g
             grammar = grammars_dir + gr
 
             print(f"Started testing the Graph: {graph}")
             print(f"With Grammar: {grammar}")
+
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -445,15 +445,15 @@ def test_rdf():
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
-            test_it = input("Want to run a test? y\\n \n")
-            if (test_it == "n"):
-                continue
-
             graph = matrices_dir + g
             grammar = grammars_dir + gr
 
             print(f"Started testing the Graph: {graph}")
             print(f"With Grammar: {grammar}")
+
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
@@ -509,15 +509,15 @@ def test_memoryaliases():
         for gr in sorted(grammar_cnfs):
             gr_name = re.sub("(.*)(_cnf\.txt)", "\g<1>", gr)
 
-            test_it = input("Want to run a test? y\\n \n")
-            if (test_it == "n"):
-                continue
-
             graph = matrices_dir + g
             grammar = grammars_dir + gr
 
             print(f"Started testing the Graph: {graph}")
             print(f"With Grammar: {grammar}")
+
+            test_it = input("Want to run a test? y\\n \n")
+            if (test_it == "n"):
+                continue
 
             construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
             deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
