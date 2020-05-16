@@ -12,8 +12,8 @@ void interprete_queries_with_time(
     while (getline(&line_buf, &buf_size, f) != -1) {
         line_buf[strcspn(line_buf, "\n")] = 0;
 
-        char type[MAX_ITEM_NAME_LEN];
-        char v[MAX_ITEM_NAME_LEN], edge[MAX_ITEM_NAME_LEN], to[MAX_ITEM_NAME_LEN];
+        char type[MAX_COMMAND_LEN];
+        char v[MAX_COMMAND_LEN], edge[MAX_COMMAND_LEN], to[MAX_COMMAND_LEN];
         int nitems = sscanf(line_buf, "%s %s %s %s", type, v, to, edge);
         assert(nitems >= 2);
 
