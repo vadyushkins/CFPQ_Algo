@@ -48,8 +48,8 @@ def construct_graph(graph, grammar, queries_dir, results_dir, title):
     bq.close()
     sq.close()
 
-    bq_run = f"./main {graph} {grammar} {brute_queries_dir}{title} --with-time > {brute_results_dir}{title}"
-    sq_run = f"./main {graph} {grammar} {smart_queries_dir}{title} --with-time > {smart_results_dir}{title}"
+    bq_run = f"./main {graph} {grammar} {brute_queries_dir}{title} --total-time > {brute_results_dir}{title}"
+    sq_run = f"./main {graph} {grammar} {smart_queries_dir}{title} --total-time > {smart_results_dir}{title}"
 
     subprocess.run(bq_run, shell=True)
     subprocess.run(sq_run, shell=True)
@@ -87,8 +87,8 @@ def deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir,
     bq.close()
     sq.close()
 
-    bq_run = f"./main {graph} {grammar} {brute_queries_dir}{title} --with-time > {brute_results_dir}{title}"
-    sq_run = f"./main {graph} {grammar} {smart_queries_dir}{title} --with-time > {smart_results_dir}{title}"
+    bq_run = f"./main {graph} {grammar} {brute_queries_dir}{title} --total-time > {brute_results_dir}{title}"
+    sq_run = f"./main {graph} {grammar} {smart_queries_dir}{title} --total-time > {smart_results_dir}{title}"
 
     subprocess.run(bq_run, shell=True)
     subprocess.run(sq_run, shell=True)
@@ -134,8 +134,8 @@ def deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_di
     bq.close()
     sq.close()
 
-    bq_run = f"./main {graph} {grammar} {brute_queries_dir}{title} --with-time > {brute_results_dir}{title}"
-    sq_run = f"./main {graph} {grammar} {smart_queries_dir}{title} --with-time > {smart_results_dir}{title}"
+    bq_run = f"./main {graph} {grammar} {brute_queries_dir}{title} --total-time > {brute_results_dir}{title}"
+    sq_run = f"./main {graph} {grammar} {smart_queries_dir}{title} --total-time > {smart_results_dir}{title}"
 
     subprocess.run(bq_run, shell=True)
     subprocess.run(sq_run, shell=True)
