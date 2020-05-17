@@ -9,7 +9,7 @@
 
 ```bash
 make
-./main graph_file.txt grammar_file.txt queries_file.txt --no-time/--with-time
+./main graph_file.txt grammar_file.txt queries_file.txt --no-time/--with-time/--total-time
 ```
 
 # Можно потестировать
