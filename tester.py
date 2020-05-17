@@ -12,18 +12,19 @@ DATA_DIR = "data/"
 
 MATRICES_DIR = "Matrices/"
 GRAMMARS_DIR = "Grammars/"
-QUERIES_DIR  = "Queries/"
-RESULTS_DIR = "Results/" 
+QUERIES_DIR = "Queries/"
+RESULTS_DIR = "Results/"
 
 TOOLS_DIR = "tools/"
 CONVERTER = CFPQ_DATA_DIR + TOOLS_DIR + "RDF_to_triple/converter.py"
 GRAMMAR_TO_CNF = CFPQ_DATA_DIR + TOOLS_DIR + "grammar_to_cnf/grammar_to_cnf.py"
 
+
 def construct_graph(graph, grammar, queries_dir, results_dir, title):
     brute_queries_dir = queries_dir + "Brute/Construct/"
     if (os.path.exists(brute_queries_dir) is False):
         Path(brute_queries_dir).mkdir(parents=True, exist_ok=True)
-    
+
     brute_results_dir = results_dir + "Brute/Construct/"
     if (os.path.exists(brute_results_dir) is False):
         Path(brute_results_dir).mkdir(parents=True, exist_ok=True)
@@ -54,15 +55,17 @@ def construct_graph(graph, grammar, queries_dir, results_dir, title):
     subprocess.run(bq_run, shell=True)
     subprocess.run(sq_run, shell=True)
 
-    subprocess.run(f"tail -n 1 {brute_results_dir}{title} > {results_dir}construct_graph_diff_{title}", shell=True)
-    subprocess.run(f"tail -n 1 {smart_results_dir}{title} >> {results_dir}construct_graph_diff_{title}", shell=True)
+    subprocess.run(
+        f"tail -n 1 {brute_results_dir}{title} > {results_dir}construct_graph_diff_{title}", shell=True)
+    subprocess.run(
+        f"tail -n 1 {smart_results_dir}{title} >> {results_dir}construct_graph_diff_{title}", shell=True)
 
 
 def deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, title):
     brute_queries_dir = queries_dir + "Brute/Edges_Deconstruct/"
     if (os.path.exists(brute_queries_dir) is False):
         Path(brute_queries_dir).mkdir(parents=True, exist_ok=True)
-    
+
     brute_results_dir = results_dir + "Brute/Edges_Deconstruct/"
     if (os.path.exists(brute_results_dir) is False):
         Path(brute_results_dir).mkdir(parents=True, exist_ok=True)
@@ -93,15 +96,17 @@ def deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir,
     subprocess.run(bq_run, shell=True)
     subprocess.run(sq_run, shell=True)
 
-    subprocess.run(f"tail -n 1 {brute_results_dir}{title} > {results_dir}deconstruct_graph_by_edge_deleting_diff_{title}", shell=True)
-    subprocess.run(f"tail -n 1 {smart_results_dir}{title} >> {results_dir}deconstruct_graph_by_edge_deleting_diff_{title}", shell=True)
+    subprocess.run(
+        f"tail -n 1 {brute_results_dir}{title} > {results_dir}deconstruct_graph_by_edge_deleting_diff_{title}", shell=True)
+    subprocess.run(
+        f"tail -n 1 {smart_results_dir}{title} >> {results_dir}deconstruct_graph_by_edge_deleting_diff_{title}", shell=True)
 
 
 def deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, title):
     brute_queries_dir = queries_dir + "Brute/Vertecies_Deconstruct/"
     if (os.path.exists(brute_queries_dir) is False):
         Path(brute_queries_dir).mkdir(parents=True, exist_ok=True)
-    
+
     brute_results_dir = results_dir + "Brute/Vertecies_Deconstruct/"
     if (os.path.exists(brute_results_dir) is False):
         Path(brute_results_dir).mkdir(parents=True, exist_ok=True)
@@ -140,8 +145,10 @@ def deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_di
     subprocess.run(bq_run, shell=True)
     subprocess.run(sq_run, shell=True)
 
-    subprocess.run(f"tail -n 1 {brute_results_dir}{title} > {results_dir}deconstruct_graph_by_vertex_deleting_diff_{title}", shell=True)
-    subprocess.run(f"tail -n 1 {smart_results_dir}{title} >> {results_dir}deconstruct_graph_by_vertex_deleting_diff_{title}", shell=True)
+    subprocess.run(
+        f"tail -n 1 {brute_results_dir}{title} > {results_dir}deconstruct_graph_by_vertex_deleting_diff_{title}", shell=True)
+    subprocess.run(
+        f"tail -n 1 {smart_results_dir}{title} >> {results_dir}deconstruct_graph_by_vertex_deleting_diff_{title}", shell=True)
 
 
 def test_fullgraph():
@@ -151,9 +158,10 @@ def test_fullgraph():
     grammars_dir = graph_dir + GRAMMARS_DIR
     queries_dir = graph_dir + QUERIES_DIR
     results_dir = graph_dir + RESULTS_DIR
-    
+
     if (os.path.exists(matrices_dir) is False):
-        subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
+        subprocess.run(
+            f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
         subprocess.run(f"python3 {CFPQ_DATA_DIR}" + "init.py", shell=True)
 
     if (os.path.exists(queries_dir) is False):
@@ -161,13 +169,13 @@ def test_fullgraph():
 
     if (os.path.exists(results_dir) is False):
         subprocess.run(f"mkdir {results_dir}", shell=True)
-    
+
     graph_xmls = list(filter(
-        lambda x: re.fullmatch(".*\.xml", x) is not None, 
+        lambda x: re.fullmatch(".*\.xml", x) is not None,
         os.listdir(matrices_dir)))
 
     grammars = list(filter(
-        lambda x: re.fullmatch(".*_cnf\.txt", x) is None, 
+        lambda x: re.fullmatch(".*_cnf\.txt", x) is None,
         os.listdir(grammars_dir)))
 
     graph_txts = []
@@ -176,15 +184,18 @@ def test_fullgraph():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
-    
+        subprocess.run(
+            f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
+
     grammar_cnfs = []
+    print("BEEP!!!\n")
     for gr in grammars:
         gr_cnf = re.sub("(.*)(\.txt)", "\g<1>_cnf.txt", gr)
         grammar_cnfs.append(gr_cnf)
         if (os.path.exists(f"{grammars_dir}{gr_cnf}") is True):
             continue
-        subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
+        subprocess.run(
+            f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
     for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
@@ -201,9 +212,12 @@ def test_fullgraph():
             if (test_it == "n"):
                 continue
 
-            construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            construct_graph(graph, grammar, queries_dir,
+                            results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_edge_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_vertex_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
 
 
 def test_worstcase():
@@ -213,9 +227,10 @@ def test_worstcase():
     grammars_dir = graph_dir + GRAMMARS_DIR
     queries_dir = graph_dir + QUERIES_DIR
     results_dir = graph_dir + RESULTS_DIR
-    
+
     if (os.path.exists(matrices_dir) is False):
-        subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
+        subprocess.run(
+            f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
         subprocess.run(f"python3 {CFPQ_DATA_DIR}" + "init.py", shell=True)
 
     if (os.path.exists(queries_dir) is False):
@@ -223,13 +238,13 @@ def test_worstcase():
 
     if (os.path.exists(results_dir) is False):
         subprocess.run(f"mkdir {results_dir}", shell=True)
-    
+
     graph_xmls = list(filter(
-        lambda x: re.fullmatch(".*\.xml", x) is not None, 
+        lambda x: re.fullmatch(".*\.xml", x) is not None,
         os.listdir(matrices_dir)))
 
     grammars = list(filter(
-        lambda x: re.fullmatch(".*_cnf\.txt", x) is None, 
+        lambda x: re.fullmatch(".*_cnf\.txt", x) is None,
         os.listdir(grammars_dir)))
 
     graph_txts = []
@@ -238,15 +253,17 @@ def test_worstcase():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
-    
+        subprocess.run(
+            f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
+
     grammar_cnfs = []
     for gr in grammars:
         gr_cnf = re.sub("(.*)(\.txt)", "\g<1>_cnf.txt", gr)
         grammar_cnfs.append(gr_cnf)
         if (os.path.exists(f"{grammars_dir}{gr_cnf}") is True):
             continue
-        subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
+        subprocess.run(
+            f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
     for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
@@ -263,9 +280,12 @@ def test_worstcase():
             if (test_it == "n"):
                 continue
 
-            construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            construct_graph(graph, grammar, queries_dir,
+                            results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_edge_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_vertex_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
 
 
 def test_sparsegraph():
@@ -275,9 +295,10 @@ def test_sparsegraph():
     grammars_dir = graph_dir + GRAMMARS_DIR
     queries_dir = graph_dir + QUERIES_DIR
     results_dir = graph_dir + RESULTS_DIR
-    
+
     if (os.path.exists(matrices_dir) is False):
-        subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
+        subprocess.run(
+            f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
         subprocess.run(f"python3 {CFPQ_DATA_DIR}" + "init.py", shell=True)
 
     if (os.path.exists(queries_dir) is False):
@@ -285,15 +306,15 @@ def test_sparsegraph():
 
     if (os.path.exists(results_dir) is False):
         subprocess.run(f"mkdir {results_dir}", shell=True)
-    
+
     graph_xmls = list(filter(
-        lambda x: re.fullmatch(".*\.xml", x) is not None, 
+        lambda x: re.fullmatch(".*\.xml", x) is not None,
         os.listdir(matrices_dir)))
 
     print(graph_xmls)
 
     grammars = list(filter(
-        lambda x: re.fullmatch(".*_cnf\.txt", x) is None, 
+        lambda x: re.fullmatch(".*_cnf\.txt", x) is None,
         os.listdir(grammars_dir)))
 
     graph_txts = []
@@ -302,15 +323,17 @@ def test_sparsegraph():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
-    
+        subprocess.run(
+            f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
+
     grammar_cnfs = []
     for gr in grammars:
         gr_cnf = re.sub("(.*)(\.txt)", "\g<1>_cnf.txt", gr)
         grammar_cnfs.append(gr_cnf)
         if (os.path.exists(f"{grammars_dir}{gr_cnf}") is True):
             continue
-        subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
+        subprocess.run(
+            f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
     for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
@@ -327,9 +350,12 @@ def test_sparsegraph():
             if (test_it == "n"):
                 continue
 
-            construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            construct_graph(graph, grammar, queries_dir,
+                            results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_edge_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_vertex_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
 
 
 def test_scalefree():
@@ -339,9 +365,10 @@ def test_scalefree():
     grammars_dir = graph_dir + GRAMMARS_DIR
     queries_dir = graph_dir + QUERIES_DIR
     results_dir = graph_dir + RESULTS_DIR
-    
+
     if (os.path.exists(matrices_dir) is False):
-        subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
+        subprocess.run(
+            f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
         subprocess.run(f"python3 {CFPQ_DATA_DIR}" + "init.py", shell=True)
 
     if (os.path.exists(queries_dir) is False):
@@ -349,15 +376,15 @@ def test_scalefree():
 
     if (os.path.exists(results_dir) is False):
         subprocess.run(f"mkdir {results_dir}", shell=True)
-    
+
     graph_xmls = list(filter(
-        lambda x: re.fullmatch(".*\.xml", x) is not None, 
+        lambda x: re.fullmatch(".*\.xml", x) is not None,
         os.listdir(matrices_dir)))
 
     print(graph_xmls)
 
     grammars = list(filter(
-        lambda x: re.fullmatch(".*_cnf\.txt", x) is None, 
+        lambda x: re.fullmatch(".*_cnf\.txt", x) is None,
         os.listdir(grammars_dir)))
 
     graph_txts = []
@@ -366,15 +393,17 @@ def test_scalefree():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
-    
+        subprocess.run(
+            f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
+
     grammar_cnfs = []
     for gr in grammars:
         gr_cnf = re.sub("(.*)(\.txt)", "\g<1>_cnf.txt", gr)
         grammar_cnfs.append(gr_cnf)
         if (os.path.exists(f"{grammars_dir}{gr_cnf}") is True):
             continue
-        subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
+        subprocess.run(
+            f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
     for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
@@ -391,9 +420,12 @@ def test_scalefree():
             if (test_it == "n"):
                 continue
 
-            construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            construct_graph(graph, grammar, queries_dir,
+                            results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_edge_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_vertex_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
 
 
 def test_rdf():
@@ -403,9 +435,10 @@ def test_rdf():
     grammars_dir = graph_dir + GRAMMARS_DIR
     queries_dir = graph_dir + QUERIES_DIR
     results_dir = graph_dir + RESULTS_DIR
-    
+
     if (os.path.exists(matrices_dir) is False):
-        subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
+        subprocess.run(
+            f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
         subprocess.run(f"python3 {CFPQ_DATA_DIR}" + "init.py", shell=True)
 
     if (os.path.exists(queries_dir) is False):
@@ -413,15 +446,15 @@ def test_rdf():
 
     if (os.path.exists(results_dir) is False):
         subprocess.run(f"mkdir {results_dir}", shell=True)
-    
+
     graph_xmls = list(filter(
-        lambda x: re.fullmatch(".*\.xml", x) is not None, 
+        lambda x: re.fullmatch(".*\.xml", x) is not None,
         os.listdir(matrices_dir)))
 
     print(graph_xmls)
 
     grammars = list(filter(
-        lambda x: re.fullmatch(".*_cnf\.txt", x) is None, 
+        lambda x: re.fullmatch(".*_cnf\.txt", x) is None,
         os.listdir(grammars_dir)))
 
     graph_txts = []
@@ -430,15 +463,17 @@ def test_rdf():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
-    
+        subprocess.run(
+            f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
+
     grammar_cnfs = []
     for gr in grammars:
         gr_cnf = re.sub("(.*)(\.txt)", "\g<1>_cnf.txt", gr)
         grammar_cnfs.append(gr_cnf)
         if (os.path.exists(f"{grammars_dir}{gr_cnf}") is True):
             continue
-        subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
+        subprocess.run(
+            f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
     for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
@@ -455,9 +490,12 @@ def test_rdf():
             if (test_it == "n"):
                 continue
 
-            construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            construct_graph(graph, grammar, queries_dir,
+                            results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_edge_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_vertex_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
 
 
 def test_memoryaliases():
@@ -467,9 +505,10 @@ def test_memoryaliases():
     grammars_dir = graph_dir + GRAMMARS_DIR
     queries_dir = graph_dir + QUERIES_DIR
     results_dir = graph_dir + RESULTS_DIR
-    
+
     if (os.path.exists(matrices_dir) is False):
-        subprocess.run(f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
+        subprocess.run(
+            f"pip3 install -r {CFPQ_DATA_DIR}" + "requirements.txt", shell=True)
         subprocess.run(f"python3 {CFPQ_DATA_DIR}" + "init.py", shell=True)
 
     if (os.path.exists(queries_dir) is False):
@@ -477,15 +516,15 @@ def test_memoryaliases():
 
     if (os.path.exists(results_dir) is False):
         subprocess.run(f"mkdir {results_dir}", shell=True)
-    
+
     graph_xmls = list(filter(
-        lambda x: re.fullmatch(".*\.xml", x) is not None, 
+        lambda x: re.fullmatch(".*\.xml", x) is not None,
         os.listdir(matrices_dir)))
 
     print(graph_xmls)
 
     grammars = list(filter(
-        lambda x: re.fullmatch(".*_cnf\.txt", x) is None, 
+        lambda x: re.fullmatch(".*_cnf\.txt", x) is None,
         os.listdir(grammars_dir)))
 
     graph_txts = []
@@ -494,15 +533,17 @@ def test_memoryaliases():
         graph_txts.append(g_txt)
         if (os.path.exists(f"{matrices_dir}{g_txt}") is True):
             continue
-        subprocess.run(f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
-    
+        subprocess.run(
+            f"python3 {CONVERTER} {matrices_dir}{g} {graph_dir}convconfig", shell=True)
+
     grammar_cnfs = []
     for gr in grammars:
         gr_cnf = re.sub("(.*)(\.txt)", "\g<1>_cnf.txt", gr)
         grammar_cnfs.append(gr_cnf)
         if (os.path.exists(f"{grammars_dir}{gr_cnf}") is True):
             continue
-        subprocess.run(f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
+        subprocess.run(
+            f"python3 {GRAMMAR_TO_CNF} {grammars_dir}{gr} -o {grammars_dir}{gr_cnf}", shell=True)
 
     for g in sorted(graph_txts):
         g_name = re.sub("(.*)(\.txt)", "\g<1>", g)
@@ -519,9 +560,12 @@ def test_memoryaliases():
             if (test_it == "n"):
                 continue
 
-            construct_graph(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_edge_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
-            deconstruct_graph_by_vertex_deleting(graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            construct_graph(graph, grammar, queries_dir,
+                            results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_edge_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
+            deconstruct_graph_by_vertex_deleting(
+                graph, grammar, queries_dir, results_dir, f"{g_name}_{gr_name}")
 
 
 if __name__ == "__main__":
