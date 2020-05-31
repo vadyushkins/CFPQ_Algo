@@ -10,7 +10,7 @@ int PRINT_TIME = 0;
 
 void usage() {
     printf("Usage:\n");
-    printf("./main graph_file.txt grammar_file.txt queries_file.txt --no-time/--with-time/--total-time");
+    printf("./main {graph} {grammar} {queries} --no-time/--with-time/--total-time\n");
     exit(1);
 }
 
