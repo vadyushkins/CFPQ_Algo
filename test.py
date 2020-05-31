@@ -54,8 +54,10 @@ def init():
     
     if os.path.exists('deps/CFPQ_Data/data/FullGraph/Matrices') is False:
         log('Start initialize CFPQ_Data...')
-        sp.run(f'pip3 install -r {pwd}/deps/CFPQ_Data/requirements.txt', shell=True)
-        sp.run(f'cd {pwd}/deps/CFPQ_Data/ ; python3 {pwd}/deps/CFPQ_Data/init.py', shell=True)
+        sp.run('cd {pwd}/deps ; git clone https://github.com/viabzalov/CFPQ_Data.git', shell=True)
+        sp.run(f'cd {pwd}/deps/CFPQ_Data/ ; pip3 install -r requirements.txt', shell=True)
+        sp.run(f'cd {pwd}/deps/CFPQ_Data/ ; python3 init.py', shell=True)
+        sp.run('cd {pwd}', shell=True)
         log('Finish initialize CFPQ_Data...')
 
     for test in TESTS:

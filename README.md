@@ -13,7 +13,6 @@ make
 ```
 
 # Можно потестировать
-```python
-pip3 install -r requirements.txt
-python3 test.py
+```bash
+./run_tests.sh
 ```
