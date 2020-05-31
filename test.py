@@ -21,6 +21,11 @@ def log(s):
 def filename(path):
     return os.path.splitext(os.path.basename(path))[0]
 
+
+def filesize(path):
+    return int(sp.run(f'wc -l {path}', capture_output=True, shell=True).stdout.split()[0].decode('utf-8'))
+
+
 def init():
     log('Start building executables...')
 
@@ -62,17 +67,18 @@ def init():
     for test in TESTS:
         graphs = os.listdir(f'deps/CFPQ_Data/data/{test}/Matrices')
         for g in tqdm(graphs):
-            g_txt = re.sub('(.*)(\.(xml|owl|rdf))', '\g<1>.txt', g)
-            if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
-                log(f'Start adding graph {g} to input...')
-                sp.run(f'python3 deps/CFPQ_Data/tools/RDF_to_triple/converter.py deps/CFPQ_Data/data/{test}/Matrices/{g} deps/CFPQ_Data/data/{test}/convconfig', shell=True)
-                sp.run(f'mv deps/CFPQ_Data/data/{test}/Matrices/{g_txt} input/{test}/Graphs/{g_txt}', shell=True)
-                log(f'Finish adding graph {g} to input...')
+            if filesize(f'deps/CFPQ_Data/data/{test}/Matrices/{g}') <= int(2e6):
+                g_txt = re.sub('(.*)(\.(xml|owl|rdf))', '\g<1>.txt', g)
+                if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
+                    log(f'Start adding graph {g} to input...')
+                    sp.run(f'python3 deps/CFPQ_Data/tools/RDF_to_triple/converter.py deps/CFPQ_Data/data/{test}/Matrices/{g} deps/CFPQ_Data/data/{test}/convconfig', shell=True)
+                    sp.run(f'mv deps/CFPQ_Data/data/{test}/Matrices/{g_txt} input/{test}/Graphs/{g_txt}', shell=True)
+                    log(f'Finish adding graph {g} to input...')
 
-            construct_graph_queries(test, g_txt)
-            deconstruct_graph_queries(test, g_txt)
-            for p in [10, 25, 50, 75, 90]:
-                random_graph_queries(test, g_txt, p)
+                construct_graph_queries(test, g_txt)
+                deconstruct_graph_queries(test, g_txt)
+                for p in [10, 25, 50, 75, 90]:
+                    random_graph_queries(test, g_txt, p)
         
         grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
         for gr in tqdm(grammars):
