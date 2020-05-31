@@ -62,7 +62,7 @@ def init():
     for test in TESTS:
         graphs = os.listdir(f'deps/CFPQ_Data/data/{test}/Matrices')
         for g in tqdm(graphs):
-            g_txt = re.sub('(.*)(\.xml)', '\g<1>.txt', g)
+            g_txt = re.sub('(.*)(\.(xml|owl|rdf))', '\g<1>.txt', g)
             if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
                 log(f'Start adding graph {g} to input...')
                 sp.run(f'python3 deps/CFPQ_Data/tools/RDF_to_triple/converter.py deps/CFPQ_Data/data/{test}/Matrices/{g} deps/CFPQ_Data/data/{test}/convconfig', shell=True)
