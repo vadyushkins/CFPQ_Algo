@@ -163,7 +163,8 @@ def test_all():
                     gr_name = filename(gr)
                     for q in queries:
                         q_name = filename(q)
-                        fout.write(f'| {g_name} | {gr_name} | {q_name} | {get_time(test(g, gr, q))} |\n')
+                        time = get_time(test(g, gr, q))
+                        fout.write(f'| {g_name} | {gr_name} | {q_name} | {time} |\n')
                         
 
 if __name__ == '__main__':
