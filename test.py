@@ -24,7 +24,7 @@ def filename(path):
 def init():
     log('Start building executables...')
 
-    sp.run('make', shell=True)
+    sp.run('make JOBS=32', shell=True)
 
     log('Finish building executables...')
 
