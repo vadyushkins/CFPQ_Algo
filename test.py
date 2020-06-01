@@ -3,6 +3,7 @@ from tqdm import tqdm
 from glob import glob
 import subprocess as sp
 import random
+import sys
 import os
 import re
 
@@ -203,5 +204,6 @@ def test_all(tests):
                         
 
 if __name__ == '__main__':
-    init(TEST_GRAPHS)
-    test_all(TEST_GRAPHS)
+    test_graphs = list(map(str, sys.argv[1:]))
+    init(test_graphs)
+    test_all(test_graphs)
