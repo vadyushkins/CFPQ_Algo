@@ -383,3 +383,7 @@
 | pathways | brute_10 | 0.531194 |
 | pathways | brute_90 | 4.773677 |
 | pathways | smart_10 | 195.460918 |
+| pathways | smart_25 | 488.226989 |
+| pathways | smart_75 | 1463.049435 |
+| pathways | brute_75 | 3.980580 |
+| pathways | brute_25 | 1.332716 |
