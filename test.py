@@ -75,7 +75,7 @@ def init(tests):
     for test in tests:
         graphs = os.listdir(f'deps/CFPQ_Data/data/{test}/Matrices')
         for g in tqdm(graphs):
-            if filesize(f'deps/CFPQ_Data/data/{test}/Matrices/{g}') <= int(200000):
+            if filesize(f'deps/CFPQ_Data/data/{test}/Matrices/{g}') <= int(75000):
                 g_txt = re.sub('(.*)(\.(xml|owl|rdf))', '\g<1>.txt', g)
                 if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
                     log(f'Start adding graph {g} to input...')
