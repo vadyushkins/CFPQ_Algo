@@ -6,12 +6,18 @@ import random
 import os
 import re
 
-TESTS = [
+TEST_GRAPHS = [
     'FullGraph',
     'WorstCase',
     'SparseGraph',
     'ScaleFree',
     'RDF',
+]
+
+TEST_TYPES = [
+    'Construct',
+    'Deconstruct',
+    'Random',
 ]
 
 def log(s):
@@ -28,9 +34,7 @@ def filesize(path):
 
 def init(tests):
     log('Start building executables...')
-
     sp.run('make JOBS=32', shell=True)
-
     log('Finish building executables...')
 
     if os.path.exists('input') is False:
@@ -40,14 +44,14 @@ def init(tests):
     if os.path.exists('results') is False:
         log('Created results directory')
         os.mkdir('results')
+
+    if os.path.exists('Empty.txt') is False:
+        sp.run('touch Empty.txt', shell=True)
     
     for test in tests:
         if os.path.exists(f'input/{test}') is False:
             os.mkdir(f'input/{test}')
             log(f'Created input/{test} directory')
-
-            os.mkdir(f'results/{test}')
-            log(f'Created results/{test} directory')
 
             os.mkdir(f'input/{test}/Graphs')
             log(f'Created input/{test}/Graphs directory')
@@ -93,86 +97,111 @@ def init(tests):
 
 
 def construct_graph_queries(test, graph):
-    if os.path.exists(f'input/{test}/Queries/Construct') is False:
-        os.mkdir(f'input/{test}/Queries/Construct')
-        for type in ['brute', 'smart']:
-            with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
-                with open(f'input/{test}/Queries/Construct/{type}_{graph}', 'w') as fout:
-                    log(f'Start adding queries to input/{test}/Queries/Construct/{type}_{graph}...')
-                    for line in tqdm(fin):
-                        v, edge, to = line.split()
-                        fout.write(f'{type}-edge-add {v} {to} {edge}\n')
-                    log(f'Finish adding queries to input/{test}/Queries/Construct/{type}_{graph}...')
+    q_dir = f'input/{test}/Queries/{filename(graph)}/Construct/'
+    if os.path.exists(q_dir) is False:
+        os.makedirs(q_dir, exist_ok=True)
+    for type in ['brute', 'smart']:
+        with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
+            q_path = q_dir + f'{type}.txt'
+            with open(q_path, 'w') as fout:
+                log(f'Start adding queries to {q_path}...')
+                for line in tqdm(fin):
+                    v, edge, to = line.split()
+                    fout.write(f'{type}-edge-add {v} {to} {edge}\n')
+                log(f'Finish adding queries to {q_path}...')
 
 
 def deconstruct_graph_queries(test, graph):
-    if os.path.exists(f'input/{test}/Queries/Deconstruct') is False:
-        os.mkdir(f'input/{test}/Queries/Deconstruct')
-        for type in ['brute', 'smart']:
-            with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
-                with open(f'input/{test}/Queries/Deconstruct/{type}_{graph}', 'w') as fout:
-                    log(f'Start adding queries to input/{test}/Queries/Deconstruct/{type}_{graph}...')
-                    for line in tqdm(fin):
-                        v, edge, to = line.split()
-                        fout.write(f'{type}-edge-delete {v} {to} {edge}\n')
-                    log(f'Finish adding queries to input/{test}/Queries/Deconstruct/{type}_{graph}...')
+    q_dir = f'input/{test}/Queries/{filename(graph)}/Deconstruct/'
+    if os.path.exists(q_dir) is False:
+        os.makedirs(q_dir, exist_ok=True)
+    for type in ['brute', 'smart']:
+        with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
+            q_path = q_dir + f'{type}.txt'
+            with open(q_path, 'w') as fout:
+                log(f'Start adding queries to {q_path}...')
+                for line in tqdm(fin):
+                    v, edge, to = line.split()
+                    fout.write(f'{type}-edge-delete {v} {to} {edge}\n')
+                log(f'Finish adding queries to {q_path}...')
 
 
 def random_graph_queries(test, graph, percentage):
-    if os.path.exists(f'input/{test}/Queries/Random') is False:
-        os.mkdir(f'input/{test}/Queries/Random')
-        batch = []
-        for type in ['brute', 'smart']:
-            with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
-                with open(f'input/{test}/Queries/Random/{type}_{percentage}_{graph}', 'w') as fout:
-                    log(f'Start adding queries to input/{test}/Queries/Random/{type}_{percentage}_{graph}...')
-                    for line in tqdm(fin):
-                        v, edge, to = line.split()
-                        batch.append((v, edge, to))
-                        if len(batch) == 100:
-                            for (v, edge, to) in random.sample(batch, percentage):
-                                fout.write(f'{type}-edge-delete {v} {to} {edge}\n')
-                            batch.clear()
-                    log(f'Finish adding queries to input/{test}/Queries/Random/{type}_{percentage}_{graph}...')
+    q_dir = f'input/{test}/Queries/{filename(graph)}/Random/'
+    if os.path.exists(q_dir) is False:
+        os.makedirs(q_dir, exist_ok=True)
+    batch = []
+    for type in ['brute', 'smart']:
+        with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
+            q_path = q_dir + f'{type}_{percentage}.txt'
+            with open(q_path, 'w') as fout:
+                log(f'Start adding queries to {q_path}...')
+                for line in tqdm(fin):
+                    v, edge, to = line.split()
+                    batch.append((v, edge, to))
+                    if len(batch) == 100:
+                        for (v, edge, to) in random.sample(batch, percentage):
+                            fout.write(f'{type}-edge-delete {v} {to} {edge}\n')
+                        batch.clear()
+                log(f'Finish adding queries to {q_path}...')
 
 
-def test_graph(test, graph, grammar, queries):
+def test_one_graph(test, graph, grammar, queries):
     g_name = filename(graph)
     gr_name = filename(grammar)
     q_name = filename(queries)
-    results = f'results/{test}/{g_name}_{gr_name}_{q_name}.txt'
+    
+    results_path = 'results_tmp.txt'
+
     log(f'Start testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
-    sp.run(f'./main {graph} {grammar} {queries} --total-time > {results}', shell=True)
-    log(f'Finish testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
-    return results
+    
+    sp.run(f'./main {graph} {grammar} {queries} --total-time > {results_path}', shell=True)
 
-
-def get_time(results):
-    with open(results, 'r') as fin:
+    time = None
+    with open(results_path, 'r') as fin:
         for line in fin:
-            if re.fullmatch('(Total time:) (.*) s', line) is not None:
-                return re.sub('(Total time:) (.*) s', '\g<2>', line)
+            if re.fullmatch('(Total time:) (.*) s\n', line) is not None:
+                time = re.sub('(Total time:) (.*) s\n', '\g<2>', line)
+
+    log(f'Total time: {time} s')
+
+    os.remove(results_path)
+
+    log(f'Finish testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
+
+    return float(time)
+
 
 def test_all(tests):
-    for test in tests:
-        with open(f'results/{test}.md', 'w') as fout:
-            graphs = glob(f'input/{test}/Graphs/*')
-            grammars = glob(f'input/{test}/Grammars/*')
-            queries = glob(f'input/{test}/Queries/*/*')
+    for test_graph in tests:
+        with open(f'results/{test_graph}.md', 'w') as fout:
+            graphs = glob(f'input/{test_graph}/Graphs/*')
+            grammars = glob(f'input/{test_graph}/Grammars/*')
 
-            fout.write(f'| Graph | Grammar | Queries | Time (s) |\n')
-            fout.write(f'|:-----:|:-------:|:-------:|:--------:|\n')
+            fout.write(f'# {test_graph}\n\n')
             
-            for g in graphs:
-                g_name = filename(g)
-                for gr in grammars:
+            for gr in grammars:
+                for test_type in TEST_TYPES:
                     gr_name = filename(gr)
-                    for q in queries:
-                        q_name = filename(q)
-                        fout.write(f'| {g_name} | {gr_name} | {q_name} | {get_time(test_graph(test, g, gr, q))} |\n')
-                        fout.flush()
+                    fout.write(f'## Grammar: {gr_name}\n')
+                    fout.write(f'## Test type: {test_type}\n\n')
+                    fout.write(f'| Graph | Queries | Time (s) |\n')
+                    fout.write(f'|:-----:|:-------:|:--------:|\n')
+                    for g in graphs:
+                        g_name = filename(g)
+                        queries = glob(f'input/{test_graph}/Queries/{g_name}/{test_type}/*')
+                        for q in queries:
+                            q_name = filename(q)
+                            time = None
+                            if test_type == 'Construct':
+                                time = test_one_graph(test_graph, 'Empty.txt', gr, q)
+                            else:
+                                time = test_one_graph(test_graph, g, gr, q)
+                            fout.write(f'| {g_name} | {q_name} | {time} |\n')
+                            fout.flush()
+                    fout.write('\n')
                         
 
 if __name__ == '__main__':
-    init(['FullGraph'])
-    test_all(['FullGraph'])
+    init(TEST_GRAPHS)
+    test_all(TEST_GRAPHS)
