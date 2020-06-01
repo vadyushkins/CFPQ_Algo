@@ -170,7 +170,7 @@ def test_one_graph(test, graph, grammar, queries):
 
     log(f'Finish testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
 
-    return float(time)
+    return time
 
 
 def test_all(tests):
