@@ -220,3 +220,43 @@
 | wine | brute | 0.119136 |
 | wine | smart | 3.509823 |
 | pizza | brute | 0.124051 |
+| pizza | smart | 3.149445 |
+| generations | brute | 0.012243 |
+| generations | smart | 0.086762 |
+| travel | brute | 0.014316 |
+| travel | smart | 0.090593 |
+| skos | brute | 0.011937 |
+| skos | smart | 0.077133 |
+| pathways | brute | 3.204249 |
+| pathways | smart | 984.409769 |
+| core | brute | 0.199209 |
+| core | smart | 11.425747 |
+
+## Grammar: g1_cnf
+## Test type: Deconstruct
+
+| Graph | Queries | Time (s) |
+|:-----:|:-------:|:--------:|
+| biomedical-mesure-primitive | brute | 0.026532 |
+| biomedical-mesure-primitive | smart | 0.454032 |
+| foaf | brute | 0.032060 |
+| foaf | smart | 0.466889 |
+| atom-primitive | brute | 0.025610 |
+| atom-primitive | smart | 0.356722 |
+| univ-bench | brute | 0.014666 |
+| univ-bench | smart | 0.173490 |
+| funding | brute | 0.067330 |
+| funding | smart | 3.443315 |
+| people_pets | brute | 0.034611 |
+| people_pets | smart | 0.626575 |
+| wine | brute | 0.130331 |
+| wine | smart | 5.358978 |
+| pizza | brute | 0.131591 |
+| pizza | smart | 4.960653 |
+| generations | brute | 0.011875 |
+| generations | smart | 0.137598 |
+| travel | brute | 0.013440 |
+| travel | smart | 0.145085 |
+| skos | brute | 0.011098 |
+| skos | smart | 0.133588 |
+| pathways | brute | 5.547501 |
