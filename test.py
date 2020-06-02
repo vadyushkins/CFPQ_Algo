@@ -136,10 +136,14 @@ def test_one_graph(test, graph, grammar, queries):
     sp.run(f'./main {graph} {grammar} {queries} --total-time > {results_path}', shell=True)
 
     time = None
+    multiplications = 0
     with open(results_path, 'r') as fin:
         for line in fin:
             if re.fullmatch('(Total time:) (.*) s\n', line) is not None:
                 time = re.sub('(Total time:) (.*) s\n', '\g<2>', line)
+            if re.fullmatch('(Iteration count:) (.*)\n', line) is not None:
+                tmp = re.sub('(Iteration count:) (.*)\n', '\g<2>', line)
+                multiplications += int(tmp)
 
     log(f'Total time: {time} s')
 
@@ -147,7 +151,7 @@ def test_one_graph(test, graph, grammar, queries):
 
     log(f'Finish testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
 
-    return time
+    return (time, multiplications)
 
 
 def test_all(tests):
@@ -163,8 +167,8 @@ def test_all(tests):
                     gr_name = filename(gr)
                     fout.write(f'## Grammar: {gr_name}\n')
                     fout.write(f'## Test type: {test_type}\n\n')
-                    fout.write(f'| Graph | Queries | Time (s) |\n')
-                    fout.write(f'|:-----:|:-------:|:--------:|\n')
+                    fout.write(f'| Graph | Queries | Matrix Multiplication Amount | Time (s) |\n')
+                    fout.write(f'|:-----:|:-------:|:----------------------------:|:--------:|\n')
                     for g in sorted(graphs):
                         g_name = filename(g)
                         queries = glob(f'input/{test_graph}/Queries/{g_name}/{test_type}/*')
@@ -173,11 +177,12 @@ def test_all(tests):
                                 q_name = filename(q)
                                 if q_name.startswith(type):
                                     time = None
+                                    mul = None
                                     if test_type == 'Construct':
-                                        time = test_one_graph(test_graph, 'Empty.txt', gr, q)
+                                        (time, mul) = test_one_graph(test_graph, 'Empty.txt', gr, q)
                                     else:
-                                        time = test_one_graph(test_graph, g, gr, q)
-                                    fout.write(f'| {g_name} | {q_name} | {time} |\n')
+                                        (time, mul) = test_one_graph(test_graph, g, gr, q)
+                                    fout.write(f'| {g_name} | {q_name} | {mul} | {time} |\n')
                                     fout.flush()
                     fout.write('\n')
                         
