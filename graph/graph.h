@@ -20,8 +20,8 @@ typedef struct {
 typedef struct {
     GrB_Matrix terminal_matrices[MAX_GRAMMAR_TERMINALS];
 
-    VerticesMapper edges;
-    EdgesMapper nodes;
+    EdgesMapper edges;
+    VerticesMapper nodes;
 } GraphRepr;
 
 void GraphRepr_Init(const GraphRepr* graph);
