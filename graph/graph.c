@@ -17,14 +17,6 @@ void GraphRepr_InsertEdge(const GraphRepr* graph, const char* v, const char* edg
     assert(v_id != MAX_GRAPH_SIZE && to_id != MAX_GRAPH_SIZE && edge_id != MAX_GRAMMAR_TERMINALS);
 
     GrB_Matrix_setElement_BOOL(graph->terminal_matrices[edge_id], true, v_id, to_id);
-
-    #ifdef DEBUG
-        printf("%s: v = %s %ld\n", __func__, v, v_id);
-        printf("%s: edge = %s %ld\n", __func__, edge, edge_id);
-        printf("%s: to = %s %ld\n", __func__, to, to_id);
-        printf("%s: graph->nodes.count= %ld\n", __func__, graph->nodes.count);
-        printf("%s: graph->nodes.count= %ld\n", __func__, graph->edges.count);
-    #endif
 }
 
 void GraphRepr_DeleteEdge(const GraphRepr* graph, const char* v, const char* edge, const char* to) {
@@ -50,7 +42,7 @@ void GraphRepr_Load(const GraphRepr* graph, FILE* f) {
     while (getline(&line_buf, &buf_size, f) != -1) {
         line_buf[strcspn(line_buf, "\n")] = 0;
 
-        char v[MAX_ITEM_NAME_LEN], edge[MAX_ITEM_NAME_LEN], to[MAX_ITEM_NAME_LEN];
+        char v[MAX_VERTEX_NAME_LEN], edge[MAX_EDGE_NAME_LEN], to[MAX_VERTEX_NAME_LEN];
         int nitems = sscanf(line_buf, "%s %s %s", v, edge, to);
         assert(nitems == 3);
 

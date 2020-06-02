@@ -15,8 +15,8 @@ int Grammar_Load(Grammar* grammar, FILE* f) {
     size_t buf_size = 0;
     size_t ptr = 0;
 
-    char nonterm[MAX_ITEM_NAME_LEN];
-    char term[MAX_ITEM_NAME_LEN];
+    char nonterm[MAX_EDGE_NAME_LEN];
+    char term[MAX_EDGE_NAME_LEN];
 
     getline(&buf, &buf_size, f);
     while (sscanf(buf + ptr, "%s", nonterm) == 1) {
@@ -35,7 +35,7 @@ int Grammar_Load(Grammar* grammar, FILE* f) {
     while (getline(&buf, &buf_size, f) != -1) {
         buf[strcspn(buf, "\n")] = 0;
 
-        char l[MAX_ITEM_NAME_LEN], r1[MAX_ITEM_NAME_LEN], r2[MAX_ITEM_NAME_LEN];
+        char l[MAX_EDGE_NAME_LEN], r1[MAX_EDGE_NAME_LEN], r2[MAX_EDGE_NAME_LEN];
         int nitems = sscanf(buf, "%s %s %s", l, r1, r2);
 
         if (nitems == 2) {

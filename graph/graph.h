@@ -9,14 +9,19 @@
 
 typedef struct {
     GrB_Index count;
-    char items[MAX_GRAPH_SIZE][MAX_ITEM_NAME_LEN];
-} EntryMapper;
+    char items[MAX_GRAPH_SIZE][MAX_VERTEX_NAME_LEN];
+} VerticesMapper;
+
+typedef struct {
+    GrB_Index count;
+    char items[MAX_GRAMMAR_TERMINALS][MAX_EDGE_NAME_LEN];
+} EdgesMapper;
 
 typedef struct {
     GrB_Matrix terminal_matrices[MAX_GRAMMAR_TERMINALS];
 
-    EntryMapper edges;
-    EntryMapper nodes;
+    VerticesMapper edges;
+    EdgesMapper nodes;
 } GraphRepr;
 
 void GraphRepr_Init(const GraphRepr* graph);

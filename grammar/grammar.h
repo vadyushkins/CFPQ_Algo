@@ -9,12 +9,12 @@
 
 typedef struct {
     GrB_Index count;
-    char items[MAX_GRAMMAR_NONTERMINALS][MAX_ITEM_NAME_LEN];
+    char items[MAX_GRAMMAR_NONTERMINALS][MAX_EDGE_NAME_LEN];
 } NontermMapper;
 
 typedef struct {
     GrB_Index count;
-    char items[MAX_GRAMMAR_TERMINALS][MAX_ITEM_NAME_LEN];
+    char items[MAX_GRAMMAR_TERMINALS][MAX_EDGE_NAME_LEN];
 } TermMapper;
 
 typedef struct {

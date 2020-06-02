@@ -17,12 +17,6 @@ void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* respo
 
 // Brute Dynamic CFPQ Algorithms
 
-void cfpq_brute_vertex_add(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v);
-
-void cfpq_brute_edge_add(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to);
-
-void cfpq_brute_edge_delete(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to);
-
 void cfpq_brute_vertex_delete(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v);
 
 // Smarter Dynamic CFPQ Algorithms
@@ -34,11 +28,5 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
 void cfpq_dynamic(const GraphRepr* graph, const Grammar* grammar, Response* response, const GraphRepr* addition, const GraphRepr* deletion);
 
 // Atomic Dynamic CFPQ Operations
-
-void cfpq_vertex_add(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v);
-
-void cfpq_edge_add(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to);
-
-void cfpq_edge_delete(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to);
 
 void cfpq_vertex_delete(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v);

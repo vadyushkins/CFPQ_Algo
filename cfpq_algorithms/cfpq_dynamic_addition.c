@@ -1,20 +1,6 @@
 #include "algorithms.h"
 
 void cfpq_dynamic_addition(const GraphRepr* graph, const Grammar* grammar, Response* response, const GraphRepr* addition) {
-    for (GrB_Index i = 0; i < addition->nodes.count; ++i) {
-        ItemMapper_Insert(
-            (ItemMapper*) &graph->nodes, 
-            ItemMapper_Map((ItemMapper*) &addition->nodes, i)
-        );
-    }
-
-    for (GrB_Index i = 0; i < addition->edges.count; ++i) {
-        ItemMapper_Insert(
-            (ItemMapper*) &graph->edges, 
-            ItemMapper_Map((ItemMapper*) &addition->edges, i)
-        );
-    }
-
     for (GrB_Index i = 0; i < addition->edges.count; ++i) {
         const char* terminal = addition->edges.items[i];
 
@@ -37,6 +23,11 @@ void cfpq_dynamic_addition(const GraphRepr* graph, const Grammar* grammar, Respo
             }
         }
     }
+
+    // Initialize descriptor
+    GrB_Descriptor d = NULL ;
+    GrB_Descriptor_new(&d);
+    GxB_set(d, GxB_AxB_METHOD, GxB_AxB_HEAP);
 
     response->iteration_count = 0;
 
@@ -62,7 +53,7 @@ void cfpq_dynamic_addition(const GraphRepr* graph, const Grammar* grammar, Respo
                 GxB_LOR_LAND_BOOL,
                 response->nonterminal_matrices[nonterm2], 
                 response->nonterminal_matrices[nonterm3], 
-                GrB_NULL
+                d
             );
 
             GrB_Index nvals_new, nvals_old;

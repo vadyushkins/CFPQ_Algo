@@ -1,20 +1,6 @@
 #include "algorithms.h"
 
 void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Response* response, const GraphRepr* deletion) {
-    for (GrB_Index i = 0; i < deletion->nodes.count; ++i) {
-        ItemMapper_Insert(
-            (ItemMapper*) &graph->nodes, 
-            ItemMapper_Map((ItemMapper*) &deletion->nodes, i)
-        );
-    }
-
-    for (GrB_Index i = 0; i < deletion->edges.count; ++i) {
-        ItemMapper_Insert(
-            (ItemMapper*) &graph->edges, 
-            ItemMapper_Map((ItemMapper*) &deletion->edges, i)
-        );
-    }
-    
     // Create del matrices
     GrB_Matrix del_matrices[response->nonterminals_count];
 
@@ -46,6 +32,11 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
         }
     }
 
+    // Initialize descriptor
+    GrB_Descriptor d = NULL ;
+    GrB_Descriptor_new(&d);
+    GxB_set(d, GxB_AxB_METHOD, GxB_AxB_HEAP);
+
     response->iteration_count = 0;
 
     // Algorithm's body
@@ -70,7 +61,7 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
                 GxB_LOR_LAND_BOOL,
                 response->nonterminal_matrices[nonterm2], 
                 del_matrices[nonterm3], 
-                GrB_NULL
+                d
             );
 
             GrB_mxm(
@@ -80,7 +71,7 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
                 GxB_LOR_LAND_BOOL,
                 del_matrices[nonterm2], 
                 response->nonterminal_matrices[nonterm3], 
-                GrB_NULL
+                d
             );
 
             GrB_Index nvals_new, nvals_old;
@@ -103,7 +94,7 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
             GrB_MINUS_BOOL, 
             response->nonterminal_matrices[i], 
             del_matrices[i], 
-            GrB_NULL
+            d
         );
     }
 
@@ -128,7 +119,7 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
                 GxB_LOR_LAND_BOOL,
                 response->nonterminal_matrices[nonterm2], 
                 response->nonterminal_matrices[nonterm3], 
-                GrB_NULL
+                d
             );
 
             GrB_Index nvals_new, nvals_old;

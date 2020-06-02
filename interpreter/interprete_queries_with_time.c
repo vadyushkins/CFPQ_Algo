@@ -3,7 +3,9 @@
 void interprete_queries_with_time(
     const GraphRepr* graph, 
     const Grammar* grammar, 
-    Response* response, 
+    Response* response,
+    const GraphRepr* addition,
+    const GraphRepr* deletion, 
     FILE* f
 ) {
     char* line_buf;
@@ -23,14 +25,14 @@ void interprete_queries_with_time(
             if (strcmp(type, "brute-vertex-add") == 0) {
                 double timer[2];
                 simple_tic(timer);
-                cfpq_brute_vertex_add(graph, grammar, response, v);
+                ItemMapper_Insert((ItemMapper*) &graph->nodes, v);
                 double time_query = simple_toc(timer);
                 summary += time_query;
                 printf("%s: %s, time= %lf s\n", type, v, time_query);
             } else if (strcmp(type, "smart-vertex-add") == 0) {
                 double timer[2];
                 simple_tic(timer);
-                cfpq_vertex_add(graph, grammar, response, v);
+                ItemMapper_Insert((ItemMapper*) &graph->nodes, v);
                 double time_query = simple_toc(timer);
                 summary += time_query;
                 printf("%s: %s, time= %lf s\n", type, v, time_query);
@@ -56,13 +58,6 @@ void interprete_queries_with_time(
 
                 bool result = false;
 
-                #ifdef DEBUG
-                    printf("%s: v = %s %ld\n", __func__, v, v_id);
-                    printf("%s: to = %s %ld\n", __func__, to, to_id);
-                    printf("%s: graph->nodes.count= %ld\n", __func__, graph->nodes.count);
-                    printf("%s: graph->nodes.count= %ld\n", __func__, graph->edges.count);
-                #endif
-
                 double timer[2];
                 simple_tic(timer);
                 GrB_Matrix_extractElement_BOOL(&result, response->nonterminal_matrices[0], v_id, to_id);
@@ -72,31 +67,39 @@ void interprete_queries_with_time(
             }
         } else if (nitems == 4) {
             if (strcmp(type, "brute-edge-add") == 0) {
+                GraphRepr_InsertEdge(graph, v, edge, to);
                 double timer[2];
                 simple_tic(timer);
-                cfpq_brute_edge_add(graph, grammar, response, v, edge, to);
+                cfpq_static(graph, grammar, response);
                 double time_query = simple_toc(timer);
                 summary += time_query;
                 printf("%s: %s %s %s, time= %lf s\n", type, v, edge, to, time_query);
             } else if (strcmp(type, "smart-edge-add") == 0) {
+                GraphRepr_InsertEdge(addition, v, edge, to);
+                GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->edges, edge);
                 double timer[2];
                 simple_tic(timer);
-                cfpq_edge_add(graph, grammar, response, v, edge, to);
+                cfpq_dynamic_addition(graph, grammar, response, addition);
                 double time_query = simple_toc(timer);
+                GrB_Matrix_clear(addition->terminal_matrices[edge_id]);
                 summary += time_query;
                 printf("%s: %s %s %s, time= %lf s\n", type, v, edge, to, time_query);
             } else if (strcmp(type, "brute-edge-delete") == 0) {
+                GraphRepr_DeleteEdge(graph, v, edge, to);
                 double timer[2];
                 simple_tic(timer);
-                cfpq_brute_edge_delete(graph, grammar, response, v, edge, to);
+                cfpq_static(graph, grammar, response);
                 double time_query = simple_toc(timer);
                 summary += time_query;
                 printf("%s: %s %s %s, time= %lf s\n", type, v, edge, to, time_query);
             } else if (strcmp(type, "smart-edge-delete") == 0) {
+                GraphRepr_InsertEdge(deletion, v, edge, to);
+                GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->edges, edge);
                 double timer[2];
                 simple_tic(timer);
-                cfpq_edge_delete(graph, grammar, response, v, edge, to);
+                cfpq_dynamic_deletion(graph, grammar, response, deletion);
                 double time_query = simple_toc(timer);
+                GrB_Matrix_clear(deletion->terminal_matrices[edge_id]);
                 summary += time_query;
                 printf("%s: %s %s %s, time= %lf s\n", type, v, edge, to, time_query);
             }

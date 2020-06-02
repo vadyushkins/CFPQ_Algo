@@ -3,11 +3,15 @@
 void interprete_queries_without_time(
     const GraphRepr* graph, 
     const Grammar* grammar, 
-    Response* response, 
+    Response* response,
+    const GraphRepr* addition,
+    const GraphRepr* deletion, 
     FILE* f
 ) {
     char* line_buf;
     size_t buf_size = 0;
+
+    double summary = 0;
 
     while (getline(&line_buf, &buf_size, f) != -1) {
         line_buf[strcspn(line_buf, "\n")] = 0;
@@ -19,9 +23,9 @@ void interprete_queries_without_time(
 
         if (nitems == 2) {
             if (strcmp(type, "brute-vertex-add") == 0) {
-                cfpq_brute_vertex_add(graph, grammar, response, v);
+                ItemMapper_Insert((ItemMapper*) &graph->nodes, v);
             } else if (strcmp(type, "smart-vertex-add") == 0) {
-                cfpq_vertex_add(graph, grammar, response, v);
+                ItemMapper_Insert((ItemMapper*) &graph->nodes, v);
             } else if (strcmp(type, "brute-vertex-delete") == 0) {
                 cfpq_brute_vertex_delete(graph, grammar, response, v);
             } else if (strcmp(type, "smart-vertex-delete") == 0) {
@@ -34,25 +38,27 @@ void interprete_queries_without_time(
 
                 bool result = false;
 
-                #ifdef DEBUG
-                    printf("%s: v = %s %ld\n", __func__, v, v_id);
-                    printf("%s: to = %s %ld\n", __func__, to, to_id);
-                    printf("%s: graph->nodes.count= %ld\n", __func__, graph->nodes.count);
-                    printf("%s: graph->nodes.count= %ld\n", __func__, graph->edges.count);
-                #endif
-
                 GrB_Matrix_extractElement_BOOL(&result, response->nonterminal_matrices[0], v_id, to_id);
             }
         } else if (nitems == 4) {
             if (strcmp(type, "brute-edge-add") == 0) {
-                cfpq_brute_edge_add(graph, grammar, response, v, edge, to);
+                GraphRepr_InsertEdge(graph, v, edge, to);
+                cfpq_static(graph, grammar, response);
             } else if (strcmp(type, "smart-edge-add") == 0) {
-                cfpq_edge_add(graph, grammar, response, v, edge, to);
+                GraphRepr_InsertEdge(addition, v, edge, to);
+                GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->edges, edge);
+                cfpq_dynamic_addition(graph, grammar, response, addition);
+                GrB_Matrix_clear(addition->terminal_matrices[edge_id]);
             } else if (strcmp(type, "brute-edge-delete") == 0) {
-                cfpq_brute_edge_delete(graph, grammar, response, v, edge, to);
+                GraphRepr_DeleteEdge(graph, v, edge, to);
+                cfpq_static(graph, grammar, response);
             } else if (strcmp(type, "smart-edge-delete") == 0) {
-                cfpq_edge_delete(graph, grammar, response, v, edge, to);
+                GraphRepr_InsertEdge(deletion, v, edge, to);
+                GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->edges, edge);
+                cfpq_dynamic_deletion(graph, grammar, response, deletion);
+                GrB_Matrix_clear(deletion->terminal_matrices[edge_id]);
             }
         }
     }
+    printf("Summary time= %lf\n", summary);
 }
