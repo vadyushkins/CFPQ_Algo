@@ -387,3 +387,16 @@
 | pathways | smart_75 | 1463.049435 |
 | pathways | brute_75 | 3.980580 |
 | pathways | brute_25 | 1.332716 |
+| pathways | smart_90 | 1753.099230 |
+| pathways | smart_50 | 986.899057 |
+| core | brute_50 | 0.112655 |
+| core | brute_10 | 0.024182 |
+| core | brute_90 | 0.199829 |
+| core | smart_10 | 2.262791 |
+| core | smart_25 | 5.657156 |
+| core | smart_75 | 16.741206 |
+| core | brute_75 | 0.167156 |
+| core | brute_25 | 0.056403 |
+| core | smart_90 | 20.311153 |
+| core | smart_50 | 11.282214 |
+
