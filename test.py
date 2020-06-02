@@ -18,7 +18,6 @@ TEST_GRAPHS = [
 TEST_TYPES = [
     'Construct',
     'Deconstruct',
-    'Random',
 ]
 
 def log(s):
@@ -85,8 +84,6 @@ def init(tests):
 
                 construct_graph_queries(test, g_txt)
                 deconstruct_graph_queries(test, g_txt)
-                for p in [10, 25, 50]:
-                    random_graph_queries(test, g_txt, p)
         
         grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
         for gr in tqdm(grammars):
@@ -124,26 +121,6 @@ def deconstruct_graph_queries(test, graph):
                 for line in tqdm(fin):
                     v, edge, to = line.split()
                     fout.write(f'{type}-edge-delete {v} {to} {edge}\n')
-                log(f'Finish adding queries to {q_path}...')
-
-
-def random_graph_queries(test, graph, percentage):
-    q_dir = f'input/{test}/Queries/{filename(graph)}/Random/'
-    if os.path.exists(q_dir) is False:
-        os.makedirs(q_dir, exist_ok=True)
-    batch = []
-    for type in ['brute', 'smart']:
-        with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
-            q_path = q_dir + f'{type}_{percentage}percent.txt'
-            with open(q_path, 'w') as fout:
-                log(f'Start adding queries to {q_path}...')
-                for line in tqdm(fin):
-                    v, edge, to = line.split()
-                    batch.append((v, edge, to))
-                    if len(batch) == 100:
-                        for (v, edge, to) in random.sample(batch, percentage):
-                            fout.write(f'{type}-edge-delete {v} {to} {edge}\n')
-                        batch.clear()
                 log(f'Finish adding queries to {q_path}...')
 
 

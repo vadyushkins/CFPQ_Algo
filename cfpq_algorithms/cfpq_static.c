@@ -23,10 +23,11 @@ void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* respo
         }
     }
 
+    response->iteration_count = 0;
+
     // Algorithm's body
     bool matrices_is_changed = true;
     while(matrices_is_changed) {
-        ++response->iteration_count;
 
         matrices_is_changed = false;
 
@@ -48,6 +49,8 @@ void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* respo
                 GrB_NULL
             );
 
+            response->iteration_count += 1;
+
             GrB_Index nvals_new, nvals_old;
             GrB_Matrix_nvals(&nvals_new, response->nonterminal_matrices[nonterm1]);
             GrB_Matrix_nvals(&nvals_old, m_old);
@@ -59,4 +62,6 @@ void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* respo
             GrB_free(&m_old);
         }
     }
+
+    printf("Iteration count: %ld\n", response->iteration_count);
 }

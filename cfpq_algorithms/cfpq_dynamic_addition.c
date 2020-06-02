@@ -24,11 +24,6 @@ void cfpq_dynamic_addition(const GraphRepr* graph, const Grammar* grammar, Respo
         }
     }
 
-    // Initialize descriptor
-    GrB_Descriptor d = NULL ;
-    GrB_Descriptor_new(&d);
-    GxB_set(d, GxB_AxB_METHOD, GxB_AxB_DOT);
-
     response->iteration_count = 0;
 
     // Algorithm's body
@@ -53,7 +48,7 @@ void cfpq_dynamic_addition(const GraphRepr* graph, const Grammar* grammar, Respo
                 GxB_LOR_LAND_BOOL,
                 response->nonterminal_matrices[nonterm2], 
                 response->nonterminal_matrices[nonterm3], 
-                d
+                GrB_NULL
             );
 
             GrB_Index nvals_new, nvals_old;

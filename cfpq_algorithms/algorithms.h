@@ -9,6 +9,7 @@
 #include "../response/response.h"
 #include "../mapper/mapper.h"
 #include "../config/config.h"
+#include "../timer/simple_timer.h"
 
 // Standard CFPQ Algorithms
 
@@ -30,3 +31,5 @@ void cfpq_dynamic(const GraphRepr* graph, const Grammar* grammar, Response* resp
 // Atomic Dynamic CFPQ Operations
 
 void cfpq_vertex_delete(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v);
+
+void cfpq_edge_added(const GraphRepr* graph, const Grammar* grammar, Response* response);

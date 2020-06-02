@@ -79,7 +79,7 @@ void interprete_queries_with_time(
                 GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->edges, edge);
                 double timer[2];
                 simple_tic(timer);
-                cfpq_dynamic_addition(graph, grammar, response, addition);
+                cfpq_edge_added(graph, grammar, response);
                 double time_query = simple_toc(timer);
                 GrB_Matrix_clear(addition->terminal_matrices[edge_id]);
                 summary += time_query;
@@ -105,5 +105,5 @@ void interprete_queries_with_time(
             }
         }
     }
-    printf("Summary time= %lf\n", summary);
+    printf("Total time: %lf s\n", summary);
 }

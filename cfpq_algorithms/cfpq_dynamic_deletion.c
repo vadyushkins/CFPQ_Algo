@@ -32,17 +32,11 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
         }
     }
 
-    // Initialize descriptor
-    GrB_Descriptor d = NULL ;
-    GrB_Descriptor_new(&d);
-    GxB_set(d, GxB_AxB_METHOD, GxB_AxB_DOT);
-
     response->iteration_count = 0;
 
     // Algorithm's body
     bool matrices_is_changed = true;
-    while(matrices_is_changed) {
-        ++response->iteration_count;
+    while(matrices_is_changed) {    
 
         matrices_is_changed = false;
 
@@ -61,7 +55,7 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
                 GxB_LOR_LAND_BOOL,
                 response->nonterminal_matrices[nonterm2], 
                 del_matrices[nonterm3], 
-                d
+                GrB_NULL
             );
 
             GrB_mxm(
@@ -71,8 +65,10 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
                 GxB_LOR_LAND_BOOL,
                 del_matrices[nonterm2], 
                 response->nonterminal_matrices[nonterm3], 
-                d
+                GrB_NULL
             );
+
+            response->iteration_count += 2;
 
             GrB_Index nvals_new, nvals_old;
             GrB_Matrix_nvals(&nvals_new, del_matrices[nonterm1]);
@@ -94,7 +90,7 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
             GrB_MINUS_BOOL, 
             response->nonterminal_matrices[i], 
             del_matrices[i], 
-            d
+            GrB_NULL
         );
     }
 
@@ -119,8 +115,10 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
                 GxB_LOR_LAND_BOOL,
                 response->nonterminal_matrices[nonterm2], 
                 response->nonterminal_matrices[nonterm3], 
-                d
+                GrB_NULL
             );
+
+            response->iteration_count += 1;
 
             GrB_Index nvals_new, nvals_old;
             GrB_Matrix_nvals(&nvals_new, response->nonterminal_matrices[nonterm1]);
@@ -133,4 +131,6 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
             GrB_free(&m_old);
         }
     }
+
+    printf("Iteration count: %ld\n", response->iteration_count);
 }

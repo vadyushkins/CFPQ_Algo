@@ -105,7 +105,6 @@ int main(int argc, char* argv[]) {
         simple_tic(timer);
         interprete_queries_with_time(&graph, &grammar, &response, &addition, &deletion, f);
         time_query = simple_toc(timer);
-        printf("Total time: %lf s\n", time_query);
     } else if (PRINT_TIME == 2) {
         double timer[2];
         simple_tic(timer);
@@ -116,7 +115,6 @@ int main(int argc, char* argv[]) {
         simple_tic(timer);
         interprete_queries_without_time(&graph, &grammar, &response, &addition, &deletion, f);
         time_query = simple_toc(timer);
-        printf("Total time: %lf s\n", time_query);
     }
 
     fclose(f);
