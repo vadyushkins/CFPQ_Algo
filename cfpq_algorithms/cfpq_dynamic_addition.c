@@ -27,7 +27,7 @@ void cfpq_dynamic_addition(const GraphRepr* graph, const Grammar* grammar, Respo
     // Initialize descriptor
     GrB_Descriptor d = NULL ;
     GrB_Descriptor_new(&d);
-    GxB_set(d, GxB_AxB_METHOD, GxB_AxB_HEAP);
+    GxB_set(d, GxB_AxB_METHOD, GxB_AxB_DOT);
 
     response->iteration_count = 0;
 
