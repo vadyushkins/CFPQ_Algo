@@ -85,7 +85,7 @@ def init(tests):
 
                 construct_graph_queries(test, g_txt)
                 deconstruct_graph_queries(test, g_txt)
-                for p in [10, 25, 50, 75, 90]:
+                for p in [10, 25, 50]:
                     random_graph_queries(test, g_txt, p)
         
         grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
@@ -134,7 +134,7 @@ def random_graph_queries(test, graph, percentage):
     batch = []
     for type in ['brute', 'smart']:
         with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
-            q_path = q_dir + f'{type}_{percentage}.txt'
+            q_path = q_dir + f'{type}_{percentage}percent.txt'
             with open(q_path, 'w') as fout:
                 log(f'Start adding queries to {q_path}...')
                 for line in tqdm(fin):
@@ -191,15 +191,17 @@ def test_all(tests):
                     for g in graphs:
                         g_name = filename(g)
                         queries = glob(f'input/{test_graph}/Queries/{g_name}/{test_type}/*')
-                        for q in queries:
-                            q_name = filename(q)
-                            time = None
-                            if test_type == 'Construct':
-                                time = test_one_graph(test_graph, 'Empty.txt', gr, q)
-                            else:
-                                time = test_one_graph(test_graph, g, gr, q)
-                            fout.write(f'| {g_name} | {q_name} | {time} |\n')
-                            fout.flush()
+                        for type in ['brute', 'smart']:
+                            for q in queries:
+                                q_name = filename(q)
+                                if q_name.startswith(type):
+                                    time = None
+                                    if test_type == 'Construct':
+                                        time = test_one_graph(test_graph, 'Empty.txt', gr, q)
+                                    else:
+                                        time = test_one_graph(test_graph, g, gr, q)
+                                    fout.write(f'| {g_name} | {q_name} | {time} |\n')
+                                    fout.flush()
                     fout.write('\n')
                         
 
