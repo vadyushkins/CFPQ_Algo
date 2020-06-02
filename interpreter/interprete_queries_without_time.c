@@ -4,8 +4,6 @@ void interprete_queries_without_time(
     const GraphRepr* graph, 
     const Grammar* grammar, 
     Response* response,
-    const GraphRepr* addition,
-    const GraphRepr* deletion, 
     FILE* f
 ) {
     char* line_buf;
@@ -69,13 +67,11 @@ void interprete_queries_without_time(
                 double time_query = simple_toc(timer);
                 summary += time_query;
             } else if (strcmp(type, "smart-edge-add") == 0) {
-                GraphRepr_InsertEdge(addition, v, edge, to);
-                GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->edges, edge);
+                GraphRepr_InsertEdge(graph, v, edge, to);
                 double timer[2];
                 simple_tic(timer);
                 cfpq_edge_added(graph, grammar, response);
                 double time_query = simple_toc(timer);
-                GrB_Matrix_clear(addition->terminal_matrices[edge_id]);
                 summary += time_query;
             } else if (strcmp(type, "brute-edge-delete") == 0) {
                 GraphRepr_DeleteEdge(graph, v, edge, to);
@@ -85,13 +81,15 @@ void interprete_queries_without_time(
                 double time_query = simple_toc(timer);
                 summary += time_query;
             } else if (strcmp(type, "smart-edge-delete") == 0) {
-                GraphRepr_InsertEdge(deletion, v, edge, to);
+                GraphRepr_DeleteEdge(graph, v, edge, to);
+                GrB_Index v_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->nodes, v);
+                GrB_Index to_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->nodes, to);
                 GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->edges, edge);
+
                 double timer[2];
                 simple_tic(timer);
-                cfpq_dynamic_deletion(graph, grammar, response, deletion);
+                cfpq_edge_deleted(graph, grammar, response, v_id, edge_id, to_id);
                 double time_query = simple_toc(timer);
-                GrB_Matrix_clear(deletion->terminal_matrices[edge_id]);
                 summary += time_query;
             }
         }

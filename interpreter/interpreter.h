@@ -16,9 +16,7 @@
 void interprete_queries_with_time(
     const GraphRepr* graph, 
     const Grammar* grammar, 
-    Response* response,
-    const GraphRepr* addition, 
-    const GraphRepr* deletion, 
+    Response* response, 
     FILE* f
 );
 
@@ -26,7 +24,5 @@ void interprete_queries_without_time(
     const GraphRepr* graph, 
     const Grammar* grammar, 
     Response* response, 
-    const GraphRepr* addition, 
-    const GraphRepr* deletion,
     FILE* f
 );

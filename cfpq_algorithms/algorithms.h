@@ -20,16 +20,10 @@ void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* respo
 
 void cfpq_brute_vertex_delete(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v);
 
-// Smarter Dynamic CFPQ Algorithms
-
-void cfpq_dynamic_addition(const GraphRepr* graph, const Grammar* grammar, Response* response, const GraphRepr* addition);
-
-void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Response* response, const GraphRepr* deletion);
-
-void cfpq_dynamic(const GraphRepr* graph, const Grammar* grammar, Response* response, const GraphRepr* addition, const GraphRepr* deletion);
-
 // Atomic Dynamic CFPQ Operations
 
 void cfpq_vertex_delete(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v);
 
 void cfpq_edge_added(const GraphRepr* graph, const Grammar* grammar, Response* response);
+
+void cfpq_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Response* response, const GrB_Index v_id, const GrB_Index edge_id, const GrB_Index to_id);

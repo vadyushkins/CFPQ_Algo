@@ -1,6 +1,6 @@
 #include "algorithms.h"
 
-void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Response* response, const GraphRepr* deletion) {
+void cfpq_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Response* response, const GrB_Index v_id, const GrB_Index edge_id, const GrB_Index to_id) {
     // Create del matrices
     GrB_Matrix del_matrices[response->nonterminals_count];
 
@@ -13,22 +13,11 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
         );
     }
 
-    // Initialize del matrices
-    for (GrB_Index i = 0; i < deletion->edges.count; ++i) {
-        const char* terminal = deletion->edges.items[i];
-
-        GrB_Index terminal_id = ItemMapper_GetPlaceIndex((ItemMapper*) &grammar->terminals, terminal);
-
-        if (terminal_id != grammar->terminals.count) {
-            for (GrB_Index j = 0; j < grammar->simple_rules_count; ++j) {
-                const SimpleRule* simpleRule = &grammar->simple_rules[j];
-                if (simpleRule->r == terminal_id) {
-                    GrB_Matrix_dup(
-                        &del_matrices[simpleRule->l], 
-                        deletion->terminal_matrices[i]
-                    );
-                }
-            }
+    // Initialize del_matrices
+    for (GrB_Index j = 0; j < grammar->simple_rules_count; ++j) {
+        const SimpleRule* simpleRule = &grammar->simple_rules[j];
+        if (simpleRule->r == edge_id) {
+            GrB_Matrix_setElement(del_matrices[simpleRule->l], v_id, to_id, true);
         }
     }
 
@@ -45,8 +34,8 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
             GrB_Index nonterm2 = grammar->complex_rules[i].r1;
             GrB_Index nonterm3 = grammar->complex_rules[i].r2;
 
-            GrB_Matrix m_old;
-            GrB_Matrix_dup(&m_old, del_matrices[nonterm1]);
+            GrB_Index nvals_old;
+            GrB_Matrix_nvals(&nvals_old, del_matrices[nonterm1]);
 
             GrB_mxm(
                 del_matrices[nonterm1], 
@@ -70,15 +59,11 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
 
             response->iteration_count += 2;
 
-            GrB_Index nvals_new, nvals_old;
+            GrB_Index nvals_new;
             GrB_Matrix_nvals(&nvals_new, del_matrices[nonterm1]);
-            GrB_Matrix_nvals(&nvals_old, m_old);
             if (nvals_new != nvals_old) {
                 matrices_is_changed = true;
             }
-
-            GrB_Matrix_free(&m_old);
-            GrB_free(&m_old);
         }
     }
 
@@ -96,7 +81,6 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
 
     matrices_is_changed = true;
     while(matrices_is_changed) {
-        ++response->iteration_count;
 
         matrices_is_changed = false;
 
@@ -105,8 +89,8 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
             GrB_Index nonterm2 = grammar->complex_rules[i].r1;
             GrB_Index nonterm3 = grammar->complex_rules[i].r2;
 
-            GrB_Matrix m_old;
-            GrB_Matrix_dup(&m_old, response->nonterminal_matrices[nonterm1]);
+            GrB_Index nvals_old;
+            GrB_Matrix_nvals(&nvals_old, response->nonterminal_matrices[nonterm1]);
 
             GrB_mxm(
                 response->nonterminal_matrices[nonterm1], 
@@ -120,15 +104,11 @@ void cfpq_dynamic_deletion(const GraphRepr* graph, const Grammar* grammar, Respo
 
             response->iteration_count += 1;
 
-            GrB_Index nvals_new, nvals_old;
+            GrB_Index nvals_new;
             GrB_Matrix_nvals(&nvals_new, response->nonterminal_matrices[nonterm1]);
-            GrB_Matrix_nvals(&nvals_old, m_old);
             if (nvals_new != nvals_old) {
                 matrices_is_changed = true;
             }
-
-            GrB_Matrix_free(&m_old);
-            GrB_free(&m_old);
         }
     }
 

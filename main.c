@@ -43,42 +43,6 @@ int main(int argc, char* argv[]) {
     GraphRepr_Load(&graph, f);
     fclose(f);
 
-    // Addition matrix
-    GraphRepr addition;
-    GraphRepr_Init(&addition);
-
-    for (GrB_Index i = 0; i < graph.nodes.count; ++i) {
-        ItemMapper_Insert(
-            (ItemMapper*) &addition.nodes, 
-            ItemMapper_Map((ItemMapper*) &graph.nodes, i)
-        );
-    }
-
-    for (GrB_Index i = 0; i < graph.edges.count; ++i) {
-        ItemMapper_Insert(
-            (ItemMapper*) &addition.edges, 
-            ItemMapper_Map((ItemMapper*) &graph.edges, i)
-        );
-    }
-
-    // Deletion matrix 
-    GraphRepr deletion;
-    GraphRepr_Init(&deletion);
-
-    for (GrB_Index i = 0; i < graph.nodes.count; ++i) {
-        ItemMapper_Insert(
-            (ItemMapper*) &deletion.nodes, 
-            ItemMapper_Map((ItemMapper*) &graph.nodes, i)
-        );
-    }
-
-    for (GrB_Index i = 0; i < graph.edges.count; ++i) {
-        ItemMapper_Insert(
-            (ItemMapper*) &deletion.edges, 
-            ItemMapper_Map((ItemMapper*) &graph.edges, i)
-        );
-    }
-
     // Load grammar
     f = fopen(GRAMMAR_INPUT_FILE, "r");
     assert(f != NULL);
@@ -94,7 +58,7 @@ int main(int argc, char* argv[]) {
 
     if (PRINT_TIME == 0) {
         cfpq_static(&graph, &grammar, &response);
-        interprete_queries_without_time(&graph, &grammar, &response, &addition, &deletion, f);
+        interprete_queries_without_time(&graph, &grammar, &response, f);
     } else if (PRINT_TIME == 1){
         double timer[2];
         simple_tic(timer);
@@ -103,7 +67,7 @@ int main(int argc, char* argv[]) {
         printf("Initialize time: %lf s\n", time_query);
         
         simple_tic(timer);
-        interprete_queries_with_time(&graph, &grammar, &response, &addition, &deletion, f);
+        interprete_queries_with_time(&graph, &grammar, &response, f);
         time_query = simple_toc(timer);
     } else if (PRINT_TIME == 2) {
         double timer[2];
@@ -113,7 +77,7 @@ int main(int argc, char* argv[]) {
         printf("Initialize time: %lf s\n", time_query);
         
         simple_tic(timer);
-        interprete_queries_without_time(&graph, &grammar, &response, &addition, &deletion, f);
+        interprete_queries_without_time(&graph, &grammar, &response, f);
         time_query = simple_toc(timer);
     }
 

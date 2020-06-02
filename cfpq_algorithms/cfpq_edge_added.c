@@ -16,8 +16,8 @@ void cfpq_edge_added(const GraphRepr* graph, const Grammar* grammar, Response* r
             GrB_Index nonterm2 = grammar->complex_rules[i].r1;
             GrB_Index nonterm3 = grammar->complex_rules[i].r2;
 
-            GrB_Matrix m_old;
-            GrB_Matrix_dup(&m_old, response->nonterminal_matrices[nonterm1]);
+            GrB_Index nvals_old;
+            GrB_Matrix_nvals(&nvals_old, response->nonterminal_matrices[nonterm1]);
 
             GrB_mxm(
                 response->nonterminal_matrices[nonterm1], 
@@ -31,15 +31,11 @@ void cfpq_edge_added(const GraphRepr* graph, const Grammar* grammar, Response* r
 
             response->iteration_count += 1;
 
-            GrB_Index nvals_new, nvals_old;
+            GrB_Index nvals_new;
             GrB_Matrix_nvals(&nvals_new, response->nonterminal_matrices[nonterm1]);
-            GrB_Matrix_nvals(&nvals_old, m_old);
             if (nvals_new != nvals_old) {
                 matrices_is_changed = true;
             }
-
-            GrB_Matrix_free(&m_old);
-            GrB_free(&m_old);
         }
     }
 
