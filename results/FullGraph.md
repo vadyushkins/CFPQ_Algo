@@ -3,654 +3,276 @@
 ## Grammar: A_star0_cnf
 ## Test type: Construct
 
-| Graph | Queries | Time (s) |
-|:-----:|:-------:|:--------:|
-| fullgraph_10 | brute | 0.001658 |
-| fullgraph_10 | smart | 0.002124 |
-| fullgraph_100 | brute | 0.109868 |
-| fullgraph_100 | smart | 0.546634 |
-| fullgraph_110 | brute | 0.126137 |
-| fullgraph_110 | smart | 0.709331 |
-| fullgraph_120 | brute | 0.167915 |
-| fullgraph_120 | smart | 1.001701 |
-| fullgraph_130 | brute | 0.210347 |
-| fullgraph_130 | smart | 0.923597 |
-| fullgraph_140 | brute | 0.225252 |
-| fullgraph_140 | smart | 1.205994 |
-| fullgraph_150 | brute | 0.267893 |
-| fullgraph_150 | smart | 1.805126 |
-| fullgraph_160 | brute | 0.391468 |
-| fullgraph_160 | smart | 2.606084 |
-| fullgraph_170 | brute | 0.374651 |
-| fullgraph_170 | smart | 2.599778 |
-| fullgraph_180 | brute | 0.442544 |
-| fullgraph_180 | smart | 3.164392 |
-| fullgraph_190 | brute | 0.609244 |
-| fullgraph_190 | smart | 2.857834 |
-| fullgraph_20 | brute | 0.005489 |
-| fullgraph_20 | smart | 0.006266 |
-| fullgraph_200 | brute | 0.589458 |
-| fullgraph_200 | smart | 3.831768 |
-| fullgraph_30 | brute | 0.010652 |
-| fullgraph_30 | smart | 0.017901 |
-| fullgraph_40 | brute | 0.017950 |
-| fullgraph_40 | smart | 0.045630 |
-| fullgraph_50 | brute | 0.027649 |
-| fullgraph_50 | smart | 0.062276 |
-| fullgraph_60 | brute | 0.035917 |
-| fullgraph_60 | smart | 0.107402 |
-| fullgraph_70 | brute | 0.051430 |
-| fullgraph_70 | smart | 0.183315 |
-| fullgraph_80 | brute | 0.074803 |
-| fullgraph_80 | smart | 0.346064 |
-| fullgraph_90 | brute | 0.077462 |
-| fullgraph_90 | smart | 0.372836 |
+| Graph | Queries | Matrix Multiplication Amount | Time (s) |
+|:-----:|:-------:|:----------------------------:|:--------:|
+| fullgraph_10 | brute | 84 | 0.001675 |
+| fullgraph_10 | smart | 22 | 0.000183 |
+| fullgraph_100 | brute | 2748 | 0.124374 |
+| fullgraph_100 | smart | 202 | 0.001630 |
+| fullgraph_110 | brute | 2310 | 0.122800 |
+| fullgraph_110 | smart | 222 | 0.001821 |
+| fullgraph_120 | brute | 2886 | 0.153474 |
+| fullgraph_120 | smart | 242 | 0.001945 |
+| fullgraph_130 | brute | 3724 | 0.219855 |
+| fullgraph_130 | smart | 262 | 0.002103 |
+| fullgraph_140 | brute | 3898 | 0.419567 |
+| fullgraph_140 | smart | 282 | 0.002268 |
+| fullgraph_150 | brute | 3350 | 0.260110 |
+| fullgraph_150 | smart | 302 | 0.002441 |
+| fullgraph_160 | brute | 4294 | 0.325844 |
+| fullgraph_160 | smart | 322 | 0.002602 |
+| fullgraph_170 | brute | 5164 | 0.428045 |
+| fullgraph_170 | smart | 342 | 0.002776 |
+| fullgraph_180 | brute | 4956 | 0.424456 |
+| fullgraph_180 | smart | 362 | 0.002916 |
+| fullgraph_190 | brute | 5404 | 0.491337 |
+| fullgraph_190 | smart | 382 | 0.003075 |
+| fullgraph_20 | brute | 274 | 0.006237 |
+| fullgraph_20 | smart | 42 | 0.000353 |
+| fullgraph_200 | brute | 6020 | 0.607858 |
+| fullgraph_200 | smart | 402 | 0.003446 |
+| fullgraph_30 | brute | 664 | 0.017756 |
+| fullgraph_30 | smart | 62 | 0.000524 |
+| fullgraph_40 | brute | 616 | 0.018154 |
+| fullgraph_40 | smart | 82 | 0.000721 |
+| fullgraph_50 | brute | 884 | 0.028317 |
+| fullgraph_50 | smart | 102 | 0.000893 |
+| fullgraph_60 | brute | 1142 | 0.036928 |
+| fullgraph_60 | smart | 122 | 0.001021 |
+| fullgraph_70 | brute | 1624 | 0.058560 |
+| fullgraph_70 | smart | 142 | 0.001156 |
+| fullgraph_80 | brute | 1994 | 0.078869 |
+| fullgraph_80 | smart | 162 | 0.001331 |
+| fullgraph_90 | brute | 1900 | 0.076188 |
+| fullgraph_90 | smart | 182 | 0.001489 |
 
 ## Grammar: A_star0_cnf
 ## Test type: Deconstruct
 
-| Graph | Queries | Time (s) |
-|:-----:|:-------:|:--------:|
-| fullgraph_10 | brute | 0.003963 |
-| fullgraph_10 | smart | 0.011580 |
-| fullgraph_100 | brute | 1.750805 |
-| fullgraph_100 | smart | 27.408156 |
-| fullgraph_110 | brute | 2.674513 |
-| fullgraph_110 | smart | 39.863441 |
-| fullgraph_120 | brute | 3.856406 |
-| fullgraph_120 | smart | 58.260992 |
-| fullgraph_130 | brute | 5.525656 |
-| fullgraph_130 | smart | 84.959541 |
-| fullgraph_140 | brute | 7.115804 |
-| fullgraph_140 | smart | 113.628127 |
-| fullgraph_150 | brute | 9.221365 |
-| fullgraph_150 | smart | 160.275288 |
-| fullgraph_160 | brute | 11.603764 |
-| fullgraph_160 | smart | 207.687867 |
-| fullgraph_170 | brute | 13.952456 |
-| fullgraph_170 | smart | 270.880980 |
-| fullgraph_180 | brute | 16.380910 |
-| fullgraph_180 | smart | 354.074102 |
-| fullgraph_190 | brute | 18.482949 |
-| fullgraph_190 | smart | 459.518344 |
-| fullgraph_20 | brute | 0.023168 |
-| fullgraph_20 | smart | 0.077141 |
-| fullgraph_200 | brute | 22.476730 |
-| fullgraph_200 | smart | 548.409524 |
-| fullgraph_30 | brute | 0.062217 |
-| fullgraph_30 | smart | 0.283913 |
-| fullgraph_40 | brute | 0.118993 |
-| fullgraph_40 | smart | 0.783290 |
-| fullgraph_50 | brute | 0.225378 |
-| fullgraph_50 | smart | 1.819348 |
-| fullgraph_60 | brute | 0.393231 |
-| fullgraph_60 | smart | 3.628827 |
-| fullgraph_70 | brute | 0.601584 |
-| fullgraph_70 | smart | 6.621300 |
-| fullgraph_80 | brute | 0.866923 |
-| fullgraph_80 | smart | 11.089082 |
-| fullgraph_90 | brute | 1.177064 |
-| fullgraph_90 | smart | 17.684829 |
-
-## Grammar: A_star0_cnf
-## Test type: Random
-
-| Graph | Queries | Time (s) |
-|:-----:|:-------:|:--------:|
-| fullgraph_10 | brute_50percent | 0.000012 |
-| fullgraph_10 | brute_10percent | 0.000012 |
-| fullgraph_10 | brute_25percent | 0.000014 |
-| fullgraph_10 | smart_10percent | 0.000011 |
-| fullgraph_10 | smart_50percent | 0.000013 |
-| fullgraph_10 | smart_25percent | 0.000023 |
-| fullgraph_100 | brute_50percent | 0.871924 |
-| fullgraph_100 | brute_10percent | 0.185211 |
-| fullgraph_100 | brute_25percent | 0.445584 |
-| fullgraph_100 | smart_10percent | 2.738187 |
-| fullgraph_100 | smart_50percent | 13.709401 |
-| fullgraph_100 | smart_25percent | 6.850243 |
-| fullgraph_110 | brute_50percent | 1.130418 |
-| fullgraph_110 | brute_10percent | 0.240323 |
-| fullgraph_110 | brute_25percent | 0.616818 |
-| fullgraph_110 | smart_10percent | 3.616260 |
-| fullgraph_110 | smart_50percent | 18.103353 |
-| fullgraph_110 | smart_25percent | 9.009921 |
-| fullgraph_120 | brute_50percent | 1.549542 |
-| fullgraph_120 | brute_10percent | 0.372677 |
-| fullgraph_120 | brute_25percent | 0.907869 |
-| fullgraph_120 | smart_10percent | 4.908251 |
-| fullgraph_120 | smart_50percent | 24.489293 |
-| fullgraph_120 | smart_25percent | 12.147384 |
-| fullgraph_130 | brute_50percent | 2.095366 |
-| fullgraph_130 | brute_10percent | 0.424103 |
-| fullgraph_130 | brute_25percent | 1.075597 |
-| fullgraph_130 | smart_10percent | 6.519531 |
-| fullgraph_130 | smart_50percent | 32.589149 |
-| fullgraph_130 | smart_25percent | 16.325790 |
-| fullgraph_140 | brute_50percent | 2.833728 |
-| fullgraph_140 | brute_10percent | 0.511343 |
-| fullgraph_140 | brute_25percent | 1.287650 |
-| fullgraph_140 | smart_10percent | 8.128289 |
-| fullgraph_140 | smart_50percent | 40.611950 |
-| fullgraph_140 | smart_25percent | 20.308734 |
-| fullgraph_150 | brute_50percent | 3.232529 |
-| fullgraph_150 | brute_10percent | 0.664323 |
-| fullgraph_150 | brute_25percent | 1.504033 |
-| fullgraph_150 | smart_10percent | 21.092824 |
-| fullgraph_150 | smart_50percent | 106.826169 |
-| fullgraph_150 | smart_25percent | 52.671789 |
-| fullgraph_160 | brute_50percent | 3.497286 |
-| fullgraph_160 | brute_10percent | 0.736142 |
-| fullgraph_160 | brute_25percent | 1.805468 |
-| fullgraph_160 | smart_10percent | 25.503803 |
-| fullgraph_160 | smart_50percent | 130.082036 |
-| fullgraph_160 | smart_25percent | 64.780617 |
-| fullgraph_170 | brute_50percent | 3.946289 |
-| fullgraph_170 | brute_10percent | 0.934220 |
-| fullgraph_170 | brute_25percent | 2.237789 |
-| fullgraph_170 | smart_10percent | 31.016821 |
-| fullgraph_170 | smart_50percent | 159.949014 |
-| fullgraph_170 | smart_25percent | 78.816960 |
-| fullgraph_180 | brute_50percent | 4.514253 |
-| fullgraph_180 | brute_10percent | 0.983105 |
-| fullgraph_180 | brute_25percent | 2.371577 |
-| fullgraph_180 | smart_10percent | 38.676153 |
-| fullgraph_180 | smart_50percent | 194.212671 |
-| fullgraph_180 | smart_25percent | 97.955090 |
-| fullgraph_190 | brute_50percent | 4.964030 |
-| fullgraph_190 | brute_10percent | 1.067103 |
-| fullgraph_190 | brute_25percent | 2.636439 |
-| fullgraph_190 | smart_10percent | 48.210303 |
-| fullgraph_190 | smart_50percent | 240.994532 |
-| fullgraph_190 | smart_25percent | 119.545535 |
-| fullgraph_20 | brute_50percent | 0.000013 |
-| fullgraph_20 | brute_10percent | 0.000013 |
-| fullgraph_20 | brute_25percent | 0.000012 |
-| fullgraph_20 | smart_10percent | 0.000013 |
-| fullgraph_20 | smart_50percent | 0.000025 |
-| fullgraph_20 | smart_25percent | 0.000012 |
-| fullgraph_200 | brute_50percent | 10.924420 |
-| fullgraph_200 | brute_10percent | 2.336781 |
-| fullgraph_200 | brute_25percent | 5.502504 |
-| fullgraph_200 | smart_10percent | 54.702869 |
-| fullgraph_200 | smart_50percent | 275.262804 |
-| fullgraph_200 | smart_25percent | 138.076353 |
-| fullgraph_30 | brute_50percent | 0.000014 |
-| fullgraph_30 | brute_10percent | 0.000015 |
-| fullgraph_30 | brute_25percent | 0.000014 |
-| fullgraph_30 | smart_10percent | 0.000018 |
-| fullgraph_30 | smart_50percent | 0.000013 |
-| fullgraph_30 | smart_25percent | 0.000012 |
-| fullgraph_40 | brute_50percent | 0.000013 |
-| fullgraph_40 | brute_10percent | 0.000033 |
-| fullgraph_40 | brute_25percent | 0.000013 |
-| fullgraph_40 | smart_10percent | 0.000013 |
-| fullgraph_40 | smart_50percent | 0.000036 |
-| fullgraph_40 | smart_25percent | 0.000013 |
-| fullgraph_50 | brute_50percent | 0.000018 |
-| fullgraph_50 | brute_10percent | 0.000022 |
-| fullgraph_50 | brute_25percent | 0.000033 |
-| fullgraph_50 | smart_10percent | 0.375573 |
-| fullgraph_50 | smart_50percent | 1.816614 |
-| fullgraph_50 | smart_25percent | 0.910439 |
-| fullgraph_60 | brute_50percent | 0.000017 |
-| fullgraph_60 | brute_10percent | 0.000015 |
-| fullgraph_60 | brute_25percent | 0.000021 |
-| fullgraph_60 | smart_10percent | 0.607274 |
-| fullgraph_60 | smart_50percent | 3.024723 |
-| fullgraph_60 | smart_25percent | 1.511205 |
-| fullgraph_70 | brute_50percent | 0.000014 |
-| fullgraph_70 | brute_10percent | 0.000022 |
-| fullgraph_70 | brute_25percent | 0.000014 |
-| fullgraph_70 | smart_10percent | 0.946385 |
-| fullgraph_70 | smart_50percent | 4.723267 |
-| fullgraph_70 | smart_25percent | 2.360822 |
-| fullgraph_80 | brute_50percent | 0.000015 |
-| fullgraph_80 | brute_10percent | 0.000016 |
-| fullgraph_80 | brute_25percent | 0.000018 |
-| fullgraph_80 | smart_10percent | 1.387073 |
-| fullgraph_80 | smart_50percent | 6.920355 |
-| fullgraph_80 | smart_25percent | 3.461923 |
-| fullgraph_90 | brute_50percent | 0.000015 |
-| fullgraph_90 | brute_10percent | 0.000015 |
-| fullgraph_90 | brute_25percent | 0.000020 |
-| fullgraph_90 | smart_10percent | 1.971845 |
-| fullgraph_90 | smart_50percent | 9.849515 |
-| fullgraph_90 | smart_25percent | 4.913767 |
+| Graph | Queries | Matrix Multiplication Amount | Time (s) |
+|:-----:|:-------:|:----------------------------:|:--------:|
+| fullgraph_10 | brute | 220 | 0.004369 |
+| fullgraph_10 | smart | 490 | 0.008455 |
+| fullgraph_100 | brute | 20200 | 1.795601 |
+| fullgraph_100 | smart | 40900 | 1.991453 |
+| fullgraph_110 | brute | 24420 | 2.584270 |
+| fullgraph_110 | smart | 49390 | 2.902965 |
+| fullgraph_120 | brute | 29040 | 4.099539 |
+| fullgraph_120 | smart | 58680 | 4.676203 |
+| fullgraph_130 | brute | 34060 | 5.849936 |
+| fullgraph_130 | smart | 68770 | 6.256662 |
+| fullgraph_140 | brute | 39480 | 7.798926 |
+| fullgraph_140 | smart | 79660 | 8.026088 |
+| fullgraph_150 | brute | 45300 | 9.603537 |
+| fullgraph_150 | smart | 91350 | 10.056332 |
+| fullgraph_160 | brute | 51520 | 11.840568 |
+| fullgraph_160 | smart | 103840 | 12.775199 |
+| fullgraph_170 | brute | 58140 | 15.195339 |
+| fullgraph_170 | smart | 117130 | 16.020542 |
+| fullgraph_180 | brute | 65160 | 17.562973 |
+| fullgraph_180 | smart | 131220 | 19.703446 |
+| fullgraph_190 | brute | 72580 | 20.498481 |
+| fullgraph_190 | smart | 146110 | 23.824343 |
+| fullgraph_20 | brute | 840 | 0.024554 |
+| fullgraph_20 | smart | 1780 | 0.036512 |
+| fullgraph_200 | brute | 80400 | 23.362273 |
+| fullgraph_200 | smart | 161800 | 29.124641 |
+| fullgraph_30 | brute | 1860 | 0.065305 |
+| fullgraph_30 | smart | 3870 | 0.084250 |
+| fullgraph_40 | brute | 3280 | 0.124507 |
+| fullgraph_40 | smart | 6760 | 0.152718 |
+| fullgraph_50 | brute | 5100 | 0.230068 |
+| fullgraph_50 | smart | 10450 | 0.274231 |
+| fullgraph_60 | brute | 7320 | 0.399699 |
+| fullgraph_60 | smart | 14940 | 0.460168 |
+| fullgraph_70 | brute | 9940 | 0.618319 |
+| fullgraph_70 | smart | 20230 | 0.686707 |
+| fullgraph_80 | brute | 12960 | 0.882453 |
+| fullgraph_80 | smart | 26320 | 0.963833 |
+| fullgraph_90 | brute | 16380 | 1.305383 |
+| fullgraph_90 | smart | 33210 | 1.435992 |
 
 ## Grammar: A_star1_cnf
 ## Test type: Construct
 
-| Graph | Queries | Time (s) |
-|:-----:|:-------:|:--------:|
-| fullgraph_10 | brute | 0.000848 |
-| fullgraph_10 | smart | 0.001044 |
-| fullgraph_100 | brute | 0.101651 |
-| fullgraph_100 | smart | 0.119210 |
-| fullgraph_110 | brute | 0.080421 |
-| fullgraph_110 | smart | 0.163605 |
-| fullgraph_120 | brute | 0.118217 |
-| fullgraph_120 | smart | 0.184702 |
-| fullgraph_130 | brute | 0.144970 |
-| fullgraph_130 | smart | 0.219861 |
-| fullgraph_140 | brute | 0.146372 |
-| fullgraph_140 | smart | 0.288185 |
-| fullgraph_150 | brute | 0.159251 |
-| fullgraph_150 | smart | 0.367010 |
-| fullgraph_160 | brute | 0.229808 |
-| fullgraph_160 | smart | 0.398678 |
-| fullgraph_170 | brute | 0.192081 |
-| fullgraph_170 | smart | 0.534767 |
-| fullgraph_180 | brute | 0.256718 |
-| fullgraph_180 | smart | 0.585219 |
-| fullgraph_190 | brute | 0.284912 |
-| fullgraph_190 | smart | 0.650311 |
-| fullgraph_20 | brute | 0.002729 |
-| fullgraph_20 | smart | 0.002601 |
-| fullgraph_200 | brute | 0.316052 |
-| fullgraph_200 | smart | 0.777728 |
-| fullgraph_30 | brute | 0.005065 |
-| fullgraph_30 | smart | 0.005204 |
-| fullgraph_40 | brute | 0.010653 |
-| fullgraph_40 | smart | 0.009167 |
-| fullgraph_50 | brute | 0.016933 |
-| fullgraph_50 | smart | 0.016709 |
-| fullgraph_60 | brute | 0.023887 |
-| fullgraph_60 | smart | 0.025892 |
-| fullgraph_70 | brute | 0.039315 |
-| fullgraph_70 | smart | 0.042642 |
-| fullgraph_80 | brute | 0.052959 |
-| fullgraph_80 | smart | 0.059192 |
-| fullgraph_90 | brute | 0.055658 |
-| fullgraph_90 | smart | 0.083745 |
+| Graph | Queries | Matrix Multiplication Amount | Time (s) |
+|:-----:|:-------:|:----------------------------:|:--------:|
+| fullgraph_10 | brute | 56 | 0.000987 |
+| fullgraph_10 | smart | 22 | 0.000186 |
+| fullgraph_100 | brute | 730 | 0.092558 |
+| fullgraph_100 | smart | 202 | 0.001745 |
+| fullgraph_110 | brute | 716 | 0.086596 |
+| fullgraph_110 | smart | 222 | 0.001894 |
+| fullgraph_120 | brute | 866 | 0.116718 |
+| fullgraph_120 | smart | 242 | 0.002095 |
+| fullgraph_130 | brute | 956 | 0.151629 |
+| fullgraph_130 | smart | 262 | 0.002240 |
+| fullgraph_140 | brute | 950 | 0.142369 |
+| fullgraph_140 | smart | 282 | 0.002412 |
+| fullgraph_150 | brute | 1022 | 0.126566 |
+| fullgraph_150 | smart | 302 | 0.002599 |
+| fullgraph_160 | brute | 1200 | 0.171304 |
+| fullgraph_160 | smart | 322 | 0.002850 |
+| fullgraph_170 | brute | 1314 | 0.218070 |
+| fullgraph_170 | smart | 342 | 0.003144 |
+| fullgraph_180 | brute | 1350 | 0.208791 |
+| fullgraph_180 | smart | 362 | 0.003268 |
+| fullgraph_190 | brute | 1400 | 0.268371 |
+| fullgraph_190 | smart | 382 | 0.003527 |
+| fullgraph_20 | brute | 130 | 0.003371 |
+| fullgraph_20 | smart | 42 | 0.000584 |
+| fullgraph_200 | brute | 1522 | 0.328381 |
+| fullgraph_200 | smart | 402 | 0.003697 |
+| fullgraph_30 | brute | 224 | 0.007072 |
+| fullgraph_30 | smart | 62 | 0.000567 |
+| fullgraph_40 | brute | 256 | 0.010023 |
+| fullgraph_40 | smart | 82 | 0.000774 |
+| fullgraph_50 | brute | 338 | 0.016215 |
+| fullgraph_50 | smart | 102 | 0.000978 |
+| fullgraph_60 | brute | 420 | 0.022378 |
+| fullgraph_60 | smart | 122 | 0.001107 |
+| fullgraph_70 | brute | 470 | 0.038407 |
+| fullgraph_70 | smart | 142 | 0.001189 |
+| fullgraph_80 | brute | 582 | 0.052861 |
+| fullgraph_80 | smart | 162 | 0.001390 |
+| fullgraph_90 | brute | 658 | 0.057673 |
+| fullgraph_90 | smart | 182 | 0.001467 |
 
 ## Grammar: A_star1_cnf
 ## Test type: Deconstruct
 
-| Graph | Queries | Time (s) |
-|:-----:|:-------:|:--------:|
-| fullgraph_10 | brute | 0.001279 |
-| fullgraph_10 | smart | 0.003537 |
-| fullgraph_100 | brute | 2.363979 |
-| fullgraph_100 | smart | 1.223896 |
-| fullgraph_110 | brute | 2.944482 |
-| fullgraph_110 | smart | 1.733044 |
-| fullgraph_120 | brute | 3.705531 |
-| fullgraph_120 | smart | 2.282261 |
-| fullgraph_130 | brute | 4.491311 |
-| fullgraph_130 | smart | 3.007902 |
-| fullgraph_140 | brute | 5.442746 |
-| fullgraph_140 | smart | 3.679230 |
-| fullgraph_150 | brute | 6.878020 |
-| fullgraph_150 | smart | 4.508615 |
-| fullgraph_160 | brute | 8.206141 |
-| fullgraph_160 | smart | 5.267268 |
-| fullgraph_170 | brute | 9.802584 |
-| fullgraph_170 | smart | 6.665147 |
-| fullgraph_180 | brute | 11.740015 |
-| fullgraph_180 | smart | 8.194475 |
-| fullgraph_190 | brute | 13.800770 |
-| fullgraph_190 | smart | 9.131442 |
-| fullgraph_20 | brute | 0.009334 |
-| fullgraph_20 | smart | 0.012125 |
-| fullgraph_200 | brute | 16.281111 |
-| fullgraph_200 | smart | 10.533404 |
-| fullgraph_30 | brute | 0.033799 |
-| fullgraph_30 | smart | 0.037228 |
-| fullgraph_40 | brute | 0.112044 |
-| fullgraph_40 | smart | 0.076313 |
-| fullgraph_50 | brute | 0.215906 |
-| fullgraph_50 | smart | 0.144311 |
-| fullgraph_60 | brute | 0.442641 |
-| fullgraph_60 | smart | 0.242871 |
-| fullgraph_70 | brute | 1.127825 |
-| fullgraph_70 | smart | 0.361826 |
-| fullgraph_80 | brute | 0.814595 |
-| fullgraph_80 | smart | 0.582274 |
-| fullgraph_90 | brute | 1.927717 |
-| fullgraph_90 | smart | 0.839682 |
-
-## Grammar: A_star1_cnf
-## Test type: Random
-
-| Graph | Queries | Time (s) |
-|:-----:|:-------:|:--------:|
-| fullgraph_10 | brute_50percent | 0.000003 |
-| fullgraph_10 | brute_10percent | 0.000003 |
-| fullgraph_10 | brute_25percent | 0.000003 |
-| fullgraph_10 | smart_10percent | 0.000003 |
-| fullgraph_10 | smart_50percent | 0.000004 |
-| fullgraph_10 | smart_25percent | 0.000005 |
-| fullgraph_100 | brute_50percent | 1.261084 |
-| fullgraph_100 | brute_10percent | 0.242338 |
-| fullgraph_100 | brute_25percent | 0.631915 |
-| fullgraph_100 | smart_10percent | 0.142365 |
-| fullgraph_100 | smart_50percent | 0.653612 |
-| fullgraph_100 | smart_25percent | 0.319184 |
-| fullgraph_110 | brute_50percent | 1.544514 |
-| fullgraph_110 | brute_10percent | 0.271319 |
-| fullgraph_110 | brute_25percent | 0.760018 |
-| fullgraph_110 | smart_10percent | 0.172172 |
-| fullgraph_110 | smart_50percent | 0.786333 |
-| fullgraph_110 | smart_25percent | 0.386157 |
-| fullgraph_120 | brute_50percent | 1.609469 |
-| fullgraph_120 | brute_10percent | 0.272618 |
-| fullgraph_120 | brute_25percent | 0.847880 |
-| fullgraph_120 | smart_10percent | 0.205127 |
-| fullgraph_120 | smart_50percent | 0.947425 |
-| fullgraph_120 | smart_25percent | 0.472202 |
-| fullgraph_130 | brute_50percent | 1.654162 |
-| fullgraph_130 | brute_10percent | 0.349780 |
-| fullgraph_130 | brute_25percent | 0.866142 |
-| fullgraph_130 | smart_10percent | 0.304969 |
-| fullgraph_130 | smart_50percent | 1.149495 |
-| fullgraph_130 | smart_25percent | 0.659452 |
-| fullgraph_140 | brute_50percent | 1.974928 |
-| fullgraph_140 | brute_10percent | 0.432028 |
-| fullgraph_140 | brute_25percent | 0.966183 |
-| fullgraph_140 | smart_10percent | 0.282489 |
-| fullgraph_140 | smart_50percent | 1.368681 |
-| fullgraph_140 | smart_25percent | 0.646756 |
-| fullgraph_150 | brute_50percent | 2.283311 |
-| fullgraph_150 | brute_10percent | 0.477671 |
-| fullgraph_150 | brute_25percent | 1.195450 |
-| fullgraph_150 | smart_10percent | 0.617236 |
-| fullgraph_150 | smart_50percent | 3.132372 |
-| fullgraph_150 | smart_25percent | 1.593189 |
-| fullgraph_160 | brute_50percent | 2.507806 |
-| fullgraph_160 | brute_10percent | 0.507807 |
-| fullgraph_160 | brute_25percent | 1.330725 |
-| fullgraph_160 | smart_10percent | 0.763471 |
-| fullgraph_160 | smart_50percent | 3.285930 |
-| fullgraph_160 | smart_25percent | 1.757554 |
-| fullgraph_170 | brute_50percent | 2.876001 |
-| fullgraph_170 | brute_10percent | 0.591582 |
-| fullgraph_170 | brute_25percent | 1.451442 |
-| fullgraph_170 | smart_10percent | 0.863775 |
-| fullgraph_170 | smart_50percent | 3.954657 |
-| fullgraph_170 | smart_25percent | 2.052463 |
-| fullgraph_180 | brute_50percent | 3.330625 |
-| fullgraph_180 | brute_10percent | 0.664511 |
-| fullgraph_180 | brute_25percent | 1.662415 |
-| fullgraph_180 | smart_10percent | 0.914037 |
-| fullgraph_180 | smart_50percent | 4.557785 |
-| fullgraph_180 | smart_25percent | 2.276224 |
-| fullgraph_190 | brute_50percent | 3.594149 |
-| fullgraph_190 | brute_10percent | 0.738967 |
-| fullgraph_190 | brute_25percent | 1.830369 |
-| fullgraph_190 | smart_10percent | 0.998706 |
-| fullgraph_190 | smart_50percent | 4.762573 |
-| fullgraph_190 | smart_25percent | 2.402472 |
-| fullgraph_20 | brute_50percent | 0.000003 |
-| fullgraph_20 | brute_10percent | 0.000004 |
-| fullgraph_20 | brute_25percent | 0.000003 |
-| fullgraph_20 | smart_10percent | 0.000003 |
-| fullgraph_20 | smart_50percent | 0.000004 |
-| fullgraph_20 | smart_25percent | 0.000005 |
-| fullgraph_200 | brute_50percent | 8.058410 |
-| fullgraph_200 | brute_10percent | 1.614152 |
-| fullgraph_200 | brute_25percent | 3.999759 |
-| fullgraph_200 | smart_10percent | 1.072841 |
-| fullgraph_200 | smart_50percent | 5.237067 |
-| fullgraph_200 | smart_25percent | 2.638975 |
-| fullgraph_30 | brute_50percent | 0.000004 |
-| fullgraph_30 | brute_10percent | 0.000004 |
-| fullgraph_30 | brute_25percent | 0.000004 |
-| fullgraph_30 | smart_10percent | 0.000003 |
-| fullgraph_30 | smart_50percent | 0.000005 |
-| fullgraph_30 | smart_25percent | 0.000005 |
-| fullgraph_40 | brute_50percent | 0.000003 |
-| fullgraph_40 | brute_10percent | 0.000003 |
-| fullgraph_40 | brute_25percent | 0.000006 |
-| fullgraph_40 | smart_10percent | 0.000005 |
-| fullgraph_40 | smart_50percent | 0.000004 |
-| fullgraph_40 | smart_25percent | 0.000007 |
-| fullgraph_50 | brute_50percent | 0.000004 |
-| fullgraph_50 | brute_10percent | 0.000004 |
-| fullgraph_50 | brute_25percent | 0.000007 |
-| fullgraph_50 | smart_10percent | 0.031982 |
-| fullgraph_50 | smart_50percent | 0.145210 |
-| fullgraph_50 | smart_25percent | 0.073327 |
-| fullgraph_60 | brute_50percent | 0.000003 |
-| fullgraph_60 | brute_10percent | 0.000008 |
-| fullgraph_60 | brute_25percent | 0.000005 |
-| fullgraph_60 | smart_10percent | 0.041217 |
-| fullgraph_60 | smart_50percent | 0.202498 |
-| fullgraph_60 | smart_25percent | 0.101600 |
-| fullgraph_70 | brute_50percent | 0.000005 |
-| fullgraph_70 | brute_10percent | 0.000008 |
-| fullgraph_70 | brute_25percent | 0.000008 |
-| fullgraph_70 | smart_10percent | 0.052920 |
-| fullgraph_70 | smart_50percent | 0.258219 |
-| fullgraph_70 | smart_25percent | 0.128935 |
-| fullgraph_80 | brute_50percent | 0.000005 |
-| fullgraph_80 | brute_10percent | 0.000005 |
-| fullgraph_80 | brute_25percent | 0.000008 |
-| fullgraph_80 | smart_10percent | 0.067287 |
-| fullgraph_80 | smart_50percent | 0.341821 |
-| fullgraph_80 | smart_25percent | 0.165813 |
-| fullgraph_90 | brute_50percent | 0.000011 |
-| fullgraph_90 | brute_10percent | 0.000034 |
-| fullgraph_90 | brute_25percent | 0.000007 |
-| fullgraph_90 | smart_10percent | 0.084878 |
-| fullgraph_90 | smart_50percent | 0.447711 |
-| fullgraph_90 | smart_25percent | 0.225669 |
+| Graph | Queries | Matrix Multiplication Amount | Time (s) |
+|:-----:|:-------:|:----------------------------:|:--------:|
+| fullgraph_10 | brute | 88 | 0.001151 |
+| fullgraph_10 | smart | 118 | 0.001896 |
+| fullgraph_100 | brute | 1414 | 2.383284 |
+| fullgraph_100 | smart | 1114 | 3.442627 |
+| fullgraph_110 | brute | 1554 | 2.897331 |
+| fullgraph_110 | smart | 1224 | 3.703195 |
+| fullgraph_120 | brute | 1694 | 3.702909 |
+| fullgraph_120 | smart | 1334 | 3.662827 |
+| fullgraph_130 | brute | 1834 | 4.574847 |
+| fullgraph_130 | smart | 1444 | 4.509792 |
+| fullgraph_140 | brute | 1974 | 4.967440 |
+| fullgraph_140 | smart | 1554 | 5.996128 |
+| fullgraph_150 | brute | 2114 | 5.663176 |
+| fullgraph_150 | smart | 1664 | 7.664032 |
+| fullgraph_160 | brute | 2254 | 7.287847 |
+| fullgraph_160 | smart | 1774 | 10.064232 |
+| fullgraph_170 | brute | 2394 | 8.929913 |
+| fullgraph_170 | smart | 1884 | 12.752934 |
+| fullgraph_180 | brute | 2534 | 10.959604 |
+| fullgraph_180 | smart | 1994 | 17.043919 |
+| fullgraph_190 | brute | 2674 | 12.836653 |
+| fullgraph_190 | smart | 2104 | 20.019080 |
+| fullgraph_20 | brute | 210 | 0.010725 |
+| fullgraph_20 | smart | 230 | 0.014008 |
+| fullgraph_200 | brute | 2814 | 14.907521 |
+| fullgraph_200 | smart | 2214 | 24.129014 |
+| fullgraph_30 | brute | 310 | 0.034514 |
+| fullgraph_30 | smart | 340 | 0.050637 |
+| fullgraph_40 | brute | 492 | 0.117218 |
+| fullgraph_40 | smart | 452 | 0.119515 |
+| fullgraph_50 | brute | 612 | 0.200619 |
+| fullgraph_50 | smart | 562 | 0.261397 |
+| fullgraph_60 | brute | 732 | 0.383705 |
+| fullgraph_60 | smart | 672 | 0.525951 |
+| fullgraph_70 | brute | 852 | 0.865825 |
+| fullgraph_70 | smart | 782 | 1.745675 |
+| fullgraph_80 | brute | 972 | 0.723414 |
+| fullgraph_80 | smart | 892 | 0.773747 |
+| fullgraph_90 | brute | 1274 | 1.382509 |
+| fullgraph_90 | smart | 1004 | 1.974497 |
 
 ## Grammar: A_star2_cnf
 ## Test type: Construct
 
-| Graph | Queries | Time (s) |
-|:-----:|:-------:|:--------:|
-| fullgraph_10 | brute | 0.001436 |
-| fullgraph_10 | smart | 0.001881 |
-| fullgraph_100 | brute | 0.153234 |
-| fullgraph_100 | smart | 0.239560 |
-| fullgraph_110 | brute | 0.161917 |
-| fullgraph_110 | smart | 0.323851 |
-| fullgraph_120 | brute | 0.191388 |
-| fullgraph_120 | smart | 0.367380 |
-| fullgraph_130 | brute | 0.226511 |
-| fullgraph_130 | smart | 0.428869 |
-| fullgraph_140 | brute | 0.230077 |
-| fullgraph_140 | smart | 0.565688 |
-| fullgraph_150 | brute | 0.234935 |
-| fullgraph_150 | smart | 0.737403 |
-| fullgraph_160 | brute | 0.322559 |
-| fullgraph_160 | smart | 0.795927 |
-| fullgraph_170 | brute | 0.382977 |
-| fullgraph_170 | smart | 1.068711 |
-| fullgraph_180 | brute | 0.461655 |
-| fullgraph_180 | smart | 1.169780 |
-| fullgraph_190 | brute | 0.437378 |
-| fullgraph_190 | smart | 1.296503 |
-| fullgraph_20 | brute | 0.004281 |
-| fullgraph_20 | smart | 0.004476 |
-| fullgraph_200 | brute | 0.665364 |
-| fullgraph_200 | smart | 1.551572 |
-| fullgraph_30 | brute | 0.007702 |
-| fullgraph_30 | smart | 0.009521 |
-| fullgraph_40 | brute | 0.014448 |
-| fullgraph_40 | smart | 0.018720 |
-| fullgraph_50 | brute | 0.028227 |
-| fullgraph_50 | smart | 0.031072 |
-| fullgraph_60 | brute | 0.038064 |
-| fullgraph_60 | smart | 0.048455 |
-| fullgraph_70 | brute | 0.080075 |
-| fullgraph_70 | smart | 0.080119 |
-| fullgraph_80 | brute | 0.080144 |
-| fullgraph_80 | smart | 0.115364 |
-| fullgraph_90 | brute | 0.092760 |
-| fullgraph_90 | smart | 0.163693 |
+| Graph | Queries | Matrix Multiplication Amount | Time (s) |
+|:-----:|:-------:|:----------------------------:|:--------:|
+| fullgraph_10 | brute | 96 | 0.001637 |
+| fullgraph_10 | smart | 44 | 0.000394 |
+| fullgraph_100 | brute | 1216 | 0.128129 |
+| fullgraph_100 | smart | 404 | 0.003528 |
+| fullgraph_110 | brute | 1248 | 0.122717 |
+| fullgraph_110 | smart | 444 | 0.003847 |
+| fullgraph_120 | brute | 1376 | 0.141266 |
+| fullgraph_120 | smart | 484 | 0.004147 |
+| fullgraph_130 | brute | 1612 | 0.168241 |
+| fullgraph_130 | smart | 524 | 0.004263 |
+| fullgraph_140 | brute | 1628 | 0.220937 |
+| fullgraph_140 | smart | 564 | 0.004796 |
+| fullgraph_150 | brute | 1688 | 0.192737 |
+| fullgraph_150 | smart | 604 | 0.005136 |
+| fullgraph_160 | brute | 1988 | 0.294173 |
+| fullgraph_160 | smart | 644 | 0.005644 |
+| fullgraph_170 | brute | 2088 | 0.409230 |
+| fullgraph_170 | smart | 684 | 0.006396 |
+| fullgraph_180 | brute | 2280 | 0.376025 |
+| fullgraph_180 | smart | 724 | 0.007171 |
+| fullgraph_190 | brute | 2332 | 0.465073 |
+| fullgraph_190 | smart | 764 | 0.007874 |
+| fullgraph_20 | brute | 220 | 0.004802 |
+| fullgraph_20 | smart | 84 | 0.000848 |
+| fullgraph_200 | brute | 2492 | 0.530733 |
+| fullgraph_200 | smart | 804 | 0.008087 |
+| fullgraph_30 | brute | 380 | 0.012338 |
+| fullgraph_30 | smart | 124 | 0.001289 |
+| fullgraph_40 | brute | 428 | 0.014842 |
+| fullgraph_40 | smart | 164 | 0.001574 |
+| fullgraph_50 | brute | 576 | 0.028220 |
+| fullgraph_50 | smart | 204 | 0.002594 |
+| fullgraph_60 | brute | 732 | 0.038931 |
+| fullgraph_60 | smart | 244 | 0.002140 |
+| fullgraph_70 | brute | 824 | 0.069651 |
+| fullgraph_70 | smart | 284 | 0.002415 |
+| fullgraph_80 | brute | 964 | 0.082637 |
+| fullgraph_80 | smart | 324 | 0.002657 |
+| fullgraph_90 | brute | 1056 | 0.074593 |
+| fullgraph_90 | smart | 364 | 0.002923 |
 
 ## Grammar: A_star2_cnf
 ## Test type: Deconstruct
 
-| Graph | Queries | Time (s) |
-|:-----:|:-------:|:--------:|
-| fullgraph_10 | brute | 0.002673 |
-| fullgraph_10 | smart | 0.006113 |
-| fullgraph_100 | brute | 4.045552 |
-| fullgraph_100 | smart | 2.877413 |
-| fullgraph_110 | brute | 5.928190 |
-| fullgraph_110 | smart | 3.817334 |
-| fullgraph_120 | brute | 5.507904 |
-| fullgraph_120 | smart | 5.062948 |
-| fullgraph_130 | brute | 7.794152 |
-| fullgraph_130 | smart | 6.632129 |
-| fullgraph_140 | brute | 9.439967 |
-| fullgraph_140 | smart | 8.093771 |
-| fullgraph_150 | brute | 10.375295 |
-| fullgraph_150 | smart | 10.441534 |
-| fullgraph_160 | brute | 12.603072 |
-| fullgraph_160 | smart | 11.863186 |
-| fullgraph_170 | brute | 15.413503 |
-| fullgraph_170 | smart | 15.217379 |
-| fullgraph_180 | brute | 18.678214 |
-| fullgraph_180 | smart | 18.048269 |
-| fullgraph_190 | brute | 22.019516 |
-| fullgraph_190 | smart | 20.457805 |
-| fullgraph_20 | brute | 0.016111 |
-| fullgraph_20 | smart | 0.023380 |
-| fullgraph_200 | brute | 25.677602 |
-| fullgraph_200 | smart | 23.511729 |
-| fullgraph_30 | brute | 0.061961 |
-| fullgraph_30 | smart | 0.072908 |
-| fullgraph_40 | brute | 0.129399 |
-| fullgraph_40 | smart | 0.161274 |
-| fullgraph_50 | brute | 0.430928 |
-| fullgraph_50 | smart | 0.310529 |
-| fullgraph_60 | brute | 0.824591 |
-| fullgraph_60 | smart | 0.539656 |
-| fullgraph_70 | brute | 2.465458 |
-| fullgraph_70 | smart | 0.820922 |
-| fullgraph_80 | brute | 2.088134 |
-| fullgraph_80 | smart | 1.286329 |
-| fullgraph_90 | brute | 2.366989 |
-| fullgraph_90 | smart | 1.863165 |
-
-## Grammar: A_star2_cnf
-## Test type: Random
-
-| Graph | Queries | Time (s) |
-|:-----:|:-------:|:--------:|
-| fullgraph_10 | brute_50percent | 0.000003 |
-| fullgraph_10 | brute_10percent | 0.000003 |
-| fullgraph_10 | brute_25percent | 0.000004 |
-| fullgraph_10 | smart_10percent | 0.000003 |
-| fullgraph_10 | smart_50percent | 0.000003 |
-| fullgraph_10 | smart_25percent | 0.000006 |
-| fullgraph_100 | brute_50percent | 1.952300 |
-| fullgraph_100 | brute_10percent | 0.467219 |
-| fullgraph_100 | brute_25percent | 1.143873 |
-| fullgraph_100 | smart_10percent | 0.306183 |
-| fullgraph_100 | smart_50percent | 1.417975 |
-| fullgraph_100 | smart_25percent | 0.717015 |
-| fullgraph_110 | brute_50percent | 2.361800 |
-| fullgraph_110 | brute_10percent | 0.568147 |
-| fullgraph_110 | brute_25percent | 1.188162 |
-| fullgraph_110 | smart_10percent | 0.376461 |
-| fullgraph_110 | smart_50percent | 1.733172 |
-| fullgraph_110 | smart_25percent | 0.864535 |
-| fullgraph_120 | brute_50percent | 2.501081 |
-| fullgraph_120 | brute_10percent | 0.544211 |
-| fullgraph_120 | brute_25percent | 1.280592 |
-| fullgraph_120 | smart_10percent | 0.446698 |
-| fullgraph_120 | smart_50percent | 2.099584 |
-| fullgraph_120 | smart_25percent | 1.054330 |
-| fullgraph_130 | brute_50percent | 3.167158 |
-| fullgraph_130 | brute_10percent | 0.661226 |
-| fullgraph_130 | brute_25percent | 1.517065 |
-| fullgraph_130 | smart_10percent | 0.540932 |
-| fullgraph_130 | smart_50percent | 2.548923 |
-| fullgraph_130 | smart_25percent | 1.346114 |
-| fullgraph_140 | brute_50percent | 3.215310 |
-| fullgraph_140 | brute_10percent | 0.662574 |
-| fullgraph_140 | brute_25percent | 1.567229 |
-| fullgraph_140 | smart_10percent | 0.609515 |
-| fullgraph_140 | smart_50percent | 2.928966 |
-| fullgraph_140 | smart_25percent | 1.496168 |
-| fullgraph_150 | brute_50percent | 3.352329 |
-| fullgraph_150 | brute_10percent | 0.680954 |
-| fullgraph_150 | brute_25percent | 1.673007 |
-| fullgraph_150 | smart_10percent | 1.332620 |
-| fullgraph_150 | smart_50percent | 6.532719 |
-| fullgraph_150 | smart_25percent | 3.276786 |
-| fullgraph_160 | brute_50percent | 3.978944 |
-| fullgraph_160 | brute_10percent | 0.783559 |
-| fullgraph_160 | brute_25percent | 1.973217 |
-| fullgraph_160 | smart_10percent | 1.492055 |
-| fullgraph_160 | smart_50percent | 7.870040 |
-| fullgraph_160 | smart_25percent | 3.678081 |
-| fullgraph_170 | brute_50percent | 4.510837 |
-| fullgraph_170 | brute_10percent | 0.897028 |
-| fullgraph_170 | brute_25percent | 2.308993 |
-| fullgraph_170 | smart_10percent | 1.809635 |
-| fullgraph_170 | smart_50percent | 8.751259 |
-| fullgraph_170 | smart_25percent | 4.540628 |
-| fullgraph_180 | brute_50percent | 5.219381 |
-| fullgraph_180 | brute_10percent | 1.019352 |
-| fullgraph_180 | brute_25percent | 2.616857 |
-| fullgraph_180 | smart_10percent | 2.039943 |
-| fullgraph_180 | smart_50percent | 9.956734 |
-| fullgraph_180 | smart_25percent | 5.003744 |
-| fullgraph_190 | brute_50percent | 5.770847 |
-| fullgraph_190 | brute_10percent | 1.161336 |
-| fullgraph_190 | brute_25percent | 2.893244 |
-| fullgraph_190 | smart_10percent | 2.187746 |
-| fullgraph_190 | smart_50percent | 10.745874 |
-| fullgraph_190 | smart_25percent | 5.368318 |
-| fullgraph_20 | brute_50percent | 0.000004 |
-| fullgraph_20 | brute_10percent | 0.000004 |
-| fullgraph_20 | brute_25percent | 0.000004 |
-| fullgraph_20 | smart_10percent | 0.000004 |
-| fullgraph_20 | smart_50percent | 0.000005 |
-| fullgraph_20 | smart_25percent | 0.000005 |
-| fullgraph_200 | brute_50percent | 12.850857 |
-| fullgraph_200 | brute_10percent | 2.546481 |
-| fullgraph_200 | brute_25percent | 6.399454 |
-| fullgraph_200 | smart_10percent | 2.377825 |
-| fullgraph_200 | smart_50percent | 11.744377 |
-| fullgraph_200 | smart_25percent | 5.897336 |
-| fullgraph_30 | brute_50percent | 0.000003 |
-| fullgraph_30 | brute_10percent | 0.000004 |
-| fullgraph_30 | brute_25percent | 0.000003 |
-| fullgraph_30 | smart_10percent | 0.000007 |
-| fullgraph_30 | smart_50percent | 0.000005 |
-| fullgraph_30 | smart_25percent | 0.000004 |
-| fullgraph_40 | brute_50percent | 0.000003 |
-| fullgraph_40 | brute_10percent | 0.000012 |
-| fullgraph_40 | brute_25percent | 0.000003 |
-| fullgraph_40 | smart_10percent | 0.000004 |
-| fullgraph_40 | smart_50percent | 0.000007 |
-| fullgraph_40 | smart_25percent | 0.000006 |
-| fullgraph_50 | brute_50percent | 0.000005 |
-| fullgraph_50 | brute_10percent | 0.000007 |
-| fullgraph_50 | brute_25percent | 0.000007 |
-| fullgraph_50 | smart_10percent | 0.064927 |
-| fullgraph_50 | smart_50percent | 0.310719 |
-| fullgraph_50 | smart_25percent | 0.156859 |
-| fullgraph_60 | brute_50percent | 0.000006 |
-| fullgraph_60 | brute_10percent | 0.000006 |
-| fullgraph_60 | brute_25percent | 0.000006 |
-| fullgraph_60 | smart_10percent | 0.091227 |
-| fullgraph_60 | smart_50percent | 0.449344 |
-| fullgraph_60 | smart_25percent | 0.224496 |
-| fullgraph_70 | brute_50percent | 0.000005 |
-| fullgraph_70 | brute_10percent | 0.000006 |
-| fullgraph_70 | brute_25percent | 0.000006 |
-| fullgraph_70 | smart_10percent | 0.113369 |
-| fullgraph_70 | smart_50percent | 0.577865 |
-| fullgraph_70 | smart_25percent | 0.289773 |
-| fullgraph_80 | brute_50percent | 0.000006 |
-| fullgraph_80 | brute_10percent | 0.000005 |
-| fullgraph_80 | brute_25percent | 0.000007 |
-| fullgraph_80 | smart_10percent | 0.147606 |
-| fullgraph_80 | smart_50percent | 0.735869 |
-| fullgraph_80 | smart_25percent | 0.366673 |
-| fullgraph_90 | brute_50percent | 0.000007 |
-| fullgraph_90 | brute_10percent | 0.000006 |
-| fullgraph_90 | brute_25percent | 0.000006 |
-| fullgraph_90 | smart_10percent | 0.203384 |
-| fullgraph_90 | smart_50percent | 1.014893 |
-| fullgraph_90 | smart_25percent | 0.513932 |
+| Graph | Queries | Matrix Multiplication Amount | Time (s) |
+|:-----:|:-------:|:----------------------------:|:--------:|
+| fullgraph_10 | brute | 132 | 0.001832 |
+| fullgraph_10 | smart | 222 | 0.004140 |
+| fullgraph_100 | brute | 2020 | 2.607144 |
+| fullgraph_100 | smart | 2120 | 6.111004 |
+| fullgraph_110 | brute | 2220 | 3.595560 |
+| fullgraph_110 | smart | 2330 | 7.283945 |
+| fullgraph_120 | brute | 2420 | 3.989603 |
+| fullgraph_120 | smart | 2540 | 7.484449 |
+| fullgraph_130 | brute | 2620 | 4.493432 |
+| fullgraph_130 | smart | 2750 | 9.137277 |
+| fullgraph_140 | brute | 2820 | 5.584340 |
+| fullgraph_140 | smart | 2960 | 12.487029 |
+| fullgraph_150 | brute | 3020 | 8.475310 |
+| fullgraph_150 | smart | 3170 | 15.566949 |
+| fullgraph_160 | brute | 3864 | 15.662018 |
+| fullgraph_160 | smart | 3384 | 20.559737 |
+| fullgraph_170 | brute | 4104 | 19.346546 |
+| fullgraph_170 | smart | 3594 | 25.413030 |
+| fullgraph_180 | brute | 4344 | 23.681752 |
+| fullgraph_180 | smart | 3804 | 32.178139 |
+| fullgraph_190 | brute | 4584 | 28.500699 |
+| fullgraph_190 | smart | 4014 | 39.454139 |
+| fullgraph_20 | brute | 336 | 0.017090 |
+| fullgraph_20 | smart | 436 | 0.027134 |
+| fullgraph_200 | brute | 4824 | 33.683320 |
+| fullgraph_200 | smart | 4224 | 50.125933 |
+| fullgraph_30 | brute | 496 | 0.054993 |
+| fullgraph_30 | smart | 646 | 0.098954 |
+| fullgraph_40 | brute | 656 | 0.112453 |
+| fullgraph_40 | smart | 856 | 0.230123 |
+| fullgraph_50 | brute | 1020 | 0.356963 |
+| fullgraph_50 | smart | 1070 | 0.522280 |
+| fullgraph_60 | brute | 1220 | 0.710840 |
+| fullgraph_60 | smart | 1280 | 1.063734 |
+| fullgraph_70 | brute | 1420 | 1.352009 |
+| fullgraph_70 | smart | 1490 | 1.884906 |
+| fullgraph_80 | brute | 1620 | 1.543611 |
+| fullgraph_80 | smart | 1700 | 1.662338 |
+| fullgraph_90 | brute | 1820 | 2.050110 |
+| fullgraph_90 | smart | 1910 | 3.595388 |
 
