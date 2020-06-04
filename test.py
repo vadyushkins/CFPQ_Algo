@@ -18,6 +18,7 @@ TEST_GRAPHS = [
 TEST_TYPES = [
     'Construct',
     'Deconstruct',
+    'Correctness',
 ]
 
 def log(s):
