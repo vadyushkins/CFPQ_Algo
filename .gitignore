@@ -6,6 +6,7 @@
 *.ko
 *.obj
 *.elf
+Empty.txt
 
 # Linker output
 *.ilk
@@ -21,6 +22,8 @@
 *.a
 *.la
 *.lo
+input/
+deps/CFPQ_Data
 
 # Shared objects (inc. Windows DLLs)
 *.dll

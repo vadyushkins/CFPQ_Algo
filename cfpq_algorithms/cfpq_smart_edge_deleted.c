@@ -3,7 +3,7 @@
 void cfpq_smart_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to) {    // Create del matrices
     GrB_Index v_id = atoll(v);
     GrB_Index to_id = atoll(to);
-    GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->terminals, edge);
+    GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &grammar->terminals, edge);
 
     GrB_Matrix del_matrices[response->nonterminals_count];
 
@@ -66,7 +66,7 @@ void cfpq_smart_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Res
             GrB_Matrix_nvals(&nvals_new, del_matrices[nonterm1]);
             if (nvals_new != nvals_old) {
                 matrices_is_changed = true;
-            }
+            } 
         }
     }
 

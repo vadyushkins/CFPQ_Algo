@@ -1,9 +1,9 @@
 #include "graph.h"
 
-void GraphRepr_InsertEdge(GraphRepr* graph, const char* v, const char* edge, const char* to) {
+void GraphRepr_InsertEdge(GraphRepr* graph, const Grammar* grammar, const char* v, const char* edge, const char* to) {
     GrB_Index v_id = atoll(v);
     GrB_Index to_id = atoll(to);
-    GrB_Index edge_id = ItemMapper_Insert((ItemMapper*) &graph->terminals, edge);
+    GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &grammar->terminals, edge);
 
     assert(v_id != MAX_GRAPH_SIZE && to_id != MAX_GRAPH_SIZE && edge_id != MAX_GRAMMAR_TERMINALS);
 
@@ -18,19 +18,18 @@ void GraphRepr_InsertEdge(GraphRepr* graph, const char* v, const char* edge, con
     }
 }
 
-void GraphRepr_DeleteEdge(GraphRepr* graph, const char* v, const char* edge, const char* to) {
+void GraphRepr_DeleteEdge(GraphRepr* graph, const Grammar* grammar, const char* v, const char* edge, const char* to) {
     GrB_Index v_id = atoll(v);
     GrB_Index to_id = atoll(to);
-    GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->terminals, edge);
+    GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &grammar->terminals, edge);
 
     assert(v_id != MAX_GRAPH_SIZE && to_id != MAX_GRAPH_SIZE && edge_id != MAX_GRAMMAR_TERMINALS);
 
     GrB_Matrix_setElement_BOOL(graph->terminal_matrices[edge_id], false, v_id, to_id);
 }
 
-void GraphRepr_Load(GraphRepr* graph, FILE* f) {
-    // Initialize mapper of terminals
-    ItemMapper_Init((ItemMapper*) &graph->terminals);
+void GraphRepr_Load(GraphRepr* graph, const Grammar* grammar, FILE* f) {
+    // Initialize nodes count
     graph->nodes_count = 0;
 
     // Initialie terminal matrices
@@ -50,6 +49,6 @@ void GraphRepr_Load(GraphRepr* graph, FILE* f) {
         int nitems = sscanf(line_buf, "%s %s %s", v, edge, to);
         assert(nitems == 3);
 
-        GraphRepr_InsertEdge(graph, v, edge, to);
+        GraphRepr_InsertEdge(graph, grammar, v, edge, to);
     }
 }

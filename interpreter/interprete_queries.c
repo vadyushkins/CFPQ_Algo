@@ -53,22 +53,22 @@ void interprete_queries(
             }
         } else if (nitems == 4) {
             if (strcmp(type, "brute-edge-add") == 0) {
-                GraphRepr_InsertEdge(graph, v, edge, to);
+                GraphRepr_InsertEdge(graph, grammar, v, edge, to);
                 simple_tic(timer);
                 cfpq_brute_edge_added(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);
             } else if (strcmp(type, "smart-edge-add") == 0) {
-                GraphRepr_InsertEdge(graph, v, edge, to);
+                GraphRepr_InsertEdge(graph, grammar, v, edge, to);
                 simple_tic(timer);
                 cfpq_smart_edge_added(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);
             } else if (strcmp(type, "brute-edge-delete") == 0) {
-                GraphRepr_DeleteEdge(graph, v, edge, to);
+                GraphRepr_DeleteEdge(graph, grammar, v, edge, to);
                 simple_tic(timer);
                 cfpq_brute_edge_deleted(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);
             } else if (strcmp(type, "smart-edge-delete") == 0) {
-                GraphRepr_DeleteEdge(graph, v, edge, to);
+                GraphRepr_DeleteEdge(graph, grammar, v, edge, to);
                 simple_tic(timer);
                 cfpq_smart_edge_deleted(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);

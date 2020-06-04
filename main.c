@@ -24,20 +24,20 @@ int main(int argc, char* argv[]) {
     // Initialize GraphBLAS
     GrB_init(GrB_NONBLOCKING);
 
-    // Load graph
-    FILE* f = fopen(GRAPH_INPUT_FILE, "r");
-    assert(f != NULL);
-
-    GraphRepr graph;
-    GraphRepr_Load(&graph, f);
-    fclose(f);
-
     // Load grammar
-    f = fopen(GRAMMAR_INPUT_FILE, "r");
+    FILE* f = fopen(GRAMMAR_INPUT_FILE, "r");
     assert(f != NULL);
 
     Grammar grammar;
     Grammar_Load(&grammar, f);
+    fclose(f);
+
+    // Load graph
+    f = fopen(GRAPH_INPUT_FILE, "r");
+    assert(f != NULL);
+
+    GraphRepr graph;
+    GraphRepr_Load(&graph, &grammar, f);
     fclose(f);
 
     // Start algorithm

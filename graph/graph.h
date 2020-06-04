@@ -10,11 +10,9 @@
 typedef struct {
     GrB_Matrix terminal_matrices[MAX_GRAMMAR_TERMINALS];
 
-    TermMapper terminals;
-
     GrB_Index nodes_count;
 } GraphRepr;
 
-void GraphRepr_Load(GraphRepr* graph, FILE* f);
-void GraphRepr_InsertEdge(GraphRepr* graph, const char* v, const char* edge, const char* to);
-void GraphRepr_DeleteEdge(GraphRepr* graph, const char* v, const char* edge, const char* to);
+void GraphRepr_Load(GraphRepr* graph, const Grammar* grammar, FILE* f);
+void GraphRepr_InsertEdge(GraphRepr* graph, const Grammar* grammar, const char* v, const char* edge, const char* to);
+void GraphRepr_DeleteEdge(GraphRepr* graph, const Grammar* grammar, const char* v, const char* edge, const char* to);

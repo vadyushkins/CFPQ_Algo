@@ -133,7 +133,7 @@ def test_one_graph(test, graph, grammar, queries):
 
     log(f'Start testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
     
-    sp.run(f'./main {graph} {grammar} {queries} --total-time > {results_path}', shell=True)
+    sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
 
     time = None
     multiplications = 0
