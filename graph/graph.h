@@ -13,9 +13,6 @@ typedef struct {
     TermMapper terminals;
 } GraphRepr;
 
-void GraphRepr_Init(const GraphRepr* graph);
-
+void GraphRepr_Load(const GraphRepr* graph, FILE* f);
 void GraphRepr_InsertEdge(const GraphRepr* graph, const char* v, const char* edge, const char* to);
 void GraphRepr_DeleteEdge(const GraphRepr* graph, const char* v, const char* edge, const char* to);
-
-void GraphRepr_Load(const GraphRepr* graph, FILE* f);
