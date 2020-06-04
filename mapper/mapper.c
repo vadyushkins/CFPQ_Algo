@@ -23,10 +23,6 @@ GrB_Index ItemMapper_Insert(ItemMapper* dict, const char* token) {
     }
 }
 
-int ItemMapper_Find(ItemMapper* dict, const char* token) {
-    return ItemMapper_GetPlaceIndex(dict, token) == dict->count ? ITEM_NOT_EXIST : ITEM_EXIST;
-}
-
 char* ItemMapper_Map(ItemMapper* dict, GrB_Index mapperIdex) {
     assert(mapperIdex < dict->count);
     return dict->items[mapperIdex];

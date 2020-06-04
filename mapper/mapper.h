@@ -15,5 +15,4 @@ void ItemMapper_Init(ItemMapper* dict);
 
 GrB_Index ItemMapper_GetPlaceIndex(ItemMapper* dict, const char* token);
 GrB_Index ItemMapper_Insert(ItemMapper* dict, const char* token);
-int ItemMapper_Find(ItemMapper* dict, const char* token);
 char* ItemMapper_Map(ItemMapper* dict, GrB_Index mapperIdex);
