@@ -5,8 +5,8 @@ void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* respo
     Response_Init(response, grammar);
     
     // Initialize matrices
-    for (GrB_Index i = 0; i < graph->edges.count; ++i) {
-        const char* terminal = graph->edges.items[i];
+    for (GrB_Index i = 0; i < graph->terminals.count; ++i) {
+        const char* terminal = graph->terminals.items[i];
 
         GrB_Index terminal_id = ItemMapper_GetPlaceIndex((ItemMapper*) &grammar->terminals, terminal);
 

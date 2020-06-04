@@ -15,6 +15,6 @@ typedef struct {
     GrB_Index nodes_count;
 } GraphRepr;
 
-void GraphRepr_Load(const GraphRepr* graph, FILE* f);
-void GraphRepr_InsertEdge(const GraphRepr* graph, const char* v, const char* edge, const char* to);
-void GraphRepr_DeleteEdge(const GraphRepr* graph, const char* v, const char* edge, const char* to);
+void GraphRepr_Load(GraphRepr* graph, FILE* f);
+void GraphRepr_InsertEdge(GraphRepr* graph, const char* v, const char* edge, const char* to);
+void GraphRepr_DeleteEdge(GraphRepr* graph, const char* v, const char* edge, const char* to);

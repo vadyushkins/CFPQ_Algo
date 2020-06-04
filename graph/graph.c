@@ -1,6 +1,6 @@
 #include "graph.h"
 
-void GraphRepr_InsertEdge(const GraphRepr* graph, const char* v, const char* edge, const char* to) {
+void GraphRepr_InsertEdge(GraphRepr* graph, const char* v, const char* edge, const char* to) {
     GrB_Index v_id = atoll(v);
     GrB_Index to_id = atoll(to);
     GrB_Index edge_id = ItemMapper_Insert((ItemMapper*) &graph->terminals, edge);
@@ -18,7 +18,7 @@ void GraphRepr_InsertEdge(const GraphRepr* graph, const char* v, const char* edg
     }
 }
 
-void GraphRepr_DeleteEdge(const GraphRepr* graph, const char* v, const char* edge, const char* to) {
+void GraphRepr_DeleteEdge(GraphRepr* graph, const char* v, const char* edge, const char* to) {
     GrB_Index v_id = atoll(v);
     GrB_Index to_id = atoll(to);
     GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->terminals, edge);
@@ -28,9 +28,10 @@ void GraphRepr_DeleteEdge(const GraphRepr* graph, const char* v, const char* edg
     GrB_Matrix_setElement_BOOL(graph->terminal_matrices[edge_id], false, v_id, to_id);
 }
 
-void GraphRepr_Load(const GraphRepr* graph, FILE* f) {
+void GraphRepr_Load(GraphRepr* graph, FILE* f) {
     // Initialize mapper of terminals
     ItemMapper_Init((ItemMapper*) &graph->terminals);
+    graph->nodes_count = 0;
 
     // Initialie terminal matrices
     for (GrB_Index i = 0; i < MAX_GRAMMAR_TERMINALS; ++i) {
