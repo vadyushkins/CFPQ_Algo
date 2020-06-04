@@ -10,7 +10,9 @@ typedef struct {
     GrB_Index iteration_count;
 
     GrB_Matrix nonterminal_matrices[MAX_GRAMMAR_NONTERMINALS];
-    NontermMapper nonterminal_names;
+
+    NontermMapper nonterminals;
+    
     GrB_Index nonterminals_count;
 } Response;
 
