@@ -13,14 +13,7 @@
 #include "../config/config.h"
 #include "../timer/simple_timer.h"
 
-void interprete_queries_with_time(
-    const GraphRepr* graph, 
-    const Grammar* grammar, 
-    Response* response, 
-    FILE* f
-);
-
-void interprete_queries_without_time(
+void interprete_queries(
     const GraphRepr* graph, 
     const Grammar* grammar, 
     Response* response, 

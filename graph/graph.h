@@ -8,20 +8,9 @@
 #include "../mapper/mapper.h"
 
 typedef struct {
-    GrB_Index count;
-    char items[MAX_GRAPH_SIZE][MAX_VERTEX_NAME_LEN];
-} VerticesMapper;
-
-typedef struct {
-    GrB_Index count;
-    char items[MAX_GRAMMAR_TERMINALS][MAX_EDGE_NAME_LEN];
-} EdgesMapper;
-
-typedef struct {
     GrB_Matrix terminal_matrices[MAX_GRAMMAR_TERMINALS];
 
-    EdgesMapper edges;
-    VerticesMapper nodes;
+    TermMapper terminals;
 } GraphRepr;
 
 void GraphRepr_Init(const GraphRepr* graph);

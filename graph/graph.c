@@ -1,8 +1,7 @@
 #include "graph.h"
 
 void GraphRepr_Init(const GraphRepr* graph) {
-    ItemMapper_Init((ItemMapper*) &graph->nodes);
-    ItemMapper_Init((ItemMapper*) &graph->edges);
+    ItemMapper_Init((ItemMapper*) &graph->terminals);
 
     for (int i = 0; i < MAX_GRAMMAR_TERMINALS; ++i) {
         GrB_Matrix_new(&graph->terminal_matrices[i], GrB_BOOL, MAX_GRAPH_SIZE, MAX_GRAPH_SIZE);
@@ -10,9 +9,9 @@ void GraphRepr_Init(const GraphRepr* graph) {
 }
 
 void GraphRepr_InsertEdge(const GraphRepr* graph, const char* v, const char* edge, const char* to) {
-    GrB_Index v_id = ItemMapper_Insert((ItemMapper*) &graph->nodes, v);
-    GrB_Index to_id = ItemMapper_Insert((ItemMapper*) &graph->nodes, to);
-    GrB_Index edge_id = ItemMapper_Insert((ItemMapper*) &graph->edges, edge);
+    GrB_Index v_id = atoll(v);
+    GrB_Index to_id = atoll(to);
+    GrB_Index edge_id = ItemMapper_Insert((ItemMapper*) &graph->terminals, edge);
 
     assert(v_id != MAX_GRAPH_SIZE && to_id != MAX_GRAPH_SIZE && edge_id != MAX_GRAMMAR_TERMINALS);
 
@@ -30,15 +29,14 @@ void GraphRepr_DeleteEdge(const GraphRepr* graph, const char* v, const char* edg
 }
 
 void GraphRepr_Load(const GraphRepr* graph, FILE* f) {
-    GraphRepr_Init(graph);
+    // Initialize mapper of terminals
+    ItemMapper_Init((ItemMapper*) &graph->terminals);
 
+    // Initialize input  
     char* line_buf;
     size_t buf_size = 0;
 
-    ItemMapper nodes, edges;
-    ItemMapper_Init(&nodes);
-    ItemMapper_Init(&edges);
-
+    // Read graph
     while (getline(&line_buf, &buf_size, f) != -1) {
         line_buf[strcspn(line_buf, "\n")] = 0;
 
