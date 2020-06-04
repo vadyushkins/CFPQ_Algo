@@ -18,7 +18,6 @@ TEST_GRAPHS = [
 TEST_TYPES = [
     'Construct',
     'Deconstruct',
-    'Correctness',
 ]
 
 def log(s):
@@ -126,7 +125,6 @@ def deconstruct_graph_queries(test, graph):
                 log(f'Finish adding queries to {q_path}...')
 
 
-
 def correctness_graph_queries(test, graph):
     q_dir = f'input/{test}/Queries/{filename(graph)}/Correctness/'
     if os.path.exists(q_dir) is False:
@@ -137,8 +135,8 @@ def correctness_graph_queries(test, graph):
     with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
         for line in fin:
             v, edge, to = line.split()
-        min_v = min(int(v), min_v)
-        max_v = max(int(v), max_v)
+            min_v = min(list(map(int, [v, to, min_v])))
+            max_v = max(list(map(int, [v, to, max_v])))
     
     for type in ['brute', 'smart']:
         with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
@@ -150,7 +148,7 @@ def correctness_graph_queries(test, graph):
                     fout.write(f'{type}-edge-add {v} {to} {edge}\n')
                     for i in range(min_v, max_v + 1):
                         for j in range(i + 1, max_v + 1):
-                            fout.write(f'find-path {v} {to}\n')
+                            fout.write(f'find-path {i} {j}\n')
                 log(f'Finish adding queries to {q_path}...')
 
 
@@ -159,6 +157,9 @@ def test_one_graph(test, graph, grammar, queries):
     gr_name = filename(grammar)
     q_name = filename(queries)
     
+    if os.path.exists(test) is False:
+        os.makedirs(test, exist_ok=True)
+
     results_path = f'{test}/{g_name}_{gr_name}_{q_name}'
 
     log(f'Start testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
