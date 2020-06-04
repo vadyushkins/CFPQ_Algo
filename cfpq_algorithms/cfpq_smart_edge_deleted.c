@@ -50,6 +50,29 @@ void cfpq_smart_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Res
                 GrB_NULL
             );
 
+            response->iteration_count += 1;
+
+            GrB_Index nvals_new;
+            GrB_Matrix_nvals(&nvals_new, del_matrices[nonterm1]);
+            if (nvals_new != nvals_old) {
+                matrices_is_changed = true;
+            } 
+        }
+    }
+
+    matrices_is_changed = true;
+    while(matrices_is_changed) {    
+
+        matrices_is_changed = false;
+
+        for (GrB_Index i = 0; i < grammar->complex_rules_count; ++i) {
+            GrB_Index nonterm1 = grammar->complex_rules[i].l;
+            GrB_Index nonterm2 = grammar->complex_rules[i].r1;
+            GrB_Index nonterm3 = grammar->complex_rules[i].r2;
+
+            GrB_Index nvals_old;
+            GrB_Matrix_nvals(&nvals_old, del_matrices[nonterm1]);
+
             GrB_mxm(
                 del_matrices[nonterm1], 
                 GrB_NULL, 
@@ -60,7 +83,7 @@ void cfpq_smart_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Res
                 GrB_NULL
             );
 
-            response->iteration_count += 2;
+            response->iteration_count += 1;
 
             GrB_Index nvals_new;
             GrB_Matrix_nvals(&nvals_new, del_matrices[nonterm1]);
@@ -116,4 +139,11 @@ void cfpq_smart_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Res
     }
 
     printf("Iteration count: %ld\n", response->iteration_count);
+
+    for (GrB_Index i = 0; i < grammar->nonterminals.count; ++i) {
+        char* nonterm = ItemMapper_Map((ItemMapper*) &response->nonterminals, i);
+        GrB_Index nvals;
+        GrB_Matrix_nvals(&nvals, response->nonterminal_matrices[i]);
+        printf("%s: %ld\n", nonterm, nvals);
+    }
 }

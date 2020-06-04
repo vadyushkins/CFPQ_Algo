@@ -18,6 +18,7 @@ TEST_GRAPHS = [
 TEST_TYPES = [
     'Construct',
     'Deconstruct',
+    'Correctness',
 ]
 
 def log(s):
@@ -84,6 +85,7 @@ def init(tests):
 
                 construct_graph_queries(test, g_txt)
                 deconstruct_graph_queries(test, g_txt)
+                correctness_graph_queries(test, g_txt)
         
         grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
         for gr in tqdm(grammars):
@@ -97,7 +99,7 @@ def init(tests):
 def construct_graph_queries(test, graph):
     q_dir = f'input/{test}/Queries/{filename(graph)}/Construct/'
     if os.path.exists(q_dir) is False:
-        os.makedirs(q_dir, exist_ok=True)
+        os.makedirs(q_dir, exist_ok=True)    
     for type in ['brute', 'smart']:
         with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
             q_path = q_dir + f'{type}.txt'
@@ -124,12 +126,40 @@ def deconstruct_graph_queries(test, graph):
                 log(f'Finish adding queries to {q_path}...')
 
 
+
+def correctness_graph_queries(test, graph):
+    q_dir = f'input/{test}/Queries/{filename(graph)}/Correctness/'
+    if os.path.exists(q_dir) is False:
+        os.makedirs(q_dir, exist_ok=True)
+
+    min_v = int(10**18)
+    max_v = -int(10**18)
+    with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
+        for line in fin:
+            v, edge, to = line.split()
+        min_v = min(int(v), min_v)
+        max_v = max(int(v), max_v)
+    
+    for type in ['brute', 'smart']:
+        with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
+            q_path = q_dir + f'{type}.txt'
+            with open(q_path, 'w') as fout:
+                log(f'Start adding queries to {q_path}...')
+                for line in tqdm(fin):
+                    v, edge, to = line.split()
+                    fout.write(f'{type}-edge-add {v} {to} {edge}\n')
+                    for i in range(min_v, max_v + 1):
+                        for j in range(i + 1, max_v + 1):
+                            fout.write(f'find-path {v} {to}\n')
+                log(f'Finish adding queries to {q_path}...')
+
+
 def test_one_graph(test, graph, grammar, queries):
     g_name = filename(graph)
     gr_name = filename(grammar)
     q_name = filename(queries)
     
-    results_path = 'results_tmp.txt'
+    results_path = f'{test}/{g_name}_{gr_name}_{q_name}'
 
     log(f'Start testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
     
@@ -137,8 +167,12 @@ def test_one_graph(test, graph, grammar, queries):
 
     time = None
     multiplications = 0
+    flag = False
     with open(results_path, 'r') as fin:
         for line in fin:
+            if flag is False:
+                flag = True
+                continue
             if re.fullmatch('(Total time:) (.*) s\n', line) is not None:
                 time = re.sub('(Total time:) (.*) s\n', '\g<2>', line)
             if re.fullmatch('(Iteration count:) (.*)\n', line) is not None:
@@ -146,8 +180,6 @@ def test_one_graph(test, graph, grammar, queries):
                 multiplications += int(tmp)
 
     log(f'Total time: {time} s')
-
-    os.remove(results_path)
 
     log(f'Finish testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
 

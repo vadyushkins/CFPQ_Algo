@@ -1,6 +1,7 @@
 #include <assert.h>
 
 #include "interpreter/interpreter.h"
+#include "timer/simple_timer.h"
 
 char GRAPH_INPUT_FILE[MAX_COMMAND_LEN];
 char GRAMMAR_INPUT_FILE[MAX_COMMAND_LEN];
