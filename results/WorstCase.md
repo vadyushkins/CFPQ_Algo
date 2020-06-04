@@ -5,34 +5,34 @@
 
 | Graph | Queries | Matrix Multiplication Amount | Time (s) |
 |:-----:|:-------:|:----------------------------:|:--------:|
-| worstcase_128 | brute | 17564 | 1.426559 |
-| worstcase_128 | smart | 516 | 0.004087 |
-| worstcase_16 | brute | 384 | 0.005628 |
-| worstcase_16 | smart | 68 | 0.000561 |
-| worstcase_32 | brute | 1308 | 0.023582 |
-| worstcase_32 | smart | 132 | 0.001076 |
-| worstcase_4 | brute | 48 | 0.000765 |
-| worstcase_4 | smart | 20 | 0.000167 |
-| worstcase_64 | brute | 4836 | 0.135646 |
-| worstcase_64 | smart | 260 | 0.002029 |
-| worstcase_8 | brute | 128 | 0.001864 |
-| worstcase_8 | smart | 36 | 0.000289 |
+| worstcase_128 | brute | 18032 | 1.532799 |
+| worstcase_128 | smart | 516 | 0.004112 |
+| worstcase_16 | brute | 368 | 0.006125 |
+| worstcase_16 | smart | 68 | 0.000581 |
+| worstcase_32 | brute | 1232 | 0.025097 |
+| worstcase_32 | smart | 132 | 0.001177 |
+| worstcase_4 | brute | 52 | 0.000853 |
+| worstcase_4 | smart | 20 | 0.000199 |
+| worstcase_64 | brute | 4636 | 0.139207 |
+| worstcase_64 | smart | 260 | 0.002149 |
+| worstcase_8 | brute | 140 | 0.002092 |
+| worstcase_8 | smart | 36 | 0.000309 |
 
 ## Grammar: Brackets_cnf
 ## Test type: Deconstruct
 
 | Graph | Queries | Matrix Multiplication Amount | Time (s) |
 |:-----:|:-------:|:----------------------------:|:--------:|
-| worstcase_128 | brute | 2147076 | 178.589128 |
-| worstcase_128 | smart | 2062 | 0.111365 |
-| worstcase_16 | brute | 4964 | 0.067332 |
-| worstcase_16 | smart | 270 | 0.004550 |
-| worstcase_32 | brute | 36036 | 0.589331 |
-| worstcase_32 | smart | 526 | 0.010421 |
-| worstcase_4 | brute | 140 | 0.001702 |
-| worstcase_4 | smart | 74 | 0.001406 |
-| worstcase_64 | brute | 274820 | 7.680841 |
-| worstcase_64 | smart | 974 | 0.030182 |
-| worstcase_8 | brute | 756 | 0.009403 |
-| worstcase_8 | smart | 142 | 0.002335 |
+| worstcase_128 | brute | 2147076 | 185.155479 |
+| worstcase_128 | smart | 13596 | 0.564578 |
+| worstcase_16 | brute | 4964 | 0.068148 |
+| worstcase_16 | smart | 1000 | 0.011803 |
+| worstcase_32 | brute | 36036 | 0.603975 |
+| worstcase_32 | smart | 3528 | 0.043179 |
+| worstcase_4 | brute | 140 | 0.001811 |
+| worstcase_4 | smart | 120 | 0.001876 |
+| worstcase_64 | brute | 274820 | 7.996390 |
+| worstcase_64 | smart | 3916 | 0.090855 |
+| worstcase_8 | brute | 756 | 0.009831 |
+| worstcase_8 | smart | 232 | 0.004004 |
 
