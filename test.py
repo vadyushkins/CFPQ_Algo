@@ -82,9 +82,12 @@ def init(tests):
                     sp.run(f'mv deps/CFPQ_Data/data/{test}/Matrices/{g_txt} input/{test}/Graphs/{g_txt}', shell=True)
                     log(f'Finish adding graph {g} to input...')
 
-                construct_graph_queries(test, g_txt)
-                deconstruct_graph_queries(test, g_txt)
-                correctness_graph_queries(test, g_txt)
+                if 'Construct' in TEST_TYPES:
+                    construct_graph_queries(test, g_txt)
+                if 'Deconstruct' in TEST_TYPES:
+                    deconstruct_graph_queries(test, g_txt)
+                if 'Correctness' in TEST_TYPES:
+                    correctness_graph_queries(test, g_txt)
         
         grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
         for gr in tqdm(grammars):
