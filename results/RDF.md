@@ -5,126 +5,126 @@
 
 | Graph | Queries | Matrix Multiplication Amount | Time (s) |
 |:-----:|:-------:|:----------------------------:|:--------:|
-| atom-primitive | brute | 1700 | 0.051918 |
-| atom-primitive | smart | 1700 | 0.016975 |
-| biomedical-mesure-primitive | brute | 1836 | 0.049570 |
-| biomedical-mesure-primitive | smart | 1836 | 0.016158 |
-| core | brute | 11008 | 0.337212 |
-| core | smart | 11008 | 0.086469 |
-| foaf | brute | 2524 | 0.061769 |
-| foaf | smart | 2524 | 0.021091 |
-| funding | brute | 4344 | 0.116175 |
-| funding | smart | 4344 | 0.036353 |
-| generations | brute | 1092 | 0.029794 |
-| generations | smart | 1092 | 0.009132 |
-| pathways | brute | 49452 | 4.823110 |
-| pathways | smart | 49452 | 0.381437 |
-| people_pets | brute | 2560 | 0.066463 |
-| people_pets | smart | 2560 | 0.021239 |
-| pizza | brute | 7920 | 0.216145 |
-| pizza | smart | 7920 | 0.066214 |
-| skos | brute | 1008 | 0.026360 |
-| skos | smart | 1008 | 0.008577 |
-| travel | brute | 1108 | 0.029215 |
-| travel | smart | 1108 | 0.009918 |
-| univ-bench | brute | 1172 | 0.033890 |
-| univ-bench | smart | 1172 | 0.009893 |
-| wine | brute | 7356 | 0.206337 |
-| wine | smart | 7356 | 0.058303 |
+| atom-primitive | brute | 5476 | 0.106585 |
+| atom-primitive | smart | 2740 | 0.021597 |
+| biomedical-mesure-primitive | brute | 5684 | 0.098104 |
+| biomedical-mesure-primitive | smart | 2844 | 0.022365 |
+| core | brute | 52104 | 1.647115 |
+| core | smart | 14544 | 0.112659 |
+| foaf | brute | 8328 | 0.136524 |
+| foaf | smart | 3260 | 0.025444 |
+| funding | brute | 15916 | 0.327247 |
+| funding | smart | 5920 | 0.046482 |
+| generations | brute | 2788 | 0.047034 |
+| generations | smart | 1404 | 0.012075 |
+| pathways | brute | 148764 | 17.561925 |
+| pathways | smart | 74392 | 0.562387 |
+| people_pets | brute | 9052 | 0.161429 |
+| people_pets | smart | 3336 | 0.027086 |
+| pizza | brute | 30624 | 1.084303 |
+| pizza | smart | 10416 | 0.081036 |
+| skos | brute | 2528 | 0.042785 |
+| skos | smart | 1292 | 0.010116 |
+| travel | brute | 3948 | 0.065537 |
+| travel | smart | 1588 | 0.012182 |
+| univ-bench | brute | 3860 | 0.059852 |
+| univ-bench | smart | 1652 | 0.012668 |
+| wine | brute | 28772 | 0.817896 |
+| wine | smart | 9800 | 0.077678 |
 
 ## Grammar: g1_cnf
 ## Test type: Deconstruct
 
 | Graph | Queries | Matrix Multiplication Amount | Time (s) |
 |:-----:|:-------:|:----------------------------:|:--------:|
-| atom-primitive | brute | 1700 | 0.047951 |
-| atom-primitive | smart | 5100 | 0.103546 |
-| biomedical-mesure-primitive | brute | 1836 | 0.051334 |
-| biomedical-mesure-primitive | smart | 5508 | 0.113344 |
-| core | brute | 11008 | 0.409682 |
-| core | smart | 33024 | 0.861931 |
-| foaf | brute | 2524 | 0.061788 |
-| foaf | smart | 7572 | 0.135595 |
-| funding | brute | 4344 | 0.128294 |
-| funding | smart | 13032 | 0.281846 |
-| generations | brute | 1092 | 0.032495 |
-| generations | smart | 3276 | 0.058410 |
-| pathways | brute | 49452 | 8.395848 |
-| pathways | smart | 148356 | 12.350713 |
-| people_pets | brute | 2560 | 0.072757 |
-| people_pets | smart | 7680 | 0.147938 |
-| pizza | brute | 7920 | 0.244862 |
-| pizza | smart | 23760 | 0.558804 |
-| skos | brute | 1008 | 0.027888 |
-| skos | smart | 3024 | 0.054236 |
-| travel | brute | 1108 | 0.027913 |
-| travel | smart | 3324 | 0.064350 |
-| univ-bench | brute | 1172 | 0.030113 |
-| univ-bench | smart | 3516 | 0.065962 |
-| wine | brute | 7356 | 0.244348 |
-| wine | smart | 22068 | 0.538668 |
+| atom-primitive | brute | 5480 | 0.111343 |
+| atom-primitive | smart | 9828 | 0.214363 |
+| biomedical-mesure-primitive | brute | 5688 | 0.115440 |
+| biomedical-mesure-primitive | smart | 12784 | 0.308560 |
+| core | brute | 58176 | 2.698143 |
+| core | smart | 56716 | 2.971165 |
+| foaf | brute | 9780 | 0.168682 |
+| foaf | smart | 10500 | 0.213485 |
+| funding | brute | 17760 | 0.479080 |
+| funding | smart | 18876 | 0.507506 |
+| generations | brute | 2808 | 0.046997 |
+| generations | smart | 5268 | 0.091739 |
+| pathways | brute | 148784 | 47.482584 |
+| pathways | smart | 235216 | 42.687487 |
+| people_pets | brute | 10008 | 0.228674 |
+| people_pets | smart | 10648 | 0.240463 |
+| pizza | brute | 31248 | 1.854815 |
+| pizza | smart | 33708 | 1.649554 |
+| skos | brute | 2584 | 0.040781 |
+| skos | smart | 4132 | 0.077744 |
+| travel | brute | 4764 | 0.088183 |
+| travel | smart | 6636 | 0.131101 |
+| univ-bench | brute | 4956 | 0.081144 |
+| univ-bench | smart | 6016 | 0.115656 |
+| wine | brute | 29400 | 1.354318 |
+| wine | smart | 36716 | 1.661016 |
 
 ## Grammar: g2_cnf
 ## Test type: Construct
 
 | Graph | Queries | Matrix Multiplication Amount | Time (s) |
 |:-----:|:-------:|:----------------------------:|:--------:|
-| atom-primitive | brute | 850 | 0.026851 |
-| atom-primitive | smart | 850 | 0.007552 |
-| biomedical-mesure-primitive | brute | 1602 | 0.033829 |
-| biomedical-mesure-primitive | smart | 918 | 0.009355 |
-| core | brute | 10634 | 0.198511 |
-| core | smart | 5504 | 0.047303 |
-| foaf | brute | 1344 | 0.030670 |
-| foaf | smart | 1262 | 0.010798 |
-| funding | brute | 3818 | 0.069996 |
-| funding | smart | 2172 | 0.019156 |
-| generations | brute | 546 | 0.016108 |
-| generations | smart | 546 | 0.005100 |
-| pathways | brute | 49060 | 6.355774 |
-| pathways | smart | 24726 | 0.205693 |
-| people_pets | brute | 2082 | 0.038945 |
-| people_pets | smart | 1280 | 0.012444 |
-| pizza | brute | 7042 | 0.136361 |
-| pizza | smart | 3960 | 0.036331 |
-| skos | brute | 504 | 0.012899 |
-| skos | smart | 504 | 0.004354 |
-| travel | brute | 1014 | 0.018435 |
-| travel | smart | 554 | 0.005972 |
-| univ-bench | brute | 1004 | 0.020510 |
-| univ-bench | smart | 586 | 0.005268 |
-| wine | brute | 7040 | 0.114836 |
-| wine | smart | 3678 | 0.030781 |
+| atom-primitive | brute | 1370 | 0.032163 |
+| atom-primitive | smart | 1370 | 0.010898 |
+| biomedical-mesure-primitive | brute | 2692 | 0.048247 |
+| biomedical-mesure-primitive | smart | 1422 | 0.011985 |
+| core | brute | 18102 | 0.346232 |
+| core | smart | 7272 | 0.058015 |
+| foaf | brute | 3064 | 0.040893 |
+| foaf | smart | 1630 | 0.013810 |
+| funding | brute | 7088 | 0.113508 |
+| funding | smart | 2960 | 0.023786 |
+| generations | brute | 702 | 0.018381 |
+| generations | smart | 702 | 0.006163 |
+| pathways | brute | 73896 | 12.181010 |
+| pathways | smart | 37196 | 0.288902 |
+| people_pets | brute | 3772 | 0.053359 |
+| people_pets | smart | 1668 | 0.013295 |
+| pizza | brute | 13302 | 0.335503 |
+| pizza | smart | 5208 | 0.042939 |
+| skos | brute | 646 | 0.014856 |
+| skos | smart | 646 | 0.005443 |
+| travel | brute | 1748 | 0.025040 |
+| travel | smart | 794 | 0.006597 |
+| univ-bench | brute | 1570 | 0.022561 |
+| univ-bench | smart | 826 | 0.006692 |
+| wine | brute | 10732 | 0.178490 |
+| wine | smart | 4900 | 0.039365 |
 
 ## Grammar: g2_cnf
 ## Test type: Deconstruct
 
 | Graph | Queries | Matrix Multiplication Amount | Time (s) |
 |:-----:|:-------:|:----------------------------:|:--------:|
-| atom-primitive | brute | 850 | 0.025699 |
-| atom-primitive | smart | 2794 | 0.069898 |
-| biomedical-mesure-primitive | brute | 1836 | 0.043031 |
-| biomedical-mesure-primitive | smart | 2998 | 0.075280 |
-| core | brute | 11008 | 0.249688 |
-| core | smart | 16868 | 0.463493 |
-| foaf | brute | 2524 | 0.038035 |
-| foaf | smart | 3806 | 0.070769 |
-| funding | brute | 4344 | 0.082286 |
-| funding | smart | 6696 | 0.153556 |
-| generations | brute | 546 | 0.015631 |
-| generations | smart | 1638 | 0.028860 |
-| pathways | brute | 49452 | 13.620316 |
-| pathways | smart | 86648 | 15.100722 |
-| people_pets | brute | 2560 | 0.045858 |
-| people_pets | smart | 3906 | 0.079893 |
-| pizza | brute | 7920 | 0.166452 |
-| pizza | smart | 12398 | 0.350184 |
-| skos | brute | 504 | 0.012644 |
-| skos | smart | 1514 | 0.029222 |
-| travel | brute | 1108 | 0.018479 |
-| travel | smart | 1782 | 0.036347 |
-| univ-bench | brute | 1172 | 0.019330 |
-| univ-bench | smart | 1830 | 0.039559 |
-| wine | brute | 7356 | 0.130375 |
-| wine | smart | 11286 | 0.263526 |
+| atom-primitive | brute | 1370 | 0.036165 |
+| atom-primitive | smart | 4354 | 0.110444 |
+| biomedical-mesure-primitive | brute | 2844 | 0.060983 |
+| biomedical-mesure-primitive | smart | 5118 | 0.153650 |
+| core | brute | 21816 | 0.590515 |
+| core | smart | 23094 | 0.941290 |
+| foaf | brute | 3260 | 0.042116 |
+| foaf | smart | 4918 | 0.090764 |
+| funding | brute | 8880 | 0.159008 |
+| funding | smart | 9080 | 0.233453 |
+| generations | brute | 702 | 0.018606 |
+| generations | smart | 2106 | 0.034282 |
+| pathways | brute | 74392 | 26.259782 |
+| pathways | smart | 117822 | 37.628818 |
+| people_pets | brute | 5004 | 0.073194 |
+| people_pets | smart | 5092 | 0.103986 |
+| pizza | brute | 15624 | 0.594577 |
+| pizza | smart | 16632 | 0.703397 |
+| skos | brute | 646 | 0.012101 |
+| skos | smart | 1940 | 0.035661 |
+| travel | brute | 2382 | 0.034920 |
+| travel | smart | 2630 | 0.053301 |
+| univ-bench | brute | 1652 | 0.023901 |
+| univ-bench | smart | 2558 | 0.053978 |
+| wine | brute | 14700 | 0.263977 |
+| wine | smart | 15170 | 0.426868 |
 
