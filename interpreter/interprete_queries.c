@@ -50,6 +50,12 @@ void interprete_queries(
                 simple_tic(timer);
                 GrB_Matrix_extractElement_BOOL(&result, response->nonterminal_matrices[0], v_id, to_id);
                 total_time += simple_toc(timer);
+
+                if (result == true) {
+                    printf("path %s %s exists\n", v, to);
+                } else {
+                    printf("path %s %s not exists\n", v, to);
+                }
             }
         } else if (nitems == 4) {
             if (strcmp(type, "brute-edge-add") == 0) {
