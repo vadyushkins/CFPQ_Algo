@@ -8,6 +8,14 @@ void GraphRepr_InsertEdge(const GraphRepr* graph, const char* v, const char* edg
     assert(v_id != MAX_GRAPH_SIZE && to_id != MAX_GRAPH_SIZE && edge_id != MAX_GRAMMAR_TERMINALS);
 
     GrB_Matrix_setElement_BOOL(graph->terminal_matrices[edge_id], true, v_id, to_id);
+
+    if (v_id > graph->nodes_count) {
+        graph->nodes_count = v_id;
+    }
+
+    if (to_id > graph->nodes_count) {
+        graph->nodes_count = to_id;
+    }
 }
 
 void GraphRepr_DeleteEdge(const GraphRepr* graph, const char* v, const char* edge, const char* to) {

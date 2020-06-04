@@ -1,7 +1,10 @@
 #include "algorithms.h"
 
-void cfpq_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Response* response, const GrB_Index v_id, const GrB_Index edge_id, const GrB_Index to_id) {
-    // Create del matrices
+void cfpq_smart_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to) {    // Create del matrices
+    GrB_Index v_id = atoll(v);
+    GrB_Index to_id = atoll(to);
+    GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->terminals, edge);
+
     GrB_Matrix del_matrices[response->nonterminals_count];
 
     for (GrB_Index i = 0; i < response->nonterminals_count; ++i) {

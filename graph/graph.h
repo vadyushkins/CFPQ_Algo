@@ -11,6 +11,8 @@ typedef struct {
     GrB_Matrix terminal_matrices[MAX_GRAMMAR_TERMINALS];
 
     TermMapper terminals;
+
+    GrB_Index nodes_count;
 } GraphRepr;
 
 void GraphRepr_Load(const GraphRepr* graph, FILE* f);

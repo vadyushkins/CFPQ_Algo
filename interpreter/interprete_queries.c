@@ -25,25 +25,25 @@ void interprete_queries(
         if (nitems == 2) {
             if (strcmp(type, "brute-vertex-add") == 0) {
                 simple_tic(timer);
-                ItemMapper_Insert((ItemMapper*) &graph->nodes, v);
+                cfpq_brute_vertex_added(graph, grammar, response, v);
                 total_time += simple_toc(timer);
             } else if (strcmp(type, "smart-vertex-add") == 0) {
                 simple_tic(timer);
-                ItemMapper_Insert((ItemMapper*) &graph->nodes, v);
+                cfpq_smart_vertex_added(graph, grammar, response, v);
                 total_time += simple_toc(timer);
             } else if (strcmp(type, "brute-vertex-delete") == 0) {
                 simple_tic(timer);
-                cfpq_brute_vertex_delete(graph, grammar, response, v);
+                cfpq_brute_vertex_deleted(graph, grammar, response, v);
                 total_time += simple_toc(timer);
             } else if (strcmp(type, "smart-vertex-delete") == 0) {
                 simple_tic(timer);
-                cfpq_vertex_delete(graph, grammar, response, v);
+                cfpq_smart_vertex_deleted(graph, grammar, response, v);
                 total_time += simple_toc(timer);
             }
         } else if (nitems == 3) {
             if (strcmp(type, "find-path") == 0) {
-                GrB_Index v_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->nodes, v);
-                GrB_Index to_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->nodes, to);
+                GrB_Index v_id = atoll(v);
+                GrB_Index to_id = atoll(to);
 
                 bool result = false;
 
@@ -55,27 +55,22 @@ void interprete_queries(
             if (strcmp(type, "brute-edge-add") == 0) {
                 GraphRepr_InsertEdge(graph, v, edge, to);
                 simple_tic(timer);
-                cfpq_static(graph, grammar, response);
+                cfpq_brute_edge_added(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);
             } else if (strcmp(type, "smart-edge-add") == 0) {
                 GraphRepr_InsertEdge(graph, v, edge, to);
                 simple_tic(timer);
-                cfpq_edge_added(graph, grammar, response);
+                cfpq_smart_edge_added(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);
             } else if (strcmp(type, "brute-edge-delete") == 0) {
                 GraphRepr_DeleteEdge(graph, v, edge, to);
                 simple_tic(timer);
-                cfpq_static(graph, grammar, response);
+                cfpq_brute_edge_deleted(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);
             } else if (strcmp(type, "smart-edge-delete") == 0) {
                 GraphRepr_DeleteEdge(graph, v, edge, to);
-
-                GrB_Index v_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->nodes, v);
-                GrB_Index to_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->nodes, to);
-                GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &graph->edges, edge);
-
                 simple_tic(timer);
-                cfpq_edge_deleted(graph, grammar, response, v_id, edge_id, to_id);
+                cfpq_smart_edge_deleted(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);
             }
         }
