@@ -1,22 +1,20 @@
 #include "grammar.h"
 
-void Grammar_Init(Grammar* grammar) {
+int Grammar_Load(Grammar* grammar, FILE* f) {
+    // Initialize grammar
     grammar->complex_rules_count = 0;
     grammar->simple_rules_count = 0;
 
     ItemMapper_Init((ItemMapper*) &grammar->nonterminals);
     ItemMapper_Init((ItemMapper*) &grammar->terminals);
-}
 
-int Grammar_Load(Grammar* grammar, FILE* f) {
-    Grammar_Init(grammar);
-
+    // Initialize input
     char* buf;
     size_t buf_size = 0;
     size_t ptr = 0;
 
+    // Read nonterminals
     char nonterm[MAX_EDGE_NAME_LEN];
-    char term[MAX_EDGE_NAME_LEN];
 
     getline(&buf, &buf_size, f);
     while (sscanf(buf + ptr, "%s", nonterm) == 1) {
@@ -24,6 +22,9 @@ int Grammar_Load(Grammar* grammar, FILE* f) {
         ptr += strlen(nonterm) + 1;
     }
     ptr = 0;
+
+    // Read terminals
+    char term[MAX_EDGE_NAME_LEN];
 
     getline(&buf, &buf_size, f);
     while (sscanf(buf + ptr, "%s", term) == 1) {
