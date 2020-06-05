@@ -136,7 +136,7 @@ def correctness_graph_queries(test, graph):
                 log(f'Finish adding queries to {q_path}...')
 
 
-def test_one_graph(test, graph, grammar, queries):
+def test_one_graph(test, graph, grammar, queries, save_log=False):
     g_name = filename(graph)
     gr_name = filename(grammar)
     q_name = filename(queries)
@@ -151,7 +151,6 @@ def test_one_graph(test, graph, grammar, queries):
     sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
 
     time = None
-    multiplications = 0
     flag = False
     with open(results_path, 'r') as fin:
         for line in fin:
@@ -160,15 +159,15 @@ def test_one_graph(test, graph, grammar, queries):
                 continue
             if re.fullmatch('(Total time:) (.*) s\n', line) is not None:
                 time = re.sub('(Total time:) (.*) s\n', '\g<2>', line)
-            if re.fullmatch('(Iteration count:) (.*)\n', line) is not None:
-                tmp = re.sub('(Iteration count:) (.*)\n', '\g<2>', line)
-                multiplications += int(tmp)
 
     log(f'Total time: {time} s')
 
+    if save_log is False:
+        os.remove(results_path)
+
     log(f'Finish testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
 
-    return (time, multiplications)
+    return time
 
 
 def test_all(tests):
