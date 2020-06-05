@@ -17,7 +17,6 @@ TEST_GRAPHS = [
 
 TEST_TYPES = [
     'Construct',
-    'Deconstruct',
     'Correctness'
 ]
 
