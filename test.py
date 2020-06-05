@@ -179,27 +179,24 @@ def test_all(tests):
             fout.write(f'# {test_graph}\n\n')
             
             for gr in sorted(grammars):
-                for test_type in TEST_TYPES:
+                if 'Construct' in TEST_TYPES:
                     gr_name = filename(gr)
                     fout.write(f'## Grammar: {gr_name}\n')
-                    fout.write(f'## Test type: {test_type}\n\n')
-                    fout.write(f'| Graph | Queries | Matrix Multiplication Amount | Time (s) |\n')
-                    fout.write(f'|:-----:|:-------:|:----------------------------:|:--------:|\n')
+                    fout.write(f'## Test type: Construct\n\n')
+                    fout.write(f'| Graph | Brute | Smart |\n')
+                    fout.write(f'|:-----:|:-----:|:-----:|\n')
                     for g in sorted(graphs):
                         g_name = filename(g)
-                        queries = glob(f'input/{test_graph}/Queries/{g_name}/{test_type}/*')
+                        results = {}
                         for type in ['brute', 'smart']:
-                            for q in queries:
-                                q_name = filename(q)
-                                if q_name.startswith(type):
-                                    time = None
-                                    mul = None
-                                    if test_type == 'Construct':
-                                        (time, mul) = test_one_graph(test_graph, 'Empty.txt', gr, q)
-                                    else:
-                                        (time, mul) = test_one_graph(test_graph, g, gr, q)
-                                    fout.write(f'| {g_name} | {q_name} | {mul} | {time} |\n')
-                                    fout.flush()
+                            qrs = f'input/{test_graph}/Queries/{g_name}/Construct/{type}.txt'
+                            time = None
+                            time = test_one_graph(test_graph, 'Empty.txt', gr, qrs)
+                            results[type] = time
+                        result_brute = results['brute']
+                        result_smart = results['smart']
+                        fout.write(f'| {g_name} | {result_brute} | {result_smart} |\n')
+                        fout.flush()
                     fout.write('\n')
                         
 
