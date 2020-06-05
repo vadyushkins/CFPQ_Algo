@@ -28,5 +28,3 @@ void cfpq_smart_vertex_added(const GraphRepr* graph, const Grammar* grammar, Res
 
 void cfpq_smart_edge_added(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to);
 
-void cfpq_smart_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to);
-
