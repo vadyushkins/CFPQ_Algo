@@ -17,8 +17,12 @@ TEST_GRAPHS = [
 
 TEST_TYPES = [
     'Construct',
+<<<<<<< HEAD
     'Deconstruct',
     'Correctness',
+=======
+    'Correctness'
+>>>>>>> IncrementalCorrectnessTestPassed
 ]
 
 def log(s):
@@ -83,12 +87,17 @@ def init(tests):
                     sp.run(f'mv deps/CFPQ_Data/data/{test}/Matrices/{g_txt} input/{test}/Graphs/{g_txt}', shell=True)
                     log(f'Finish adding graph {g} to input...')
 
+<<<<<<< HEAD
                 if 'Construct' in TEST_TYPES:
                     construct_graph_queries(test, g_txt)
                 if 'Deconstruct' in TEST_TYPES:
                     deconstruct_graph_queries(test, g_txt)
                 if 'Correctness' in TEST_TYPES:
                     correctness_graph_queries(test, g_txt)
+=======
+                construct_graph_queries(test, g_txt)
+                correctness_graph_queries(test, g_txt)
+>>>>>>> IncrementalCorrectnessTestPassed
         
         grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
         for gr in tqdm(grammars):
@@ -114,21 +123,6 @@ def construct_graph_queries(test, graph):
                 log(f'Finish adding queries to {q_path}...')
 
 
-def deconstruct_graph_queries(test, graph):
-    q_dir = f'input/{test}/Queries/{filename(graph)}/Deconstruct/'
-    if os.path.exists(q_dir) is False:
-        os.makedirs(q_dir, exist_ok=True)
-    for type in ['brute', 'smart']:
-        with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
-            q_path = q_dir + f'{type}.txt'
-            with open(q_path, 'w') as fout:
-                log(f'Start adding queries to {q_path}...')
-                for line in tqdm(fin):
-                    v, edge, to = line.split()
-                    fout.write(f'{type}-edge-delete {v} {to} {edge}\n')
-                log(f'Finish adding queries to {q_path}...')
-
-
 def correctness_graph_queries(test, graph):
     q_dir = f'input/{test}/Queries/{filename(graph)}/Correctness/'
     if os.path.exists(q_dir) is False:
@@ -149,14 +143,15 @@ def correctness_graph_queries(test, graph):
                 log(f'Start adding queries to {q_path}...')
                 for line in tqdm(fin):
                     v, edge, to = line.split()
-                    fout.write(f'{type}-edge-delete {v} {to} {edge}\n')
-                    for i in range(min_v, max_v + 1):
-                        for j in range(i + 1, max_v + 1):
+                    fout.write(f'{type}-edge-add {v} {to} {edge}\n')
+                for i in range(min_v, max_v + 1):
+                    for j in range(min_v, max_v + 1):
+                        if i != j:
                             fout.write(f'find-path {i} {j}\n')
                 log(f'Finish adding queries to {q_path}...')
 
 
-def test_one_graph(test, graph, grammar, queries):
+def test_one_graph(test, graph, grammar, queries, save_log=False):
     g_name = filename(graph)
     gr_name = filename(grammar)
     q_name = filename(queries)
@@ -164,14 +159,13 @@ def test_one_graph(test, graph, grammar, queries):
     if os.path.exists(test) is False:
         os.makedirs(test, exist_ok=True)
 
-    results_path = f'{test}/{g_name}_{gr_name}_{q_name}'
+    results_path = f'{test}/{test}_{g_name}_{gr_name}_{q_name}_log.txt'
 
     log(f'Start testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
     
     sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
 
     time = None
-    multiplications = 0
     flag = False
     with open(results_path, 'r') as fin:
         for line in fin:
@@ -180,15 +174,15 @@ def test_one_graph(test, graph, grammar, queries):
                 continue
             if re.fullmatch('(Total time:) (.*) s\n', line) is not None:
                 time = re.sub('(Total time:) (.*) s\n', '\g<2>', line)
-            if re.fullmatch('(Iteration count:) (.*)\n', line) is not None:
-                tmp = re.sub('(Iteration count:) (.*)\n', '\g<2>', line)
-                multiplications += int(tmp)
 
     log(f'Total time: {time} s')
 
+    if save_log is False:
+        os.remove(results_path)
+
     log(f'Finish testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
 
-    return (time, multiplications)
+    return time
 
 
 def test_one_delete(test, graph, grammar):
@@ -268,27 +262,45 @@ def test_all(tests):
             fout.write(f'# {test_graph}\n\n')
             
             for gr in sorted(grammars):
-                for test_type in ['Correctness']:
+                if 'Construct' in TEST_TYPES:
                     gr_name = filename(gr)
                     fout.write(f'## Grammar: {gr_name}\n')
-                    fout.write(f'## Test type: {test_type}\n\n')
-                    fout.write(f'| Graph | Queries | Matrix Multiplication Amount | Time (s) |\n')
-                    fout.write(f'|:-----:|:-------:|:----------------------------:|:--------:|\n')
+                    fout.write(f'## Test type: Construct\n\n')
+                    fout.write(f'| Graph | Brute | Smart |\n')
+                    fout.write(f'|:-----:|:-----:|:-----:|\n')
                     for g in sorted(graphs):
                         g_name = filename(g)
-                        queries = glob(f'input/{test_graph}/Queries/{g_name}/{test_type}/*')
+                        results = {}
                         for type in ['brute', 'smart']:
-                            for q in queries:
-                                q_name = filename(q)
-                                if q_name.startswith(type):
-                                    time = None
-                                    mul = None
-                                    if test_type == 'Construct':
-                                        (time, mul) = test_one_graph(test_graph, 'Empty.txt', gr, q)
-                                    else:
-                                        (time, mul) = test_one_graph(test_graph, g, gr, q)
-                                    fout.write(f'| {g_name} | {q_name} | {mul} | {time} |\n')
-                                    fout.flush()
+                            qrs = f'input/{test_graph}/Queries/{g_name}/Construct/{type}.txt'
+                            time = None
+                            time = test_one_graph(test_graph, 'Empty.txt', gr, qrs)
+                            results[type] = time
+                        result_brute = results['brute']
+                        result_smart = results['smart']
+                        fout.write(f'| {g_name} | {result_brute} | {result_smart} |\n')
+                        fout.flush()
+                    fout.write('\n')
+
+                if 'Correctness' in TEST_TYPES:
+                    gr_name = filename(gr)
+                    fout.write(f'## Grammar: {gr_name}\n')
+                    fout.write(f'## Test type: Correctness\n\n')
+                    fout.write(f'| Graph | equal(Brute, Smart) |\n')
+                    fout.write(f'|:-----:|:-------------------:|\n')
+                    for g in sorted(graphs):
+                        g_name = filename(g)
+                        for type in ['brute', 'smart']:
+                            qrs = f'input/{test_graph}/Queries/{g_name}/Correctness/{type}.txt'
+                            time = None
+                            time = test_one_graph(test_graph, 'Empty.txt', gr, qrs, save_log=True)
+                            results[type] = time
+                        brute_log = f'{test_graph}/{test_graph}_Empty_{gr_name}_brute_log.txt'
+                        smart_log = f'{test_graph}/{test_graph}_Empty_{gr_name}_smart_log.txt'
+                        sp.run(f'diff {brute_log} {smart_log} | grep path > diff_log', shell=True)
+                        res = (os.stat('diff_log').st_size == 0)
+                        fout.write(f'| {g_name} | {res} |\n')
+                        fout.flush()
                     fout.write('\n')
                         
 

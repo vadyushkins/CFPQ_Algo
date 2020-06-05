@@ -3,18 +3,24 @@
 ## Grammar: Brackets_cnf
 ## Test type: Correctness
 
-| Graph | Queries | Matrix Multiplication Amount | Time (s) |
-|:-----:|:-------:|:----------------------------:|:--------:|
-| worstcase_128 | brute | 2147076 | 192.210315 |
-| worstcase_128 | smart | 35092 | 2.094728 |
-| worstcase_16 | brute | 4964 | 0.083388 |
-| worstcase_16 | smart | 820 | 0.017207 |
-| worstcase_32 | brute | 36036 | 0.703864 |
-| worstcase_32 | smart | 2644 | 0.043163 |
-| worstcase_4 | brute | 140 | 0.001771 |
-| worstcase_4 | smart | 124 | 0.001423 |
-| worstcase_64 | brute | 274820 | 7.807396 |
-| worstcase_64 | smart | 9364 | 0.198063 |
-| worstcase_8 | brute | 756 | 0.010657 |
-| worstcase_8 | smart | 292 | 0.003652 |
+| Graph | Brute | Smart |
+|:-----:|:-----:|:-----:|
+| worstcase_128 | 0.002210 | 0.000295 |
+| worstcase_16 | 0.000376 | 0.000082 |
+| worstcase_32 | 0.000831 | 0.000086 |
+| worstcase_4 | 0.000126 | 0.000013 |
+| worstcase_64 | 0.001319 | 0.000163 |
+| worstcase_8 | 0.000284 | 0.000024 |
+
+## Grammar: Brackets_cnf
+## Test type: Correctness
+
+| Graph | equal(Brute, Smart) |
+|:-----:|:-------------------:|
+| worstcase_128 | True |
+| worstcase_16 | True |
+| worstcase_32 | True |
+| worstcase_4 | True |
+| worstcase_64 | True |
+| worstcase_8 | True |
 
