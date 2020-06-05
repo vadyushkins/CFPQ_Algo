@@ -2,8 +2,8 @@
 
 #include "algorithms.h"
 
-void cfpq_smart_edge_added(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to) {    response->iteration_count = 0;
-
+void cfpq_smart_edge_added(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to) {    
+    response->iteration_count = 0;
     // Algorithm's body
     bool matrices_is_changed = true;
     while(matrices_is_changed) {

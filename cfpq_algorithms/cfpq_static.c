@@ -14,14 +14,9 @@ void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* respo
             for (GrB_Index j = 0; j < grammar->simple_rules_count; ++j) {
                 const SimpleRule* simpleRule = &grammar->simple_rules[j];
                 if (simpleRule->r == terminal_id) {
-                    GrB_eWiseAdd(
-                        response->nonterminal_matrices[simpleRule->l], 
-                        GrB_NULL, 
-                        GrB_LOR, 
-                        GrB_PLUS_BOOL, 
-                        response->nonterminal_matrices[simpleRule->l], 
-                        graph->terminal_matrices[i], 
-                        GrB_NULL
+                    GrB_Matrix_dup(
+                        response->nonterminal_matrices[simpleRule->l],
+                        graph->terminal_matrices[i]
                     );
                 }
             }

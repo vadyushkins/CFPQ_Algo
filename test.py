@@ -130,8 +130,9 @@ def correctness_graph_queries(test, graph):
                 for line in tqdm(fin):
                     v, edge, to = line.split()
                     fout.write(f'{type}-edge-add {v} {to} {edge}\n')
-                    for i in range(min_v, max_v + 1):
-                        for j in range(i + 1, max_v + 1):
+                for i in range(min_v, max_v + 1):
+                    for j in range(min_v, max_v + 1):
+                        if i != j:
                             fout.write(f'find-path {i} {j}\n')
                 log(f'Finish adding queries to {q_path}...')
 
@@ -144,7 +145,7 @@ def test_one_graph(test, graph, grammar, queries, save_log=False):
     if os.path.exists(test) is False:
         os.makedirs(test, exist_ok=True)
 
-    results_path = f'{test}/{g_name}_{gr_name}_{q_name}'
+    results_path = f'{test}/{test}_{g_name}_{gr_name}_{q_name}_log.txt'
 
     log(f'Start testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
     
@@ -196,6 +197,27 @@ def test_all(tests):
                         result_brute = results['brute']
                         result_smart = results['smart']
                         fout.write(f'| {g_name} | {result_brute} | {result_smart} |\n')
+                        fout.flush()
+                    fout.write('\n')
+
+                if 'Correctness' in TEST_TYPES:
+                    gr_name = filename(gr)
+                    fout.write(f'## Grammar: {gr_name}\n')
+                    fout.write(f'## Test type: Correctness\n\n')
+                    fout.write(f'| Graph | equal(Brute, Smart) |\n')
+                    fout.write(f'|:-----:|:-------------------:|\n')
+                    for g in sorted(graphs):
+                        g_name = filename(g)
+                        for type in ['brute', 'smart']:
+                            qrs = f'input/{test_graph}/Queries/{g_name}/Correctness/{type}.txt'
+                            time = None
+                            time = test_one_graph(test_graph, 'Empty.txt', gr, qrs, save_log=True)
+                            results[type] = time
+                        brute_log = f'{test_graph}/{test_graph}_Empty_{gr_name}_brute_log.txt'
+                        smart_log = f'{test_graph}/{test_graph}_Empty_{gr_name}_smart_log.txt'
+                        sp.run(f'diff {brute_log} {smart_log} | grep path > diff_log', shell=True)
+                        res = (os.stat('diff_log').st_size == 0)
+                        fout.write(f'| {g_name} | {res} |\n')
                         fout.flush()
                     fout.write('\n')
                         
