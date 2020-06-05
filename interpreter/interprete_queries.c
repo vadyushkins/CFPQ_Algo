@@ -31,14 +31,6 @@ void interprete_queries(
                 simple_tic(timer);
                 cfpq_smart_vertex_added(graph, grammar, response, v);
                 total_time += simple_toc(timer);
-            } else if (strcmp(type, "brute-vertex-delete") == 0) {
-                simple_tic(timer);
-                cfpq_brute_vertex_deleted(graph, grammar, response, v);
-                total_time += simple_toc(timer);
-            } else if (strcmp(type, "smart-vertex-delete") == 0) {
-                simple_tic(timer);
-                cfpq_smart_vertex_deleted(graph, grammar, response, v);
-                total_time += simple_toc(timer);
             }
         } else if (nitems == 3) {
             if (strcmp(type, "find-path") == 0) {
