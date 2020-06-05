@@ -60,16 +60,6 @@ void interprete_queries(
                 simple_tic(timer);
                 cfpq_smart_edge_added(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);
-            } else if (strcmp(type, "brute-edge-delete") == 0) {
-                GraphRepr_DeleteEdge(graph, grammar, v, edge, to);
-                simple_tic(timer);
-                cfpq_brute_edge_deleted(graph, grammar, response, v, edge, to);
-                total_time += simple_toc(timer);
-            } else if (strcmp(type, "smart-edge-delete") == 0) {
-                GraphRepr_DeleteEdge(graph, grammar, v, edge, to);
-                simple_tic(timer);
-                cfpq_smart_edge_deleted(graph, grammar, response, v, edge, to);
-                total_time += simple_toc(timer);
             }
         }
     }
