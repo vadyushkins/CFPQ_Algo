@@ -20,7 +20,7 @@ void cfpq_smart_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Res
     for (GrB_Index j = 0; j < grammar->simple_rules_count; ++j) {
         const SimpleRule* simpleRule = &grammar->simple_rules[j];
         if (simpleRule->r == edge_id) {
-            GrB_Matrix_setElement(del_matrices[simpleRule->l], v_id, to_id, true);
+            GrB_Matrix_setElement_BOOL(del_matrices[simpleRule->l], true, v_id, to_id);
         }
     }
 
@@ -74,8 +74,8 @@ void cfpq_smart_edge_deleted(const GraphRepr* graph, const Grammar* grammar, Res
         GrB_eWiseAdd(
             response->nonterminal_matrices[i], 
             GrB_NULL, 
-            GrB_LOR, 
-            GrB_MINUS_BOOL, 
+            GrB_NULL, 
+            GxB_ISGT_BOOL, 
             response->nonterminal_matrices[i], 
             del_matrices[i], 
             GrB_NULL

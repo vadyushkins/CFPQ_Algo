@@ -268,7 +268,7 @@ def test_all(tests):
             fout.write(f'# {test_graph}\n\n')
             
             for gr in sorted(grammars):
-                for test_type in TEST_TYPES:
+                for test_type in ['Correctness']:
                     gr_name = filename(gr)
                     fout.write(f'## Grammar: {gr_name}\n')
                     fout.write(f'## Test type: {test_type}\n\n')

@@ -6,24 +6,18 @@ void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* respo
     
     // Initialize matrices
     for (GrB_Index i = 0; i < grammar->terminals.count; ++i) {
-        const char* terminal = grammar->terminals.items[i];
-
-        GrB_Index terminal_id = ItemMapper_GetPlaceIndex((ItemMapper*) &grammar->terminals, terminal);
-
-        if (terminal_id != grammar->terminals.count) {
-            for (GrB_Index j = 0; j < grammar->simple_rules_count; ++j) {
-                const SimpleRule* simpleRule = &grammar->simple_rules[j];
-                if (simpleRule->r == terminal_id) {
-                    GrB_eWiseAdd(
-                        response->nonterminal_matrices[simpleRule->l], 
-                        GrB_NULL, 
-                        GrB_LOR, 
-                        GrB_PLUS_BOOL, 
-                        response->nonterminal_matrices[simpleRule->l], 
-                        graph->terminal_matrices[i], 
-                        GrB_NULL
-                    );
-                }
+        for (GrB_Index j = 0; j < grammar->simple_rules_count; ++j) {
+            const SimpleRule* simpleRule = &grammar->simple_rules[j];
+            if (simpleRule->r == i) {
+                GrB_eWiseAdd(
+                    response->nonterminal_matrices[simpleRule->l], 
+                    GrB_NULL, 
+                    GrB_LOR, 
+                    GrB_LOR, 
+                    response->nonterminal_matrices[simpleRule->l], 
+                    graph->terminal_matrices[i], 
+                    GrB_NULL
+                );
             }
         }
     }
