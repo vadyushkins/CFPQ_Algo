@@ -83,7 +83,6 @@ def init(tests):
                     log(f'Finish adding graph {g} to input...')
 
                 construct_graph_queries(test, g_txt)
-                deconstruct_graph_queries(test, g_txt)
                 correctness_graph_queries(test, g_txt)
         
         grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
@@ -107,21 +106,6 @@ def construct_graph_queries(test, graph):
                 for line in tqdm(fin):
                     v, edge, to = line.split()
                     fout.write(f'{type}-edge-add {v} {to} {edge}\n')
-                log(f'Finish adding queries to {q_path}...')
-
-
-def deconstruct_graph_queries(test, graph):
-    q_dir = f'input/{test}/Queries/{filename(graph)}/Deconstruct/'
-    if os.path.exists(q_dir) is False:
-        os.makedirs(q_dir, exist_ok=True)
-    for type in ['brute', 'smart']:
-        with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
-            q_path = q_dir + f'{type}.txt'
-            with open(q_path, 'w') as fout:
-                log(f'Start adding queries to {q_path}...')
-                for line in tqdm(fin):
-                    v, edge, to = line.split()
-                    fout.write(f'{type}-edge-delete {v} {to} {edge}\n')
                 log(f'Finish adding queries to {q_path}...')
 
 
