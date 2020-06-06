@@ -17,6 +17,7 @@ TEST_GRAPHS = [
 
 TEST_TYPES = [
     'Construct',
+    'Correctness',
 ]
 
 def log(s):
@@ -171,6 +172,7 @@ def get_time(results_path):
             if re.fullmatch('(Total time:) (.*) s\n', line) is not None:
                 time = re.sub('(Total time:) (.*) s\n', '\g<2>', line)
     return round(float(time), 6)
+
 
 def test_all(tests):
     for test_graph in tests:
