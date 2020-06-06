@@ -97,7 +97,7 @@ def init(tests):
 def construct_graph_queries(test, graph):
     q_dir = f'input/{test}/Queries/{filename(graph)}/Construct/'
     if os.path.exists(q_dir) is False:
-        os.makedirs(q_dir, exist_ok=True)    
+        os.makedirs(q_dir, exist_ok=True)
     for type in ['brute', 'smart']:
         with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
             q_path = q_dir + f'{type}.txt'
@@ -147,7 +147,7 @@ def test_one_graph(test, graph, grammar, queries, save_log=False):
 
     results_path = f'{test}/{test}_{g_name}_{gr_name}_{q_name}_log.txt'
 
-    log(f'Start testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
+    log(f'Start testing Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
 
     time = 0
 
@@ -160,7 +160,7 @@ def test_one_graph(test, graph, grammar, queries, save_log=False):
     if save_log is False:
         os.remove(results_path)
 
-    log(f'Finish testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
+    log(f'Finish testing Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
 
     return round(time / 100.0, 6)
 
@@ -182,14 +182,14 @@ def test_all(tests):
 
             fout.write(f'# {test_graph}\n\n')
             
-            for gr in sorted(grammars):
+            for gr in sorted(grammars, key=filesize):
                 if 'Construct' in TEST_TYPES:
                     gr_name = filename(gr)
                     fout.write(f'## Grammar: {gr_name}\n')
                     fout.write(f'## Test type: Construct\n\n')
                     fout.write(f'| Graph | Brute | Smart |\n')
                     fout.write(f'|:-----:|:-----:|:-----:|\n')
-                    for g in sorted(graphs):
+                    for g in sorted(graphs, key=filesize):
                         g_name = filename(g)
                         results = {}
                         for type in ['brute', 'smart']:
@@ -209,7 +209,7 @@ def test_all(tests):
                     fout.write(f'## Test type: Correctness\n\n')
                     fout.write(f'| Graph | equal(Brute, Smart) |\n')
                     fout.write(f'|:-----:|:-------------------:|\n')
-                    for g in sorted(graphs):
+                    for g in sorted(graphs, key=filesize):
                         g_name = filename(g)
                         for type in ['brute', 'smart']:
                             qrs = f'input/{test_graph}/Queries/{g_name}/Correctness/{type}.txt'
