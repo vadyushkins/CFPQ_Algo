@@ -5,19 +5,19 @@
 
 | Graph | Brute | Smart |
 |:-----:|:-----:|:-----:|
-| atom-primitive | 0.006729 | 0.001436 |
-| biomedical-mesure-primitive | 0.007964 | 0.001395 |
-| core | 0.053934 | 0.005668 |
-| foaf | 0.006965 | 0.001613 |
-| funding | 0.016056 | 0.003492 |
-| generations | 0.003095 | 0.0006 |
-| pathways | 1.090255 | 0.021804 |
-| people_pets | 0.007493 | 0.001841 |
-| pizza | 0.031637 | 0.005221 |
-| skos | 0.004008 | 0.000587 |
-| travel | 0.003944 | 0.001367 |
-| univ-bench | 0.004144 | 0.001622 |
-| wine | 0.031007 | 0.004703 |
+| skos | 0.002921 | 0.000984 |
+| generations | 0.003387 | 0.001113 |
+| travel | 0.003829 | 0.001116 |
+| univ-bench | 0.004081 | 0.001182 |
+| atom-primitive | 0.007227 | 0.001643 |
+| biomedical-mesure-primitive | 0.00768 | 0.001844 |
+| foaf | 0.008017 | 0.00234 |
+| people_pets | 0.00844 | 0.002473 |
+| funding | 0.017759 | 0.003925 |
+| wine | 0.034335 | 0.006492 |
+| pizza | 0.03465 | 0.007097 |
+| core | 0.058669 | 0.009642 |
+| pathways | 1.087667 | 0.042116 |
 
 ## Grammar: g1_cnf
 ## Test type: Correctness
@@ -43,19 +43,19 @@
 
 | Graph | Brute | Smart |
 |:-----:|:-----:|:-----:|
-| atom-primitive | 0.004907 | 0.001549 |
-| biomedical-mesure-primitive | 0.004115 | 0.001205 |
-| core | 0.019486 | 0.006842 |
-| foaf | 0.003682 | 0.001577 |
-| funding | 0.007554 | 0.003749 |
-| generations | 0.00309 | 0.000919 |
-| pathways | 0.562735 | 0.021961 |
-| people_pets | 0.004403 | 0.002378 |
-| pizza | 0.015316 | 0.00471 |
-| skos | 0.001948 | 0.000955 |
-| travel | 0.002784 | 0.000703 |
-| univ-bench | 0.002332 | 0.001414 |
-| wine | 0.011353 | 0.004201 |
+| skos | 0.001333 | 0.000569 |
+| generations | 0.001374 | 0.000576 |
+| travel | 0.001695 | 0.000642 |
+| univ-bench | 0.001999 | 0.000615 |
+| atom-primitive | 0.003951 | 0.000903 |
+| biomedical-mesure-primitive | 0.004155 | 0.000986 |
+| foaf | 0.003148 | 0.001344 |
+| people_pets | 0.003507 | 0.001359 |
+| funding | 0.007074 | 0.002203 |
+| wine | 0.011149 | 0.003657 |
+| pizza | 0.014902 | 0.0038 |
+| core | 0.019435 | 0.005181 |
+| pathways | 0.555223 | 0.022222 |
 
 ## Grammar: g2_cnf
 ## Test type: Correctness
