@@ -17,7 +17,6 @@ TEST_GRAPHS = [
 
 TEST_TYPES = [
     'Construct',
-    'Correctness'
 ]
 
 def log(s):
@@ -148,18 +147,12 @@ def test_one_graph(test, graph, grammar, queries, save_log=False):
     results_path = f'{test}/{test}_{g_name}_{gr_name}_{q_name}_log.txt'
 
     log(f'Start testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
-    
-    sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
 
-    time = None
-    flag = False
-    with open(results_path, 'r') as fin:
-        for line in fin:
-            if flag is False:
-                flag = True
-                continue
-            if re.fullmatch('(Total time:) (.*) s\n', line) is not None:
-                time = re.sub('(Total time:) (.*) s\n', '\g<2>', line)
+    time = 0
+
+    for i in range(100):
+        sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
+        time += get_time(results_path)
 
     log(f'Total time: {time} s')
 
@@ -168,76 +161,16 @@ def test_one_graph(test, graph, grammar, queries, save_log=False):
 
     log(f'Finish testign Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
 
-    return time
+    return round(time / 100.0, 6)
 
 
-def test_one_delete(test, graph, grammar):
-    g_name = filename(graph)
-    gr_name = filename(grammar)
-
-    results_path = f'{g_name}_{gr_name}_tmp.txt'
-
-    log(f'Start testign Graph: {g_name} with Grammar: {gr_name}...')
-
-    results = {}
-
-    for type in ['brute', 'smart']:
-        cnt = 0
-        sum = 0
-        flag = False
-        with open(f'input/{test}/Graphs/{g_name}.txt', 'r') as fin:
-            for line in fin:
-                v, edge, to = line.split()
-                sp.run(f'echo {type}-edge-delete {v} {to} {edge} > tmp.txt', shell=True)
-                sp.run(f'./main {graph} {grammar} tmp.txt > {results_path}', shell=True)
-
-                with open(results_path, 'r') as ffin:
-                    for lline in ffin:
-                        if flag is False:
-                            flag = True
-                            continue
-                        if re.fullmatch('(Total time:) (.*) s\n', lline) is not None:
-                            time = re.sub('(Total time:) (.*) s\n', '\g<2>', lline)
-                            sum += float(time)
-                            cnt += 1
-                
-                flag = False
-
-        avg_t = str(sum / cnt)[:8]
-        results[type] = avg_t
-
-        log(f'Average {type} time: {avg_t} s')
-
-    log(f'Finish testign Graph: {g_name} with Grammar: {gr_name}...')
-
-    return results
-
-
-def test_average(tests):
-    for test_graph in tests:
-        with open(f'results/{test_graph}_average.md', 'w') as fout:
-            graphs = glob(f'input/{test_graph}/Graphs/*')
-            grammars = glob(f'input/{test_graph}/Grammars/*')
-
-            print(graphs)
-            print(grammars)
-
-            fout.write(f'# {test_graph}\n\n')
-            
-            for gr in sorted(grammars):
-                gr_name = filename(gr)
-                fout.write(f'## Grammar: {gr_name}\n')
-                fout.write('| Graph | Brute | Smart |\n')
-                fout.write('|:-----:|:-----:|:-----:|\n')
-                for g in sorted(graphs):
-                    g_name = filename(g)
-                    res = test_one_delete(test_graph, g, gr)
-                    res_b = res['brute']
-                    res_s = res['smart']
-                    fout.write(f'| {g_name} | {res_b} | {res_s} |\n')
-                    fout.flush()
-                fout.write('\n')
-
+def get_time(results_path):
+    time = None
+    with open(results_path, 'r') as fin:
+        for line in fin:
+            if re.fullmatch('(Total time:) (.*) s\n', line) is not None:
+                time = re.sub('(Total time:) (.*) s\n', '\g<2>', line)
+    return round(float(time), 6)
 
 def test_all(tests):
     for test_graph in tests:
