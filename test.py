@@ -1,10 +1,12 @@
-from termcolor import colored
 from glob import glob
 import subprocess as sp
+import logging
 import random
 import sys
 import os
 import re
+
+logging.basicConfig(format=u'[%(asctime)s]:%(filename)s:%(funcName)s:%(lineno)d:%(message)s', level=logging.INFO)
 
 TEST_GRAPHS = [
     'FullGraph',
@@ -23,10 +25,6 @@ TEST_TYPES = [
 CFPQ_DATA = 'deps/CFPQ_Data/'
 
 
-def log(s):
-    print(colored(s, 'green'))
-
-
 def filename(path):
     return os.path.splitext(os.path.basename(path))[0]
 
@@ -37,16 +35,16 @@ def filesize(path):
 
 
 def init(tests, test_types):
-    log('Start building executables...')
+    logging.info('Start building executables')
     sp.run('make', shell=True)
-    log('Finish building executables...')
+    logging.info('Finish building executables')
 
     if os.path.exists('input') is False:
-        log('Created input directory')
+        logging.info('Created input directory')
         os.mkdir('input')
 
     if os.path.exists('results') is False:
-        log('Created results directory')
+        logging.info('Created results directory')
         os.mkdir('results')
 
     if os.path.exists('Empty.txt') is False:
@@ -55,32 +53,36 @@ def init(tests, test_types):
     for test in tests:
         if os.path.exists(f'input/{test}') is False:
             os.mkdir(f'input/{test}')
-            log(f'Created input/{test} directory')
+            logging.info(f'Created input/{test} directory')
 
             os.mkdir(f'input/{test}/Graphs')
-            log(f'Created input/{test}/Graphs directory')
+            logging.info(f'Created input/{test}/Graphs directory')
 
             os.mkdir(f'input/{test}/Grammars')
-            log(f'Created input/{test}/Grammars directory')
+            logging.info(f'Created input/{test}/Grammars directory')
 
             os.mkdir(f'input/{test}/Queries')
-            log(f'Created input/{test}/Queries directory')
+            logging.info(f'Created input/{test}/Queries directory')
 
     pwd = os.path.abspath('.')
 
     if os.path.exists(f'{CFPQ_DATA}data/FullGraph/Matrices') is False:
-        log('Start initialize CFPQ_Data...')
+        logging.info('Start initialize CFPQ_Data')
         cur_dir = f'{pwd}/deps/CFPQ_Data'
         cfpq_data_url = 'https://github.com/viabzalov/CFPQ_Data.git deps/CFPQ_Data'
         sp.run(f'git clone {cfpq_data_url}', shell=True)
         sp.run(f'pip3 install -r requirements.txt', cwd=cur_dir, shell=True)
         sp.run(f'python3 init.py', cwd=cur_dir, shell=True)
-        log('Finish initialize CFPQ_Data...')
+        logging.info('Finish initialize CFPQ_Data')
 
     for test in tests:
+        logging.info(f'Start initialize {test}')
         graphs = glob(f'{CFPQ_DATA}data/{test}/Matrices/*')
         for g in sorted(graphs, key=filesize):
             g_txt = f'{filename(g)}.txt'
+            if filesize(g) > int(3e6):
+                continue
+            logging.info(f'Start initialize {test} Graph:{g_txt}')
             if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
                 sp.run(f'python3 {CFPQ_DATA}tools/RDF_to_triple/converter.py {g} {CFPQ_DATA}data/{test}/convconfig', shell=True)
                 sp.run(f'mv {CFPQ_DATA}data/{test}/Matrices/{g_txt} input/{test}/Graphs/{g_txt}', shell=True)
@@ -88,12 +90,16 @@ def init(tests, test_types):
                 construct_graph_queries(test, g_txt)
             if 'Correctness' in test_types:
                 correctness_graph_queries(test, g_txt)
+            logging.info(f'Finish initialize {test} Graph:{g_txt}')
 
         grammars = glob(f'{CFPQ_DATA}data/{test}/Grammars/*')
         for gr in sorted(grammars, key=filesize):
             gr_cnf = f'{filename(gr)}_cnf.txt'
+            logging.info(f'Start initialize {test} Grammar:{gr_cnf}')
             if os.path.exists(f'input/{test}/Grammars/{gr_cnf}') is False:
                 sp.run(f'python3 {CFPQ_DATA}tools/grammar_to_cnf/grammar_to_cnf.py {gr} -o input/{test}/Grammars/{gr_cnf}', shell=True)
+            logging.info(f'Finish initialize {test} Grammar:{gr_cnf}')
+        logging.info(f'Finish initialize {test}')
 
 
 def construct_graph_queries(test, graph):
@@ -104,11 +110,11 @@ def construct_graph_queries(test, graph):
         with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
             q_path = q_dir + f'{type}.txt'
             with open(q_path, 'w') as fout:
-                log(f'Start adding queries to {q_path}...')
+                logging.info(f'Start adding queries to {q_path}')
                 for line in fin:
                     v, edge, to = line.split()
                     fout.write(f'{type}-edge-add {v} {to} {edge}\n')
-                log(f'Finish adding queries to {q_path}...')
+                logging.info(f'Finish adding queries to {q_path}')
 
 
 def correctness_graph_queries(test, graph):
@@ -128,7 +134,7 @@ def correctness_graph_queries(test, graph):
         with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
             q_path = q_dir + f'{type}.txt'
             with open(q_path, 'w') as fout:
-                log(f'Start adding queries to {q_path}...')
+                logging.info(f'Start adding queries to {q_path}')
                 for line in fin:
                     v, edge, to = line.split()
                     fout.write(f'{type}-edge-add {v} {to} {edge}\n')
@@ -136,7 +142,7 @@ def correctness_graph_queries(test, graph):
                     for j in range(min_v, max_v + 1):
                         if i != j:
                             fout.write(f'find-path {i} {j}\n')
-                log(f'Finish adding queries to {q_path}...')
+                logging.info(f'Finish adding queries to {q_path}')
 
 
 def test_one_graph(test, graph, grammar, queries, save_log, graph_name):
@@ -149,7 +155,7 @@ def test_one_graph(test, graph, grammar, queries, save_log, graph_name):
 
     results_path = f'{test}/{test}_{g_name}_{gr_name}_{q_name}_log.txt'
 
-    log(f'Start testing {test} with Graph: {graph_name} with Grammar: {gr_name} and Queries: {q_name}...')
+    logging.info(f'Start testing {test} with Graph: {graph_name} with Grammar: {gr_name} and Queries: {q_name}')
 
     time = 0
     cnt = 0
@@ -161,12 +167,12 @@ def test_one_graph(test, graph, grammar, queries, save_log, graph_name):
             time += res
             cnt += 1
 
-    log(f'Total time: {time / cnt} s')
+    logging.info(f'Total time: {time / cnt} s')
 
     if save_log is False:
         os.remove(results_path)
 
-    log(f'Finish testing {test} with Graph: {graph_name} with Grammar: {gr_name} and Queries: {q_name}...')
+    logging.info(f'Finish testing {test} with Graph: {graph_name} with Grammar: {gr_name} and Queries: {q_name}')
 
     return round(time / cnt, 6)
 
