@@ -11,7 +11,7 @@ CC_SOURCES += $(wildcard $(SOURCEDIR)/mapper/*.c)
 CC_SOURCES += $(wildcard $(SOURCEDIR)/timer/*.c)
 
 all: $(GRAPHBLAS) $(CC_SOURCES)
-	gcc -o -O3 -march=native main ${CC_SOURCES} -fopenmp $(GRAPHBLAS) -lm
+	gcc -O3 -march=native -o main ${CC_SOURCES} -fopenmp $(GRAPHBLAS) -lm
 
 clean:
 	rm ./main
