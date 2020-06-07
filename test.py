@@ -36,7 +36,7 @@ def filesize(path):
 
 def init(tests):
     log('Start building executables...')
-    sp.run('make JOBS=32', shell=True)
+    sp.run('make', shell=True)
     log('Finish building executables...')
 
     if os.path.exists('input') is False:
