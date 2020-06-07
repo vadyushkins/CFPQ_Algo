@@ -49,7 +49,7 @@ def init(tests, test_types):
 
     if os.path.exists('Empty.txt') is False:
         sp.run('touch Empty.txt', shell=True)
-    
+
     for test in tests:
         if os.path.exists(f'input/{test}') is False:
             os.mkdir(f'input/{test}')
@@ -63,9 +63,9 @@ def init(tests, test_types):
 
             os.mkdir(f'input/{test}/Queries')
             log(f'Created input/{test}/Queries directory')
-            
+
     pwd = os.path.abspath('.')
-    
+
     if os.path.exists('deps/CFPQ_Data/data/FullGraph/Matrices') is False:
         log('Start initialize CFPQ_Data...')
         sp.run('git clone https://github.com/viabzalov/CFPQ_Data.git deps/CFPQ_Data', shell=True)
@@ -85,7 +85,7 @@ def init(tests, test_types):
                 construct_graph_queries(test, g_txt)
             if 'Correctness' in test_types:
                 correctness_graph_queries(test, g_txt)
-        
+
         grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
         for gr in tqdm(grammars):
             gr_cnf = re.sub('(.*)(\.txt)', '\g<1>_cnf.txt', gr)
@@ -120,7 +120,7 @@ def correctness_graph_queries(test, graph):
             v, edge, to = line.split()
             min_v = min(list(map(int, [v, to, min_v])))
             max_v = max(list(map(int, [v, to, max_v])))
-    
+
     for type in ['brute', 'smart']:
         with open(f'input/{test}/Graphs/{graph}', 'r') as fin:
             q_path = q_dir + f'{type}.txt'
@@ -140,7 +140,7 @@ def test_one_graph(test, graph, grammar, queries, save_log=False):
     g_name = filename(graph)
     gr_name = filename(grammar)
     q_name = filename(queries)
-    
+
     if os.path.exists(test) is False:
         os.makedirs(test, exist_ok=True)
 
@@ -150,7 +150,7 @@ def test_one_graph(test, graph, grammar, queries, save_log=False):
 
     time = 0
 
-    for i in range(100):
+    for i in range(10):
         sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
         time += get_time(results_path)
 
@@ -161,7 +161,7 @@ def test_one_graph(test, graph, grammar, queries, save_log=False):
 
     log(f'Finish testing Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
 
-    return round(time / 100.0, 6)
+    return round(time / 10.0, 6)
 
 
 def get_time(results_path):
@@ -180,7 +180,7 @@ def test_all(tests):
             grammars = glob(f'input/{test_graph}/Grammars/*')
 
             fout.write(f'# {test_graph}\n\n')
-            
+
             for gr in sorted(grammars, key=filesize):
                 if 'Construct' in TEST_TYPES:
                     gr_name = filename(gr)
@@ -222,9 +222,9 @@ def test_all(tests):
                         fout.write(f'| {g_name} | {res} |\n')
                         fout.flush()
                     fout.write('\n')
-                        
+
 
 if __name__ == '__main__':
     test_graphs = list(map(str, sys.argv[1:]))
-    init(test_graphs)
+    init(test_graphs, ['Construct'])
     test_all(test_graphs)
