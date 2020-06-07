@@ -20,6 +20,7 @@ TEST_TYPES = [
     'Correctness',
 ]
 
+
 def log(s):
     print(colored(s, 'green'))
 
@@ -29,7 +30,8 @@ def filename(path):
 
 
 def filesize(path):
-    return int(sp.run(f'wc -l {path}', capture_output=True, shell=True).stdout.split()[0].decode('utf-8'))
+    r = sp.run(f'wc -l {path}', capture_output=True, shell=True)
+    return int(r.stdout.split()[0].decode('utf-8'))
 
 
 def init(tests):
@@ -74,7 +76,7 @@ def init(tests):
     for test in tests:
         graphs = os.listdir(f'deps/CFPQ_Data/data/{test}/Matrices')
         for g in tqdm(graphs):
-            if filesize(f'deps/CFPQ_Data/data/{test}/Matrices/{g}') <= int(75000):
+            if filesize(f'deps/CFPQ_Data/data/{test}/Matrices/{g}') <= int(5e5):
                 g_txt = re.sub('(.*)(\.(xml|owl|rdf))', '\g<1>.txt', g)
                 if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
                     log(f'Start adding graph {g} to input...')
