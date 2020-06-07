@@ -1,5 +1,4 @@
 from termcolor import colored
-from tqdm import tqdm
 from glob import glob
 import subprocess as sp
 import random
@@ -19,6 +18,9 @@ TEST_TYPES = [
     'Construct',
     'Correctness',
 ]
+
+
+CFPQ_DATA = 'deps/CFPQ_Data/'
 
 
 def log(s):
@@ -66,31 +68,32 @@ def init(tests, test_types):
 
     pwd = os.path.abspath('.')
 
-    if os.path.exists('deps/CFPQ_Data/data/FullGraph/Matrices') is False:
+    if os.path.exists(f'{CFPQ_DATA}data/FullGraph/Matrices') is False:
         log('Start initialize CFPQ_Data...')
-        sp.run('git clone https://github.com/viabzalov/CFPQ_Data.git deps/CFPQ_Data', shell=True)
-        sp.run(f'pip3 install -r requirements.txt', cwd=f'{pwd}/deps/CFPQ_Data',shell=True)
-        sp.run(f'python3 init.py', cwd=f'{pwd}/deps/CFPQ_Data', shell=True)
+        cur_dir = f'{pwd}/deps/CFPQ_Data'
+        cfpq_data_url = 'https://github.com/viabzalov/CFPQ_Data.git deps/CFPQ_Data'
+        sp.run(f'git clone {cfpq_data_url}', shell=True)
+        sp.run(f'pip3 install -r requirements.txt', cwd=cur_dir, shell=True)
+        sp.run(f'python3 init.py', cwd=cur_dir, shell=True)
         log('Finish initialize CFPQ_Data...')
 
     for test in tests:
-        graphs = os.listdir(f'deps/CFPQ_Data/data/{test}/Matrices')
-        graphs.sort(key=filesize)
-        for g in tqdm(graphs):
-            g_txt = re.sub('(.*)(\.(xml|owl|rdf))', '\g<1>.txt', g)
+        graphs = glob(f'{CFPQ_DATA}data/{test}/Matrices/*')
+        for g in sorted(graphs, key=filesize):
+            g_txt = f'{filename(g)}.txt'
             if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
-                sp.run(f'python3 deps/CFPQ_Data/tools/RDF_to_triple/converter.py deps/CFPQ_Data/data/{test}/Matrices/{g} deps/CFPQ_Data/data/{test}/convconfig', shell=True)
-                sp.run(f'mv deps/CFPQ_Data/data/{test}/Matrices/{g_txt} input/{test}/Graphs/{g_txt}', shell=True)
+                sp.run(f'python3 {CFPQ_DATA}tools/RDF_to_triple/converter.py {g} {CFPQ_DATA}data/{test}/convconfig', shell=True)
+                sp.run(f'mv {CFPQ_DATA}data/{test}/Matrices/{g_txt} input/{test}/Graphs/{g_txt}', shell=True)
             if 'Construct' in test_types:
                 construct_graph_queries(test, g_txt)
             if 'Correctness' in test_types:
                 correctness_graph_queries(test, g_txt)
 
-        grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
-        for gr in tqdm(grammars):
-            gr_cnf = re.sub('(.*)(\.txt)', '\g<1>_cnf.txt', gr)
+        grammars = glob(f'{CFPQ_DATA}data/{test}/Grammars/*')
+        for gr in sorted(grammars, key=filesize):
+            gr_cnf = f'{filename(gr)}_cnf.txt'
             if os.path.exists(f'input/{test}/Grammars/{gr_cnf}') is False:
-                sp.run(f'python3 deps/CFPQ_Data/tools/grammar_to_cnf/grammar_to_cnf.py deps/CFPQ_Data/data/{test}/Grammars/{gr} -o input/{test}/Grammars/{gr_cnf}', shell=True)
+                sp.run(f'python3 {CFPQ_DATA}tools/grammar_to_cnf/grammar_to_cnf.py {gr} -o input/{test}/Grammars/{gr_cnf}', shell=True)
 
 
 def construct_graph_queries(test, graph):
@@ -102,7 +105,7 @@ def construct_graph_queries(test, graph):
             q_path = q_dir + f'{type}.txt'
             with open(q_path, 'w') as fout:
                 log(f'Start adding queries to {q_path}...')
-                for line in tqdm(fin):
+                for line in fin:
                     v, edge, to = line.split()
                     fout.write(f'{type}-edge-add {v} {to} {edge}\n')
                 log(f'Finish adding queries to {q_path}...')
@@ -126,7 +129,7 @@ def correctness_graph_queries(test, graph):
             q_path = q_dir + f'{type}.txt'
             with open(q_path, 'w') as fout:
                 log(f'Start adding queries to {q_path}...')
-                for line in tqdm(fin):
+                for line in fin:
                     v, edge, to = line.split()
                     fout.write(f'{type}-edge-add {v} {to} {edge}\n')
                 for i in range(min_v, max_v + 1):
@@ -136,7 +139,7 @@ def correctness_graph_queries(test, graph):
                 log(f'Finish adding queries to {q_path}...')
 
 
-def test_one_graph(test, graph, grammar, queries, save_log=False):
+def test_one_graph(test, graph, grammar, queries, save_log, graph_name):
     g_name = filename(graph)
     gr_name = filename(grammar)
     q_name = filename(queries)
@@ -146,22 +149,26 @@ def test_one_graph(test, graph, grammar, queries, save_log=False):
 
     results_path = f'{test}/{test}_{g_name}_{gr_name}_{q_name}_log.txt'
 
-    log(f'Start testing Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
+    log(f'Start testing {test} with Graph: {graph_name} with Grammar: {gr_name} and Queries: {q_name}...')
 
     time = 0
+    cnt = 0
 
     for i in range(10):
         sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
-        time += get_time(results_path)
+        res = get_time(results_path)
+        if res is not None:
+            time += res
+            cnt += 1
 
-    log(f'Total time: {time} s')
+    log(f'Total time: {time / cnt} s')
 
     if save_log is False:
         os.remove(results_path)
 
-    log(f'Finish testing Graph: {g_name} with Grammar: {gr_name} and Queries: {q_name}...')
+    log(f'Finish testing {test} with Graph: {graph_name} with Grammar: {gr_name} and Queries: {q_name}...')
 
-    return round(time / 10.0, 6)
+    return round(time / cnt, 6)
 
 
 def get_time(results_path):
@@ -170,7 +177,10 @@ def get_time(results_path):
         for line in fin:
             if re.fullmatch('(Total time:) (.*) s\n', line) is not None:
                 time = re.sub('(Total time:) (.*) s\n', '\g<2>', line)
-    return round(float(time), 6)
+    if time is None:
+        return None
+    else:
+        return round(float(time), 6)
 
 
 def test_all(tests, test_types):
@@ -194,7 +204,7 @@ def test_all(tests, test_types):
                         for type in ['brute', 'smart']:
                             qrs = f'input/{test_graph}/Queries/{g_name}/Construct/{type}.txt'
                             time = None
-                            time = test_one_graph(test_graph, 'Empty.txt', gr, qrs)
+                            time = test_one_graph(test_graph, 'Empty.txt', gr, qrs, False, g_name)
                             results[type] = time
                         result_brute = results['brute']
                         result_smart = results['smart']
@@ -213,7 +223,7 @@ def test_all(tests, test_types):
                         for type in ['brute', 'smart']:
                             qrs = f'input/{test_graph}/Queries/{g_name}/Correctness/{type}.txt'
                             time = None
-                            time = test_one_graph(test_graph, 'Empty.txt', gr, qrs, save_log=True)
+                            time = test_one_graph(test_graph, 'Empty.txt', gr, qrs, True, g_name)
                             results[type] = time
                         brute_log = f'{test_graph}/{test_graph}_Empty_{gr_name}_brute_log.txt'
                         smart_log = f'{test_graph}/{test_graph}_Empty_{gr_name}_smart_log.txt'
