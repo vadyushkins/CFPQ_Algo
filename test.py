@@ -173,7 +173,7 @@ def get_time(results_path):
     return round(float(time), 6)
 
 
-def test_all(tests):
+def test_all(tests, test_types):
     for test_graph in tests:
         with open(f'results/{test_graph}.md', 'w') as fout:
             graphs = glob(f'input/{test_graph}/Graphs/*')
@@ -182,7 +182,7 @@ def test_all(tests):
             fout.write(f'# {test_graph}\n\n')
 
             for gr in sorted(grammars, key=filesize):
-                if 'Construct' in TEST_TYPES:
+                if 'Construct' in test_types:
                     gr_name = filename(gr)
                     fout.write(f'## Grammar: {gr_name}\n')
                     fout.write(f'## Test type: Construct\n\n')
@@ -202,7 +202,7 @@ def test_all(tests):
                         fout.flush()
                     fout.write('\n')
 
-                if 'Correctness' in TEST_TYPES:
+                if 'Correctness' in test_types:
                     gr_name = filename(gr)
                     fout.write(f'## Grammar: {gr_name}\n')
                     fout.write(f'## Test type: Correctness\n\n')
@@ -227,4 +227,4 @@ def test_all(tests):
 if __name__ == '__main__':
     test_graphs = list(map(str, sys.argv[1:]))
     init(test_graphs, ['Construct'])
-    test_all(test_graphs)
+    test_all(test_graphs, ['Construct'])
