@@ -34,7 +34,7 @@ def filesize(path):
     return int(r.stdout.split()[0].decode('utf-8'))
 
 
-def init(tests):
+def init(tests, test_types):
     log('Start building executables...')
     sp.run('make', shell=True)
     log('Finish building executables...')
@@ -81,16 +81,16 @@ def init(tests):
             if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
                 sp.run(f'python3 deps/CFPQ_Data/tools/RDF_to_triple/converter.py deps/CFPQ_Data/data/{test}/Matrices/{g} deps/CFPQ_Data/data/{test}/convconfig', shell=True)
                 sp.run(f'mv deps/CFPQ_Data/data/{test}/Matrices/{g_txt} input/{test}/Graphs/{g_txt}', shell=True)
-            construct_graph_queries(test, g_txt)
-            correctness_graph_queries(test, g_txt)
+            if 'Construct' in test_types:
+                construct_graph_queries(test, g_txt)
+            if 'Correctness' in test_types:
+                correctness_graph_queries(test, g_txt)
         
         grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
         for gr in tqdm(grammars):
             gr_cnf = re.sub('(.*)(\.txt)', '\g<1>_cnf.txt', gr)
             if os.path.exists(f'input/{test}/Grammars/{gr_cnf}') is False:
-                log(f'Start adding grammar {gr_cnf} to input...')
                 sp.run(f'python3 deps/CFPQ_Data/tools/grammar_to_cnf/grammar_to_cnf.py deps/CFPQ_Data/data/{test}/Grammars/{gr} -o input/{test}/Grammars/{gr_cnf}', shell=True)
-                log(f'Finish adding grammar {gr_cnf} to input...')
 
 
 def construct_graph_queries(test, graph):
