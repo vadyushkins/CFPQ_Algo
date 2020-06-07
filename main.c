@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 
     // Initialize response
     Response response;
-    Response_Init(response, grammar);
+    Response_Init(&response, &grammar);
 
     f = fopen(QUERIES_INPUT_FILE, "r");
 
