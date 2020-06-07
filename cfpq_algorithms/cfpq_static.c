@@ -2,7 +2,9 @@
 
 void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* response) {
     // Initialize response
-    Response_Init(response, grammar);
+    for (GrB_Index i = 0; i < response->nonterminals_count; ++i) {
+        GrB_Matrix_clear(&response->nonterminal_matrices[i]);
+    }
     
     // Initialize matrices
     for (GrB_Index i = 0; i < grammar->terminals.count; ++i) {

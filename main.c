@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
     strcpy(GRAPH_INPUT_FILE, argv[1]);
     strcpy(GRAMMAR_INPUT_FILE, argv[2]);
     strcpy(QUERIES_INPUT_FILE, argv[3]);
-    
+
     // Initialize GraphBLAS
     GrB_init(GrB_NONBLOCKING);
 
@@ -41,12 +41,13 @@ int main(int argc, char* argv[]) {
     GraphRepr_Load(&graph, &grammar, f);
     fclose(f);
 
-    // Start algorithm
+    // Initialize response
     Response response;
+    Response_Init(response, grammar);
 
     f = fopen(QUERIES_INPUT_FILE, "r");
 
-    // Initialize response
+    // Initialize graph
     cfpq_static(&graph, &grammar, &response);
 
     // Interprete queries
