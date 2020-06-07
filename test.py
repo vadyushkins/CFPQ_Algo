@@ -75,17 +75,14 @@ def init(tests):
 
     for test in tests:
         graphs = os.listdir(f'deps/CFPQ_Data/data/{test}/Matrices')
+        graphs.sort(key=filesize)
         for g in tqdm(graphs):
-            if filesize(f'deps/CFPQ_Data/data/{test}/Matrices/{g}') <= int(5e5):
-                g_txt = re.sub('(.*)(\.(xml|owl|rdf))', '\g<1>.txt', g)
-                if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
-                    log(f'Start adding graph {g} to input...')
-                    sp.run(f'python3 deps/CFPQ_Data/tools/RDF_to_triple/converter.py deps/CFPQ_Data/data/{test}/Matrices/{g} deps/CFPQ_Data/data/{test}/convconfig', shell=True)
-                    sp.run(f'mv deps/CFPQ_Data/data/{test}/Matrices/{g_txt} input/{test}/Graphs/{g_txt}', shell=True)
-                    log(f'Finish adding graph {g} to input...')
-
-                construct_graph_queries(test, g_txt)
-                correctness_graph_queries(test, g_txt)
+            g_txt = re.sub('(.*)(\.(xml|owl|rdf))', '\g<1>.txt', g)
+            if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
+                sp.run(f'python3 deps/CFPQ_Data/tools/RDF_to_triple/converter.py deps/CFPQ_Data/data/{test}/Matrices/{g} deps/CFPQ_Data/data/{test}/convconfig', shell=True)
+                sp.run(f'mv deps/CFPQ_Data/data/{test}/Matrices/{g_txt} input/{test}/Graphs/{g_txt}', shell=True)
+            construct_graph_queries(test, g_txt)
+            correctness_graph_queries(test, g_txt)
         
         grammars = os.listdir(f'deps/CFPQ_Data/data/{test}/Grammars')
         for gr in tqdm(grammars):
