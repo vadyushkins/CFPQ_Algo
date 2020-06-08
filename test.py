@@ -80,8 +80,6 @@ def init(tests, test_types):
         graphs = glob(f'{CFPQ_DATA}data/{test}/Matrices/*')
         for g in sorted(graphs, key=filesize):
             g_txt = f'{filename(g)}.txt'
-            if filesize(g) > int(3e6):
-                continue
             logging.info(f'Start initialize {test} Graph:{g_txt}')
             if os.path.exists(f'input/{test}/Graphs/{g_txt}') is False:
                 sp.run(f'python3 {CFPQ_DATA}tools/RDF_to_triple/converter.py {g} {CFPQ_DATA}data/{test}/convconfig', shell=True)
@@ -240,5 +238,5 @@ def test_all(tests, test_types):
 
 if __name__ == '__main__':
     test_graphs = list(map(str, sys.argv[1:]))
-    init(test_graphs, ['Construct'])
-    test_all(test_graphs, ['Construct'])
+    init(test_graphs, TEST_TYPES)
+    test_all(test_graphs, TEST_TYPES)
