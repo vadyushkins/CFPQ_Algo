@@ -238,5 +238,5 @@ def test_all(tests, test_types):
 
 if __name__ == '__main__':
     test_graphs = list(map(str, sys.argv[1:]))
-    init(test_graphs, TEST_TYPES)
-    test_all(test_graphs, TEST_TYPES)
+    init(test_graphs, ['Construct'])
+    test_all(test_graphs, ['Construct'])
