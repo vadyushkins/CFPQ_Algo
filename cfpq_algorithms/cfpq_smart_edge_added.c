@@ -6,20 +6,19 @@ void cfpq_smart_edge_added(const Graph* graph, const Grammar* grammar, Response*
     response->iteration_count = 0;
 
     // Initialize matrices
-    for (GrB_Index i = 0; i < grammar->terminals.count; ++i) {
-        for (GrB_Index j = 0; j < grammar->simple_rules_count; ++j) {
-            const SimpleRule* simpleRule = &grammar->simple_rules[j];
-            if (simpleRule->r == i) {
-                GrB_eWiseAdd(
-                    response->nonterminal_matrices[simpleRule->l],
-                    GrB_NULL,
-                    GrB_LOR,
-                    GrB_LOR,
-                    response->nonterminal_matrices[simpleRule->l],
-                    graph->terminal_matrices[i],
-                    GrB_NULL
-                );
-            }
+    GrB_Index edge_id = ItemMapper_GetPlaceIndex((ItemMapper*) &grammar->terminals, edge);
+    for (GrB_Index i = 0; i < grammar->simple_rules_count; ++i) {
+        const SimpleRule* simpleRule = &grammar->simple_rules[i];
+        if (simpleRule->r == edge_id) {
+            GrB_eWiseAdd(
+                response->nonterminal_matrices[simpleRule->l],
+                GrB_NULL,
+                GrB_LOR,
+                GrB_LOR,
+                response->nonterminal_matrices[simpleRule->l],
+                graph->terminal_matrices[edge_id],
+                GrB_NULL
+            );
         }
     }
 
