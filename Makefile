@@ -13,6 +13,9 @@ CC_SOURCES += $(wildcard $(SOURCEDIR)/timer/*.c)
 all: $(GRAPHBLAS) $(CC_SOURCES)
 	gcc -O3 -march=native -o main ${CC_SOURCES} -fopenmp $(GRAPHBLAS) -lm
 
+debug: $(GRAPHBLAS) $(CC_SOURCES)
+	gcc -ggdb -fvar-tracking -Wall -Wextra -Werror -o main ${CC_SOURCES} -fopenmp $(GRAPHBLAS) -lm
+
 clean:
 	rm ./main
 

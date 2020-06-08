@@ -1,25 +1,27 @@
 #include "interpreter.h"
 
 void interprete_queries(
-    const GraphRepr* graph, 
+    GraphRepr* graph, 
     const Grammar* grammar, 
     Response* response,
     FILE* f
 ) {
     // Initialize timer
     double total_time = 0;
-    double timer[2];
+    double timer[2] = {0, 0};
 
     // Initialize input
-    char* line_buf;
+    char* buf = NULL;
     size_t buf_size = 0;
 
-    while (getline(&line_buf, &buf_size, f) != -1) {
-        line_buf[strcspn(line_buf, "\n")] = 0;
+    while (getline(&buf, &buf_size, f) != -1) {
+        buf[strcspn(buf, "\n")] = 0;
 
-        char type[MAX_COMMAND_LEN];
-        char v[MAX_COMMAND_LEN], edge[MAX_COMMAND_LEN], to[MAX_COMMAND_LEN];
-        int nitems = sscanf(line_buf, "%s %s %s %s", type, v, to, edge);
+        char* type = (char*) malloc(MAX_COMMAND_LEN * sizeof(char));
+        char* v = (char*) malloc(MAX_COMMAND_LEN * sizeof(char));
+        char* edge = (char*) malloc(MAX_COMMAND_LEN * sizeof(char));
+        char* to = (char*) malloc(MAX_COMMAND_LEN * sizeof(char));
+        int nitems = sscanf(buf, "%s %s %s %s", type, v, to, edge);
         assert(nitems >= 2);
 
         if (nitems == 2) {
@@ -62,6 +64,12 @@ void interprete_queries(
                 total_time += simple_toc(timer);
             }
         }
+
+        free(to);
+        free(edge);
+        free(v);
+        free(type);
     }
+    free(buf);
     printf("Total time: %lf s\n", total_time);
 }

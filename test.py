@@ -228,9 +228,7 @@ def test_all(tests, test_types):
                         g_name = filename(g)
                         for type in ['brute', 'smart']:
                             qrs = f'input/{test_graph}/Queries/{g_name}/Correctness/{type}.txt'
-                            time = None
-                            time = test_one_graph(test_graph, 'Empty.txt', gr, qrs, True, g_name)
-                            results[type] = time
+                            test_one_graph(test_graph, 'Empty.txt', gr, qrs, True, g_name)
                         brute_log = f'{test_graph}/{test_graph}_Empty_{gr_name}_brute_log.txt'
                         smart_log = f'{test_graph}/{test_graph}_Empty_{gr_name}_smart_log.txt'
                         sp.run(f'diff {brute_log} {smart_log} | grep path > diff_log', shell=True)

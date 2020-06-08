@@ -39,7 +39,7 @@ typedef struct {
     TermMapper terminals;
 } Grammar;
 
-int Grammar_Load(Grammar* grammar, FILE* f);
-
+void Grammar_Load(Grammar* grammar, FILE* f);
+void Grammar_Init(Grammar* grammar);
 void Grammar_AddSimpleRule(Grammar* grammar, GrB_Index l, GrB_Index r);
 void Grammar_AddComplexRule(Grammar* grammar, GrB_Index l, GrB_Index r1, GrB_Index r2);

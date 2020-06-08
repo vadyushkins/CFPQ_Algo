@@ -13,6 +13,7 @@ typedef struct {
     GrB_Index nodes_count;
 } GraphRepr;
 
+void GraphRepr_Init(GraphRepr* graph);
 void GraphRepr_Load(GraphRepr* graph, const Grammar* grammar, FILE* f);
 void GraphRepr_InsertEdge(GraphRepr* graph, const Grammar* grammar, const char* v, const char* edge, const char* to);
 void GraphRepr_DeleteEdge(GraphRepr* graph, const Grammar* grammar, const char* v, const char* edge, const char* to);
