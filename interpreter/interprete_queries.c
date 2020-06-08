@@ -1,7 +1,7 @@
 #include "interpreter.h"
 
 void interprete_queries(
-    GraphRepr* graph, 
+    Graph* graph, 
     const Grammar* grammar, 
     Response* response,
     FILE* f
@@ -53,12 +53,12 @@ void interprete_queries(
             }
         } else if (nitems == 4) {
             if (strcmp(type, "brute-edge-add") == 0) {
-                GraphRepr_InsertEdge(graph, grammar, v, edge, to);
+                Graph_InsertEdge(graph, grammar, v, edge, to);
                 simple_tic(timer);
                 cfpq_brute_edge_added(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);
             } else if (strcmp(type, "smart-edge-add") == 0) {
-                GraphRepr_InsertEdge(graph, grammar, v, edge, to);
+                Graph_InsertEdge(graph, grammar, v, edge, to);
                 simple_tic(timer);
                 cfpq_smart_edge_added(graph, grammar, response, v, edge, to);
                 total_time += simple_toc(timer);

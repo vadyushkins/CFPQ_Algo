@@ -14,7 +14,7 @@
 #include "../timer/simple_timer.h"
 
 void interprete_queries(
-    GraphRepr* graph, 
+    Graph* graph, 
     const Grammar* grammar, 
     Response* response, 
     FILE* f

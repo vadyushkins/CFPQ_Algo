@@ -38,9 +38,9 @@ int main(int argc, char* argv[]) {
     f = fopen(GRAPH_INPUT_FILE, "r");
     assert(f != NULL);
 
-    GraphRepr graph;
-    GraphRepr_Init(&graph);
-    GraphRepr_Load(&graph, &grammar, f);
+    Graph graph;
+    Graph_Init(&graph);
+    Graph_Load(&graph, &grammar, f);
     fclose(f);
 
     // Initialize response

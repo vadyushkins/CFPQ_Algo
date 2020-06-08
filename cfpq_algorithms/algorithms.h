@@ -14,17 +14,17 @@
 // Standard CFPQ Algorithms
 
 // Returns success status of the algorithm
-void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* response);
+void cfpq_static(const Graph* graph, const Grammar* grammar, Response* response);
 
 // Brute Dynamic CFPQ Algorithms
 
-void cfpq_brute_vertex_added(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v);
+void cfpq_brute_vertex_added(const Graph* graph, const Grammar* grammar, Response* response, const char* v);
 
-void cfpq_brute_edge_added(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to);
+void cfpq_brute_edge_added(const Graph* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to);
 
 // Atomic Dynamic CFPQ Operations
 
-void cfpq_smart_vertex_added(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v);
+void cfpq_smart_vertex_added(const Graph* graph, const Grammar* grammar, Response* response, const char* v);
 
-void cfpq_smart_edge_added(const GraphRepr* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to);
+void cfpq_smart_edge_added(const Graph* graph, const Grammar* grammar, Response* response, const char* v, const char* edge, const char* to);
 

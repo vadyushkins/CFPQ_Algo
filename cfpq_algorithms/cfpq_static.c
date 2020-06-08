@@ -1,6 +1,6 @@
 #include "algorithms.h"
 
-void cfpq_static(const GraphRepr* graph, const Grammar* grammar, Response* response) {
+void cfpq_static(const Graph* graph, const Grammar* grammar, Response* response) {
     // Initialize response
     for (GrB_Index i = 0; i < response->nonterminals_count; ++i) {
         GrB_Matrix_free(&response->nonterminal_matrices[i]);
