@@ -160,6 +160,10 @@ def test_one_graph(test, graph, grammar, queries, save_log, graph_name):
     time = 0
     cnt = 0
 
+    n = 100
+    if filesize(queries) > int(1e4):
+        n = 1
+
     for i in range(100):
         sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
         res = get_time(results_path)
