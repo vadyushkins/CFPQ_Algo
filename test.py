@@ -161,8 +161,11 @@ def test_one_graph(test, graph, grammar, queries, save_log, graph_name):
     cnt = 0
 
     n = 100
-    if filesize(queries) > int(1e4):
-        n = 1
+    q_size = filesize(queries)
+    if q_size > int(4e4):
+        n = 2
+    elif q_size > int(1e4):
+        n = 10
 
     for i in range(100):
         sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
