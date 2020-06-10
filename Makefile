@@ -14,7 +14,7 @@ all: $(GRAPHBLAS) $(CC_SOURCES)
 	gcc -O3 -march=native -o main ${CC_SOURCES} -fopenmp $(GRAPHBLAS) -lm
 
 debug: $(GRAPHBLAS) $(CC_SOURCES)
-	gcc -ggdb -fvar-tracking -Wall -Wextra -Werror -o main ${CC_SOURCES} -fopenmp $(GRAPHBLAS) -lm
+	gcc -ggdb -fvar-tracking -Wall -Wextra -Werror -o main ${CC_SOURCES} -fopenmp $(GRAPHBLAS) -lm -lrt
 
 clean:
 	rm ./main

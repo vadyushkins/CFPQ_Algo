@@ -163,11 +163,12 @@ def test_one_graph(test, graph, grammar, queries, save_log, graph_name):
     for i in range(100):
         sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
         res = get_time(results_path)
+        logging.info(f'Total time for {i}th run: {res} s')
         if res is not None:
             time += res
             cnt += 1
 
-    logging.info(f'Total time: {time / cnt} s')
+    logging.info(f'Average time: {time / cnt} s')
 
     if save_log is False:
         os.remove(results_path)
