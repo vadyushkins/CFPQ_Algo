@@ -167,7 +167,7 @@ def test_one_graph(test, graph, grammar, queries, save_log, graph_name):
     elif q_size > int(1e4):
         n = 10
 
-    for i in range(100):
+    for i in range(n):
         sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
         res = get_time(results_path)
         logging.info(f'Total time for {i}th run: {res} s')
