@@ -5,16 +5,12 @@
 
 | Graph | Brute | Smart |
 |:-----:|:-----:|:-----:|
-| worstcase_4 | 0.000151 | 8e-06 |
-| worstcase_8 | 0.000158 | 1.2e-05 |
-| worstcase_16 | 0.000248 | 2.3e-05 |
-| worstcase_32 | 0.000486 | 4.6e-05 |
-| worstcase_64 | 0.000987 | 8.7e-05 |
-| worstcase_128 | 0.001976 | 0.000156 |
-| worstcase_256 | 0.003773 | 0.000312 |
-| worstcase_512 | 0.008744 | 0.000646 |
-| worstcase_1024 | 0.024437 | 0.001064 |
-| worstcase_2048 | 0.069925 | 0.00213 |
+| worstcase_4 | 0.000392 | 0.000319 |
+| worstcase_8 | 0.000854 | 0.000822 |
+| worstcase_16 | 0.00279 | 0.00257 |
+| worstcase_32 | 0.011661 | 0.010478 |
+| worstcase_64 | 0.062046 | 0.060629 |
+| worstcase_128 | 0.940664 | 0.891554 |
 
 ## Grammar: Brackets_cnf
 ## Test type: Correctness
