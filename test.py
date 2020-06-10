@@ -160,7 +160,7 @@ def test_one_graph(test, graph, grammar, queries, save_log, graph_name):
     time = 0
     cnt = 0
 
-    for i in range(10):
+    for i in range(100):
         sp.run(f'./main {graph} {grammar} {queries} > {results_path}', shell=True)
         res = get_time(results_path)
         if res is not None:
